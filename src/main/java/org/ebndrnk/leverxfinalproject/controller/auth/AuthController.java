@@ -7,10 +7,7 @@ import org.ebndrnk.leverxfinalproject.model.dto.auth.JwtAuthenticationResponse;
 import org.ebndrnk.leverxfinalproject.model.dto.auth.SignInRequest;
 import org.ebndrnk.leverxfinalproject.model.dto.auth.SignUpRequest;
 import org.ebndrnk.leverxfinalproject.service.auth.AuthenticationService;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/auth")
@@ -28,6 +25,11 @@ public class AuthController {
     @PostMapping("/sign-in")
     public JwtAuthenticationResponse signIn(@RequestBody @Valid SignInRequest request) {
         return authenticationService.signIn(request);
+    }
+
+    @GetMapping("/initial-controller")
+    public String getHello(){
+        return "Hello";
     }
 
 
