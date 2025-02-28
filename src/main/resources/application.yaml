@@ -1,0 +1,39 @@
+spring:
+  application:
+    name: leverx-final-project
+  datasource:
+    url: jdbc:postgresql://${database.host}:${database.port}/${database.name}
+    username: ${database.user}
+    password: ${database.pass}
+    driverClassName: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: none
+  flyway:
+    enabled: true
+    url: ${spring.datasource.url}
+    user: ${spring.datasource.username}
+    password: ${spring.datasource.password}
+
+
+
+
+
+server:
+  port: 8071
+
+site:
+  domain:
+    url: http://127.0.0.1:${server.port}
+
+token:
+  signing:
+    key: 53A73E5F1C4E0A2D3B5F2D784E6A1B423D6F247D1F6E5C3A596D635A75327855
+
+
+database:
+  host: localhost
+  port: 5430
+  name: leverx
+  user: EGOR_BONDARENKO
+  pass: pass
