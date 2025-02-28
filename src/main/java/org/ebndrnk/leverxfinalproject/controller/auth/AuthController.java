@@ -27,10 +27,4 @@ public class AuthController {
         return authenticationService.signIn(request);
     }
 
-    @GetMapping("/initial-controller")
-    public String getHello(){
-        return "Hello";
-    }
-
-
 }
