@@ -1,4 +1,4 @@
-package org.ebndrnk.leverxfinalproject.repository;
+package org.ebndrnk.leverxfinalproject.repository.auth;
 
 import org.ebndrnk.leverxfinalproject.model.entity.auth.User;
 import org.springframework.data.jpa.repository.JpaRepository;

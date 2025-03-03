@@ -46,6 +46,7 @@ dependencies {
 
     implementation 'org.flywaydb:flyway-core:10.11.0'
     runtimeOnly 'org.flywaydb:flyway-database-postgresql:10.11.0'
+    implementation group: 'org.modelmapper', name: 'modelmapper', version: '3.2.0'
 }
 
 tasks.named('test') {
