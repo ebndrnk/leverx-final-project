@@ -1,6 +1,5 @@
 package org.ebndrnk.leverxfinalproject.config;
 
-
 import jakarta.servlet.DispatcherType;
 import lombok.RequiredArgsConstructor;
 import org.ebndrnk.leverxfinalproject.filter.JwtAuthenticationFilter;
@@ -26,19 +25,37 @@ import java.util.List;
 
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 
+/**
+ * SecurityConfiguration
+ *
+ * This configuration class sets up Spring Security for the application.
+ * It configures the security filter chain to disable CSRF, sets up CORS with permissive rules,
+ * defines endpoint authorization rules, and establishes stateless session management.
+ * Additionally, it configures the authentication provider using a custom UserDetailsService,
+ * registers a BCrypt password encoder, and exposes an authentication manager bean.
+ * A JWT authentication filter is also added to validate JWT tokens in incoming requests.
+ */
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
 @RequiredArgsConstructor
 public class SecurityConfiguration {
 
+	// JWT authentication filter for validating JWT tokens
 	private final JwtAuthenticationFilter jwtAuthenticationFilter;
+	// User service providing user details for authentication
 	private final UserService userService;
 
+	/**
+	 * Configures the security filter chain for HTTP security.
+	 *
+	 * @param http the HttpSecurity object to configure
+	 * @return the built SecurityFilterChain instance
+	 * @throws Exception if an error occurs during configuration
+	 */
 	@Bean
 	SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http.csrf(AbstractHttpConfigurer::disable)
-				// Своего рода отключение CORS (разрешение запросов со всех доменов)
 				.cors(cors -> cors.configurationSource(request -> {
 					var corsConfiguration = new CorsConfiguration();
 					corsConfiguration.setAllowedOriginPatterns(List.of("*"));
@@ -47,22 +64,34 @@ public class SecurityConfiguration {
 					corsConfiguration.setAllowCredentials(true);
 					return corsConfiguration;
 				}))
-				.authorizeHttpRequests(request -> request.requestMatchers("/auth/**").permitAll()
+				.authorizeHttpRequests(request -> request
+						.requestMatchers("/auth/**").permitAll()
 						.requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
-						.dispatcherTypeMatchers(DispatcherType.ERROR).permitAll().anyRequest().authenticated()
-
-				).exceptionHandling(Customizer.withDefaults())
+						.dispatcherTypeMatchers(DispatcherType.ERROR).permitAll()
+						.anyRequest().authenticated()
+				)
+				.exceptionHandling(Customizer.withDefaults())
 				.sessionManagement(manager -> manager.sessionCreationPolicy(STATELESS))
 				.authenticationProvider(authenticationProvider())
 				.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 		return http.build();
 	}
 
+	/**
+	 * Creates a BCryptPasswordEncoder bean for password encoding.
+	 *
+	 * @return a PasswordEncoder instance using BCrypt
+	 */
 	@Bean
 	PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
 
+	/**
+	 * Configures the AuthenticationProvider using a DAO-based approach with a custom UserDetailsService.
+	 *
+	 * @return the configured AuthenticationProvider
+	 */
 	@Bean
 	AuthenticationProvider authenticationProvider() {
 		DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
@@ -71,19 +100,15 @@ public class SecurityConfiguration {
 		return authProvider;
 	}
 
+	/**
+	 * Exposes the AuthenticationManager bean.
+	 *
+	 * @param config the AuthenticationConfiguration to obtain the manager from
+	 * @return the AuthenticationManager instance
+	 * @throws Exception if an error occurs during retrieval
+	 */
 	@Bean
 	AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
 		return config.getAuthenticationManager();
 	}
-
-//    @Bean
-//    public UserDetailsService userDetailsService() {
-//        UserDetails user =
-//                User.withDefaultPasswordEncoder()
-//                        .username("user")
-//                        .password("password")
-//                        .roles("USER")
-//                        .build();
-//        return new InMemoryUserDetailsManager(user);
-//    }
 }

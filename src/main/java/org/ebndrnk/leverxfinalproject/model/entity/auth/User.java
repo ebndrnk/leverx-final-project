@@ -5,25 +5,20 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.*;
+import lombok.Data;
+import lombok.ToString;
+import org.ebndrnk.leverxfinalproject.model.entity.BasicEntity;
+import org.ebndrnk.leverxfinalproject.model.entity.game.GameObject;
 import org.hibernate.proxy.HibernateProxy;
 
+import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Builder
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@ToString
 @Table(name = "app_user")
-public class User {
-    @Id
-    @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_id_seq")
-    @SequenceGenerator(name = "user_id_seq", sequenceName = "user_id_seq", allocationSize = 1)
-    private Long id;
+@ToString
+@Data
+public class User extends BasicEntity {
 
     @Column(name = "USERNAME", length = 50, unique = true)
     @NotNull
@@ -57,6 +52,9 @@ public class User {
     @JsonIgnore
     private Role role;
 
+    //TODO cascade type
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<GameObject> gameObjects;
 
 
     @Override

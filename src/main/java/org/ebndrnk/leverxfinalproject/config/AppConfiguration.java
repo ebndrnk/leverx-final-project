@@ -11,24 +11,52 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+/**
+ * AppConfiguration
+ *
+ * This configuration class sets up the application's beans, including the ModelMapper
+ * for object mapping and OpenAPI configuration for API documentation. It also configures
+ * the security scheme for JWT-based authentication.
+ */
 @Configuration
 public class AppConfiguration {
-    @Bean
-    ModelMapper create() {
-        return new ModelMapper();
-    }
 
+
+    /**
+     * Configures the security scheme for API key authentication using JWT.
+     *
+     * @return the configured SecurityScheme instance
+     */
     private SecurityScheme createAPIKeyScheme() {
-        return new SecurityScheme().type(SecurityScheme.Type.HTTP)
+        return new SecurityScheme()
+                .type(SecurityScheme.Type.HTTP)
                 .bearerFormat("JWT")
                 .scheme("bearer");
     }
 
+    /**
+     * Creates an OpenAPI bean for API documentation.
+     * The server URL is injected from the property 'site.domain.url'.
+     *
+     * @param api the base API URL from configuration
+     * @return a configured OpenAPI instance with security and server details
+     */
     @Bean
     OpenAPI prodOpenAPI(@Value("${site.domain.url}") String api) {
-        return new OpenAPI().addServersItem(new Server().url(api))
+        return new OpenAPI()
+                .addServersItem(new Server().url(api))
                 .addSecurityItem(new SecurityRequirement().addList("Bearer Authentication"))
                 .components(new Components().addSecuritySchemes("Bearer Authentication", createAPIKeyScheme()))
                 .info(new Info().title("LeverX Project"));
+    }
+
+    /**
+     * Creates another ModelMapper bean.
+     *
+     * @return a new ModelMapper instance
+     */
+    @Bean
+    ModelMapper modelMapper(){
+        return new ModelMapper();
     }
 }

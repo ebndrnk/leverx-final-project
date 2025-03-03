@@ -1,4 +1,4 @@
-package org.ebndrnk.leverxfinalproject.exception;
+package org.ebndrnk.leverxfinalproject.util.exception;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 
 @Data
 @AllArgsConstructor
-public class ErrorDTO {
+public class ErrorInfo {
 
 	private LocalDateTime timestamp;
 	private int status;

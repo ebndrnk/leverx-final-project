@@ -1,7 +1,6 @@
 package org.ebndrnk.leverxfinalproject.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -9,7 +8,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.ebndrnk.leverxfinalproject.exception.ErrorDTO;
+import org.ebndrnk.leverxfinalproject.util.exception.ErrorInfo;
 import org.ebndrnk.leverxfinalproject.service.auth.JwtService;
 import org.ebndrnk.leverxfinalproject.service.auth.UserService;
 import org.springframework.lang.NonNull;
@@ -35,36 +34,46 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 	private final UserService userService;
 	private final ObjectMapper objectMapper;
 
+	/**
+	 * Filters incoming HTTP requests to check for a valid JWT token.
+	 * If a valid token is found, the user is authenticated.
+	 *
+	 * @param request the incoming HTTP request
+	 * @param response the outgoing HTTP response
+	 * @param filterChain the filter chain
+	 * @throws ServletException in case of servlet errors
+	 * @throws IOException in case of I/O errors
+	 */
 	@Override
-	protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response,
-			@NonNull FilterChain filterChain) throws ServletException, IOException {
-		// Получаем токен из заголовка
+	protected void doFilterInternal(@NonNull HttpServletRequest request,
+									@NonNull HttpServletResponse response,
+									@NonNull FilterChain filterChain) throws ServletException, IOException {
+		// Retrieve the token from the Authorization header
 		var authHeader = request.getHeader(HEADER_NAME);
 		if (StringUtils.isEmpty(authHeader) || !StringUtils.startsWith(authHeader, BEARER_PREFIX)) {
 			filterChain.doFilter(request, response);
 			return;
 		}
-		// Обрезаем префикс и получаем имя пользователя из токена
+		// Remove the prefix and extract the username from the token
 		var jwt = authHeader.substring(BEARER_PREFIX.length());
 		var username = jwtService.extractUserName(jwt);
 		if (username == null) {
-			handleErrorResponse(response, new ErrorDTO(LocalDateTime.now(), HttpServletResponse.SC_FORBIDDEN,
+			handleErrorResponse(response, new ErrorInfo(LocalDateTime.now(), HttpServletResponse.SC_FORBIDDEN,
 					"FORBIDDEN", "token is not valid", request.getRequestURI()));
 			return;
 		}
 		if (StringUtils.isNotEmpty(username) && SecurityContextHolder.getContext().getAuthentication() == null) {
 			UserDetails userDetails = userService.userDetailsService().loadUserByUsername(username);
-			// Если токен валиден, то аутентифицируем пользователя
+			// If the token is valid, authenticate the user
 			if (jwtService.isTokenValid(jwt, userDetails)) {
 				SecurityContext context = SecurityContextHolder.createEmptyContext();
-
 				UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(userDetails,
 						null, userDetails.getAuthorities());
 				authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 				context.setAuthentication(authToken);
 				SecurityContextHolder.setContext(context);
 			} else {
-				handleErrorResponse(response, new ErrorDTO(LocalDateTime.now(), HttpServletResponse.SC_FORBIDDEN,
+				handleErrorResponse(response, new ErrorInfo(LocalDateTime.now(), HttpServletResponse.SC_FORBIDDEN,
 						"FORBIDDEN", "token is not valid", request.getRequestURI()));
 				return;
 			}
@@ -72,13 +81,19 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 		filterChain.doFilter(request, response);
 	}
 
-	private void handleErrorResponse(HttpServletResponse response, ErrorDTO error) {
+	/**
+	 * Writes an error response with the given ErrorInfo.
+	 *
+	 * @param response the HTTP response
+	 * @param error the error details to be written
+	 */
+	private void handleErrorResponse(HttpServletResponse response, ErrorInfo error) {
 		try {
-			String messsage = objectMapper.writeValueAsString(error);
-			response.getWriter().write(messsage);
+			String message = objectMapper.writeValueAsString(error);
+			response.getWriter().write(message);
 			response.setStatus(error.getStatus());
 		} catch (Exception e) {
-			log.error("Could not get error string object to string or write", e);
+			log.error("Could not convert error object to string or write it", e);
 		}
 	}
 }
