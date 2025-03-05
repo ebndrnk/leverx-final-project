@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <style>
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 16px;
+            color: #ffffff;
+            background-color: #28a745;
+            text-decoration: none;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<h2>Email Confirmation</h2>
+<p>To confirm your email, click the button below:</p>
+<form action="{verificationUrl}" method="POST">
+    <button type="submit" class="btn">Verify</button>
+</form>
+<p>If the button does not work, please copy the following link into your browser:</p>
+<p>{verificationUrl}</p>
+</body>
+</html>

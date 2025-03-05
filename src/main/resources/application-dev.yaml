@@ -1,0 +1,21 @@
+spring:
+  mail:
+    properties:
+      mail:
+        debug: true
+  jpa:
+    hibernate:
+      ddl-auto: update
+  flyway:
+    enabled: true
+
+site:
+  domain:
+    url: http://127.0.0.1:${server.port}
+
+database:
+  host: localhost
+  port: 5430
+  name: leverx
+  user: EGOR_BONDARENKO
+  pass: pass

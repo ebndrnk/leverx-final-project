@@ -11,6 +11,19 @@ services:
       - "5430:5432"
 
 
+  redis:
+    container_name: redis
+    image: "redis:alpine"
+    command: redis-server --requirepass DxnPvBthsWCKTFGR
+    ports:
+      - "6379:6379"
+    volumes:
+      - /data/redis:/var/lib/redis
+    environment:
+      - REDIS_REPLICATION_MODE=master
+    restart: always
+
+
 volumes:
   postgres_data:
     driver: local

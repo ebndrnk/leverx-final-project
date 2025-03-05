@@ -11,7 +11,6 @@ public class UserPrincipalImpl implements UserDetails {
 
     private static final long serialVersionUID = -630255510995905384L;
     
-	//Заменить User на нужные поля при необходимости
     private User user;
 
     public UserPrincipalImpl(User user) {

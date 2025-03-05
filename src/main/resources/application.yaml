@@ -1,4 +1,25 @@
 spring:
+  data:
+    redis:
+      port: ${cache.port}
+      host: ${cache.host}
+      password: ${cache.password}
+  mail:
+    host: smtp.gmail.com
+    port: 465
+    username: ebndrnk@gmail.com
+    password: "wrhc vbok yvwh xess"
+    properties:
+      mail:
+        debug: false
+        smtp:
+          timeout: 10000
+          connectiontimeout: 10000
+          writetimeout: 10000
+          auth: true
+          ssl:
+            enable: true
+
   application:
     name: leverx-final-project
   datasource:
@@ -37,3 +58,8 @@ database:
   name: leverx
   user: EGOR_BONDARENKO
   pass: pass
+
+cache:
+  host: localhost
+  port: 6379
+  password: DxnPvBthsWCKTFGR
