@@ -5,10 +5,14 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.ebndrnk.leverxfinalproject.model.dto.auth.JwtAuthenticationResponse;
+import org.ebndrnk.leverxfinalproject.model.dto.auth.RegistrationResponse;
 import org.ebndrnk.leverxfinalproject.model.dto.auth.SignInRequest;
 import org.ebndrnk.leverxfinalproject.model.dto.auth.SignUpRequest;
 import org.ebndrnk.leverxfinalproject.service.auth.AuthenticationService;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * AuthController
@@ -30,12 +34,12 @@ public class AuthController {
      * Endpoint for user registration.
      *
      * @param request the sign-up request containing user details
-     * @return a JWT authentication response containing the JWT token and additional info
+     * @return a Registration response containing the welcome text and advice that user should go to email
      */
     @PostMapping("/sign-up")
     @Operation(summary = "Register a new user",
             description = "Creates a new user account and returns a JWT token upon successful registration")
-    public JwtAuthenticationResponse signUp(@RequestBody @Valid SignUpRequest request) {
+    public RegistrationResponse signUp(@RequestBody @Valid SignUpRequest request) {
         return authenticationService.signUp(request);
     }
 

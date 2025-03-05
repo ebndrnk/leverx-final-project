@@ -52,7 +52,10 @@ public class User extends BasicEntity {
     @JsonIgnore
     private Role role;
 
-    //TODO cascade type
+    @Column(name = "is_confirmed", nullable = false)
+    @JsonIgnore
+    private boolean isConfirmed = false;
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<GameObject> gameObjects;
 

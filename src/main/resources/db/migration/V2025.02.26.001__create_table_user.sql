@@ -19,5 +19,7 @@ create table if not exists app_user
         ((ARRAY ['ROLE_SELLER'::character varying, 'ROLE_ADMIN'::character varying])::text[])),
     username     varchar(50)                            not null
         constraint uk3k4cplvh82srueuttfkwnylq0
-            unique
+            unique,
+
+    is_confirmed boolean default FALSE not null
 );

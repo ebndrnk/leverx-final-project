@@ -3,7 +3,7 @@ package org.ebndrnk.leverxfinalproject.config;
 import jakarta.servlet.DispatcherType;
 import lombok.RequiredArgsConstructor;
 import org.ebndrnk.leverxfinalproject.filter.JwtAuthenticationFilter;
-import org.ebndrnk.leverxfinalproject.service.auth.UserService;
+import org.ebndrnk.leverxfinalproject.service.auth.UserServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -41,10 +41,8 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 @RequiredArgsConstructor
 public class SecurityConfiguration {
 
-	// JWT authentication filter for validating JWT tokens
 	private final JwtAuthenticationFilter jwtAuthenticationFilter;
-	// User service providing user details for authentication
-	private final UserService userService;
+	private final UserServiceImpl userService;
 
 	/**
 	 * Configures the security filter chain for HTTP security.
@@ -66,6 +64,7 @@ public class SecurityConfiguration {
 				}))
 				.authorizeHttpRequests(request -> request
 						.requestMatchers("/auth/**").permitAll()
+						.requestMatchers("/verify", "/verify/**").permitAll()
 						.requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
 						.dispatcherTypeMatchers(DispatcherType.ERROR).permitAll()
 						.anyRequest().authenticated()

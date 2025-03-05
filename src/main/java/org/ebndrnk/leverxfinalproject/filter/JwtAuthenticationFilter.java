@@ -10,7 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.ebndrnk.leverxfinalproject.util.exception.ErrorInfo;
 import org.ebndrnk.leverxfinalproject.service.auth.JwtService;
-import org.ebndrnk.leverxfinalproject.service.auth.UserService;
+import org.ebndrnk.leverxfinalproject.service.auth.UserServiceImpl;
 import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContext;
@@ -31,7 +31,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 	public static final String BEARER_PREFIX = "Bearer ";
 	public static final String HEADER_NAME = "Authorization";
 	private final JwtService jwtService;
-	private final UserService userService;
+	private final UserServiceImpl userService;
 	private final ObjectMapper objectMapper;
 
 	/**

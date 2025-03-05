@@ -2,19 +2,53 @@ package org.ebndrnk.leverxfinalproject.util.exception;
 
 import jakarta.servlet.http.HttpServletRequest;
 import org.ebndrnk.leverxfinalproject.util.exception.dto.EmailAlreadyExistsException;
+import org.ebndrnk.leverxfinalproject.util.exception.dto.NotConfirmedException;
 import org.ebndrnk.leverxfinalproject.util.exception.dto.UserNotFoundException;
 import org.ebndrnk.leverxfinalproject.util.exception.dto.UsernameAlreadyExistsException;
+import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.time.LocalDateTime;
+import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
     private final static String DEFAULT_ERROR_MESSAGE = "SERVER_ERROR";
+
+    @ExceptionHandler(NoSuchElementException.class)
+    public ResponseEntity<ErrorInfo> handleNoSuchElementException(
+            NoSuchElementException ex, HttpServletRequest request) {
+        ErrorInfo errorInfo = new ErrorInfo(
+                LocalDateTime.now(),
+                HttpStatus.NOT_FOUND.value(),
+                HttpStatus.NOT_FOUND.getReasonPhrase(),
+                ex.getMessage(),
+                request.getRequestURI()
+        );
+        return new ResponseEntity<>(errorInfo, HttpStatus.NOT_FOUND);
+    }
+
+
+    @ExceptionHandler(NotConfirmedException.class)
+    public ResponseEntity<ErrorInfo> handleUnauthorizedException(
+            NotConfirmedException ex, HttpServletRequest request) {
+
+        ErrorInfo errorInfo = new ErrorInfo(
+                LocalDateTime.now(),
+                HttpStatus.UNAUTHORIZED.value(),
+                HttpStatus.UNAUTHORIZED.getReasonPhrase(),
+                ex.getMessage(),
+                request.getRequestURI()
+        );
+
+        return new ResponseEntity<>(errorInfo, HttpStatus.UNAUTHORIZED);
+    }
 
     @ExceptionHandler(BadCredentialsException.class)
     public ResponseEntity<ErrorInfo> handleBadCredentialsException(
@@ -24,7 +58,7 @@ public class GlobalExceptionHandler {
                 LocalDateTime.now(),
                 HttpStatus.UNAUTHORIZED.value(),
                 HttpStatus.UNAUTHORIZED.getReasonPhrase(),
-                "Bad credentials",
+                ex.getMessage(),
                 request.getRequestURI()
         );
 
@@ -63,7 +97,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(UsernameAlreadyExistsException.class)
     public ResponseEntity<ErrorInfo> handleUsernameAlreadyExistsException(
-            EmailAlreadyExistsException ex, HttpServletRequest request) {
+            UsernameAlreadyExistsException ex, HttpServletRequest request) {
 
         ErrorInfo errorInfo = new ErrorInfo(
                 LocalDateTime.now(),
@@ -87,5 +121,19 @@ public class GlobalExceptionHandler {
                 request.getRequestURI()
         );
         return new ResponseEntity<>(errorInfo, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<ErrorInfo> handleValidationExceptions(MethodArgumentNotValidException ex, HttpServletRequest request) {
+        ErrorInfo errorInfo = new ErrorInfo(
+                LocalDateTime.now(),
+                HttpStatus.BAD_REQUEST.value(),
+                HttpStatus.BAD_REQUEST.getReasonPhrase(),
+                ex.getBindingResult().getFieldErrors().stream()
+                        .map(DefaultMessageSourceResolvable::getDefaultMessage)
+                        .collect(Collectors.joining("; ")),
+                request.getRequestURI()
+        );
+        return new ResponseEntity<>(errorInfo, HttpStatus.BAD_REQUEST);
     }
 }
