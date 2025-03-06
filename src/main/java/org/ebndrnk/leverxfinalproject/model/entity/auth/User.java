@@ -8,6 +8,7 @@ import jakarta.validation.constraints.Size;
 import lombok.Data;
 import lombok.ToString;
 import org.ebndrnk.leverxfinalproject.model.entity.BasicEntity;
+import org.ebndrnk.leverxfinalproject.model.entity.comment.Comment;
 import org.ebndrnk.leverxfinalproject.model.entity.game.GameObject;
 import org.hibernate.proxy.HibernateProxy;
 
@@ -52,9 +53,16 @@ public class User extends BasicEntity {
     @JsonIgnore
     private Role role;
 
-    @Column(name = "is_confirmed", nullable = false)
+    @Column(name = "comment", columnDefinition = "TEXT")
+    @OneToMany(mappedBy = "seller", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Comment> comment;
+
+    @Column(name = "is_email_confirmed", nullable = false)
     @JsonIgnore
-    private boolean isConfirmed = false;
+    private boolean isEmailConfirmed = false;
+
+    @Column(name = "is_confirmed_by_admin", nullable = false)
+    private boolean isConfirmedByAdmin = false;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<GameObject> gameObjects;

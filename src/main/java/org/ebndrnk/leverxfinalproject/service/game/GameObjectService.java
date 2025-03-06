@@ -2,6 +2,7 @@ package org.ebndrnk.leverxfinalproject.service.game;
 
 import lombok.RequiredArgsConstructor;
 import org.ebndrnk.leverxfinalproject.model.dto.game.GameObjectDto;
+import org.ebndrnk.leverxfinalproject.model.entity.auth.User;
 import org.ebndrnk.leverxfinalproject.model.entity.game.GameObject;
 import org.ebndrnk.leverxfinalproject.repository.game.GameObjectRepository;
 import org.ebndrnk.leverxfinalproject.service.auth.UserServiceImpl;
@@ -36,7 +37,7 @@ public class GameObjectService {
      */
     public GameObjectDto createGameObject(GameObjectDto gameObjectDto) {
         GameObject gameObject = modelMapper.map(gameObjectDto, GameObject.class);
-        gameObject.setUser(userService.getCurrentUser());
+        gameObject.setUser(modelMapper.map(userService.getCurrentUser(), User.class));
         GameObject savedGameObject = gameObjectRepository.save(gameObject);
         return modelMapper.map(savedGameObject, GameObjectDto.class);
     }

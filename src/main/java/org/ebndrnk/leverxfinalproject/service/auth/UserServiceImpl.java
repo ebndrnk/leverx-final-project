@@ -1,15 +1,16 @@
 package org.ebndrnk.leverxfinalproject.service.auth;
 
 import lombok.RequiredArgsConstructor;
+import org.ebndrnk.leverxfinalproject.model.dto.auth.UserDto;
 import org.ebndrnk.leverxfinalproject.model.entity.auth.User;
 import org.ebndrnk.leverxfinalproject.model.entity.auth.UserPrincipalImpl;
 import org.ebndrnk.leverxfinalproject.repository.auth.UserRepository;
 import org.ebndrnk.leverxfinalproject.util.exception.dto.EmailAlreadyExistsException;
 import org.ebndrnk.leverxfinalproject.util.exception.dto.UserNotFoundException;
 import org.ebndrnk.leverxfinalproject.util.exception.dto.UsernameAlreadyExistsException;
+import org.modelmapper.ModelMapper;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 /**
@@ -24,36 +25,43 @@ import org.springframework.stereotype.Service;
 public class UserServiceImpl implements UserService{
 
     private final UserRepository userRepository;
+    private final ModelMapper modelMapper;
 
     /**
      * Saves the given user.
      *
-     * @param user the user entity to be saved
+     * @param userDto the user entity to be saved
      * @return the saved user entity
      */
     @Override
-    public User save(User user) {
-        return userRepository.save(user);
+    public UserDto save(UserDto userDto) {
+        return modelMapper.map(userRepository.save(modelMapper.map(userDto, User.class)), UserDto.class);
+    }
+
+
+    @Override
+    public UserDto getById(Long userId) {
+        return modelMapper.map(userRepository.findById(userId), UserDto.class);
     }
 
     /**
      * Creates a new user after checking for unique username and email.
      *
-     * @param user the user entity to be created
+     * @param userDto the user entity to be created
      * @return the created user entity
      * @throws UsernameAlreadyExistsException if a user with the same username exists
      * @throws EmailAlreadyExistsException if a user with the same email exists
      */
-    public User create(User user) {
-        if (userRepository.existsByUsername(user.getUsername())) {
+    public UserDto create(UserDto userDto) {
+        if (userRepository.existsByUsername(userDto.getUsername())) {
             throw new UsernameAlreadyExistsException("A user with the same name already exists");
         }
 
-        if (userRepository.existsByEmail(user.getEmail())) {
+        if (userRepository.existsByEmail(userDto.getEmail())) {
             throw new EmailAlreadyExistsException("A user with this email already exists");
         }
 
-        return save(user);
+        return save(userDto);
     }
 
     /**
@@ -61,12 +69,12 @@ public class UserServiceImpl implements UserService{
      *
      * @param username the username to search for
      * @return a UserPrincipalImpl representing the found user
-     * @throws UsernameNotFoundException if the user is not found
+     * @throws UserNotFoundException if the user is not found
      */
     @Override
     public UserPrincipalImpl getByUsername(String username) {
         User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User is not found"));
+                .orElseThrow(() -> new UserNotFoundException("User is not found"));
         return new UserPrincipalImpl(user);
     }
 
@@ -84,17 +92,20 @@ public class UserServiceImpl implements UserService{
      * Retrieves the currently authenticated user.
      *
      * @return the user entity of the currently authenticated user
-     * @throws UsernameNotFoundException if the current user cannot be found
+     * @throws UserNotFoundException if the current user cannot be found
      */
     @Override
-    public User getCurrentUser() {
+    public UserDto getCurrentUser() {
         var username = SecurityContextHolder.getContext().getAuthentication().getName();
-        return userRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException(username));
+        return modelMapper.map(userRepository.findByUsername(username)
+                .orElseThrow(() -> new UserNotFoundException(username)), UserDto.class);
     }
 
     @Override
-    public User getByUserEmail(String email) {
-        return userRepository.findByEmail(email).orElseThrow(() -> new UserNotFoundException("User with email: " + email + " not found"));
+    public UserDto getByUserEmail(String email) {
+        return modelMapper.map(userRepository.findByEmail(email)
+                .orElseThrow(() -> new UserNotFoundException("User with email: " + email + " not found")), UserDto.class);
     }
+
+
 }
