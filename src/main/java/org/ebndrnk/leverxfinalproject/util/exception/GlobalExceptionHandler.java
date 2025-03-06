@@ -1,10 +1,8 @@
 package org.ebndrnk.leverxfinalproject.util.exception;
 
 import jakarta.servlet.http.HttpServletRequest;
-import org.ebndrnk.leverxfinalproject.util.exception.dto.EmailAlreadyExistsException;
-import org.ebndrnk.leverxfinalproject.util.exception.dto.NotConfirmedException;
-import org.ebndrnk.leverxfinalproject.util.exception.dto.UserNotFoundException;
-import org.ebndrnk.leverxfinalproject.util.exception.dto.UsernameAlreadyExistsException;
+import lombok.extern.slf4j.Slf4j;
+import org.ebndrnk.leverxfinalproject.util.exception.dto.*;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +15,7 @@ import java.time.LocalDateTime;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
+@Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler {
     private final static String DEFAULT_ERROR_MESSAGE = "SERVER_ERROR";
@@ -24,6 +23,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(NoSuchElementException.class)
     public ResponseEntity<ErrorInfo> handleNoSuchElementException(
             NoSuchElementException ex, HttpServletRequest request) {
+        log.error("NoSuchElementException: {}", ex.getMessage(), ex);
         ErrorInfo errorInfo = new ErrorInfo(
                 LocalDateTime.now(),
                 HttpStatus.NOT_FOUND.value(),
@@ -34,11 +34,10 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errorInfo, HttpStatus.NOT_FOUND);
     }
 
-
     @ExceptionHandler(NotConfirmedException.class)
     public ResponseEntity<ErrorInfo> handleUnauthorizedException(
             NotConfirmedException ex, HttpServletRequest request) {
-
+        log.error("NotConfirmedException: {}", ex.getMessage(), ex);
         ErrorInfo errorInfo = new ErrorInfo(
                 LocalDateTime.now(),
                 HttpStatus.UNAUTHORIZED.value(),
@@ -46,14 +45,13 @@ public class GlobalExceptionHandler {
                 ex.getMessage(),
                 request.getRequestURI()
         );
-
         return new ResponseEntity<>(errorInfo, HttpStatus.UNAUTHORIZED);
     }
 
     @ExceptionHandler(BadCredentialsException.class)
     public ResponseEntity<ErrorInfo> handleBadCredentialsException(
             BadCredentialsException ex, HttpServletRequest request) {
-
+        log.error("BadCredentialsException: {}", ex.getMessage(), ex);
         ErrorInfo errorInfo = new ErrorInfo(
                 LocalDateTime.now(),
                 HttpStatus.UNAUTHORIZED.value(),
@@ -61,14 +59,13 @@ public class GlobalExceptionHandler {
                 ex.getMessage(),
                 request.getRequestURI()
         );
-
         return new ResponseEntity<>(errorInfo, HttpStatus.UNAUTHORIZED);
     }
 
     @ExceptionHandler(EmailAlreadyExistsException.class)
     public ResponseEntity<ErrorInfo> handleEmailAlreadyExistsException(
             EmailAlreadyExistsException ex, HttpServletRequest request) {
-
+        log.error("EmailAlreadyExistsException: {}", ex.getMessage(), ex);
         ErrorInfo errorInfo = new ErrorInfo(
                 LocalDateTime.now(),
                 HttpStatus.CONFLICT.value(),
@@ -76,14 +73,13 @@ public class GlobalExceptionHandler {
                 ex.getMessage(),
                 request.getRequestURI()
         );
-
         return new ResponseEntity<>(errorInfo, HttpStatus.CONFLICT);
     }
 
     @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<ErrorInfo> handleUserNotFoundException(
             UserNotFoundException ex, HttpServletRequest request) {
-
+        log.error("UserNotFoundException: {}", ex.getMessage(), ex);
         ErrorInfo errorInfo = new ErrorInfo(
                 LocalDateTime.now(),
                 HttpStatus.NOT_FOUND.value(),
@@ -91,14 +87,13 @@ public class GlobalExceptionHandler {
                 ex.getMessage(),
                 request.getRequestURI()
         );
-
         return new ResponseEntity<>(errorInfo, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(UsernameAlreadyExistsException.class)
     public ResponseEntity<ErrorInfo> handleUsernameAlreadyExistsException(
             UsernameAlreadyExistsException ex, HttpServletRequest request) {
-
+        log.error("UsernameAlreadyExistsException: {}", ex.getMessage(), ex);
         ErrorInfo errorInfo = new ErrorInfo(
                 LocalDateTime.now(),
                 HttpStatus.CONFLICT.value(),
@@ -106,13 +101,29 @@ public class GlobalExceptionHandler {
                 ex.getMessage(),
                 request.getRequestURI()
         );
-
         return new ResponseEntity<>(errorInfo, HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<ErrorInfo> handleValidationExceptions(MethodArgumentNotValidException ex, HttpServletRequest request) {
+        String errorMessages = ex.getBindingResult().getFieldErrors().stream()
+                .map(DefaultMessageSourceResolvable::getDefaultMessage)
+                .collect(Collectors.joining("; "));
+        log.error("MethodArgumentNotValidException: {}", errorMessages, ex);
+        ErrorInfo errorInfo = new ErrorInfo(
+                LocalDateTime.now(),
+                HttpStatus.BAD_REQUEST.value(),
+                HttpStatus.BAD_REQUEST.getReasonPhrase(),
+                errorMessages,
+                request.getRequestURI()
+        );
+        return new ResponseEntity<>(errorInfo, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorInfo> handleGlobalException(
             Exception ex, HttpServletRequest request) {
+        log.error("Unhandled Exception: {}", ex.getMessage(), ex);
         ErrorInfo errorInfo = new ErrorInfo(
                 LocalDateTime.now(),
                 HttpStatus.INTERNAL_SERVER_ERROR.value(),
@@ -121,19 +132,5 @@ public class GlobalExceptionHandler {
                 request.getRequestURI()
         );
         return new ResponseEntity<>(errorInfo, HttpStatus.INTERNAL_SERVER_ERROR);
-    }
-
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ErrorInfo> handleValidationExceptions(MethodArgumentNotValidException ex, HttpServletRequest request) {
-        ErrorInfo errorInfo = new ErrorInfo(
-                LocalDateTime.now(),
-                HttpStatus.BAD_REQUEST.value(),
-                HttpStatus.BAD_REQUEST.getReasonPhrase(),
-                ex.getBindingResult().getFieldErrors().stream()
-                        .map(DefaultMessageSourceResolvable::getDefaultMessage)
-                        .collect(Collectors.joining("; ")),
-                request.getRequestURI()
-        );
-        return new ResponseEntity<>(errorInfo, HttpStatus.BAD_REQUEST);
     }
 }

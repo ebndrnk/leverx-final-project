@@ -64,6 +64,8 @@ public class SecurityConfiguration {
 				}))
 				.authorizeHttpRequests(request -> request
 						.requestMatchers("/auth/**").permitAll()
+						.requestMatchers("/admin/**").hasRole("ADMIN")
+						.requestMatchers("/comment/**").permitAll()
 						.requestMatchers("/verify", "/verify/**").permitAll()
 						.requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
 						.dispatcherTypeMatchers(DispatcherType.ERROR).permitAll()

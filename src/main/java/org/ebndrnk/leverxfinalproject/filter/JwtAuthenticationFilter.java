@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.ebndrnk.leverxfinalproject.util.exception.ErrorInfo;
+import org.ebndrnk.leverxfinalproject.util.exception.dto.UserNotFoundException;
 import org.ebndrnk.leverxfinalproject.service.auth.JwtService;
 import org.ebndrnk.leverxfinalproject.service.auth.UserServiceImpl;
 import org.springframework.lang.NonNull;
@@ -63,7 +64,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 			return;
 		}
 		if (StringUtils.isNotEmpty(username) && SecurityContextHolder.getContext().getAuthentication() == null) {
-			UserDetails userDetails = userService.userDetailsService().loadUserByUsername(username);
+			UserDetails userDetails;
+			try {
+				userDetails = userService.userDetailsService().loadUserByUsername(username);
+			} catch (UserNotFoundException ex) {
+				handleErrorResponse(response, new ErrorInfo(LocalDateTime.now(), HttpServletResponse.SC_NOT_FOUND,
+						"User Not Found", ex.getMessage(), request.getRequestURI()));
+				return;
+			}
 			// If the token is valid, authenticate the user
 			if (jwtService.isTokenValid(jwt, userDetails)) {
 				SecurityContext context = SecurityContextHolder.createEmptyContext();

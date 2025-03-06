@@ -1,12 +1,9 @@
 package org.ebndrnk.leverxfinalproject.service.auth;
 
 import lombok.RequiredArgsConstructor;
-import org.ebndrnk.leverxfinalproject.model.dto.auth.RegistrationResponse;
+import org.ebndrnk.leverxfinalproject.model.dto.auth.*;
 import org.ebndrnk.leverxfinalproject.model.entity.auth.Role;
 import org.ebndrnk.leverxfinalproject.model.entity.auth.User;
-import org.ebndrnk.leverxfinalproject.model.dto.auth.JwtAuthenticationResponse;
-import org.ebndrnk.leverxfinalproject.model.dto.auth.SignInRequest;
-import org.ebndrnk.leverxfinalproject.model.dto.auth.SignUpRequest;
 import org.ebndrnk.leverxfinalproject.repository.auth.UserRepository;
 import org.ebndrnk.leverxfinalproject.service.mail.MailService;
 import org.ebndrnk.leverxfinalproject.util.exception.dto.NotConfirmedException;
@@ -58,7 +55,7 @@ public class AuthenticationService {
         user.setPassword(passwordEncoder.encode(request.getPassword()));
         user.setRole(Role.ROLE_SELLER);
 
-        userService.create(user);
+        userService.create(modelMapper.map(user, UserDto.class));
         log.info("User registered successfully with email: {}", user.getEmail());
         try {
             mailService.send(user.getEmail());
@@ -85,7 +82,7 @@ public class AuthenticationService {
         User userdb = userRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new UserNotFoundException("User with this email was not found: " + request.getEmail()));
 
-        if(!userdb.isConfirmed()){
+        if(!userdb.isEmailConfirmed()){
             log.info("User email not confirmed!");
             throw new NotConfirmedException("Please confirm you email");
         }
