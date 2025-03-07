@@ -10,6 +10,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 import java.time.LocalDateTime;
 import java.util.NoSuchElementException;
@@ -19,6 +20,65 @@ import java.util.stream.Collectors;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
     private final static String DEFAULT_ERROR_MESSAGE = "SERVER_ERROR";
+
+
+    @ExceptionHandler(NoResourceFoundException.class)
+    public ResponseEntity<ErrorInfo> handleNoResourceFoundException(
+            NoResourceFoundException ex, HttpServletRequest request) {
+        log.error("NoResourceFoundException: {}", ex.getMessage(), ex);
+        ErrorInfo errorInfo = new ErrorInfo(
+                LocalDateTime.now(),
+                HttpStatus.NOT_FOUND.value(),
+                HttpStatus.NOT_FOUND.getReasonPhrase(),
+                ex.getMessage(),
+                request.getRequestURI()
+        );
+        return new ResponseEntity<>(errorInfo, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(NoAuthorityForActionException.class)
+    public ResponseEntity<ErrorInfo> handleNoAuthorityForActionException(
+            NoAuthorityForActionException ex, HttpServletRequest request) {
+        log.error("NoAuthorityForActionException: {}", ex.getMessage(), ex);
+        ErrorInfo errorInfo = new ErrorInfo(
+                LocalDateTime.now(),
+                HttpStatus.FORBIDDEN.value(),
+                HttpStatus.FORBIDDEN.getReasonPhrase(),
+                ex.getMessage(),
+                request.getRequestURI()
+        );
+        return new ResponseEntity<>(errorInfo, HttpStatus.FORBIDDEN);
+    }
+
+
+
+    @ExceptionHandler(CommentNotFoundException.class)
+    public ResponseEntity<ErrorInfo> handleCommentNotFoundException(
+            CommentNotFoundException ex, HttpServletRequest request) {
+        log.error("CommentNotFoundException: {}", ex.getMessage(), ex);
+        ErrorInfo errorInfo = new ErrorInfo(
+                LocalDateTime.now(),
+                HttpStatus.NOT_FOUND.value(),
+                HttpStatus.NOT_FOUND.getReasonPhrase(),
+                ex.getMessage(),
+                request.getRequestURI()
+        );
+        return new ResponseEntity<>(errorInfo, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(CommentAuthorNotFoundException.class)
+    public ResponseEntity<ErrorInfo> handleCommentAuthorNotFoundException(
+            CommentAuthorNotFoundException ex, HttpServletRequest request) {
+        log.error("CommentAuthorNotFoundException: {}", ex.getMessage(), ex);
+        ErrorInfo errorInfo = new ErrorInfo(
+                LocalDateTime.now(),
+                HttpStatus.NOT_FOUND.value(),
+                HttpStatus.NOT_FOUND.getReasonPhrase(),
+                ex.getMessage(),
+                request.getRequestURI()
+        );
+        return new ResponseEntity<>(errorInfo, HttpStatus.NOT_FOUND);
+    }
 
     @ExceptionHandler(NoSuchElementException.class)
     public ResponseEntity<ErrorInfo> handleNoSuchElementException(
