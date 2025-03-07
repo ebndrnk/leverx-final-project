@@ -1,14 +1,13 @@
 package org.ebndrnk.leverxfinalproject.controller.game;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.ebndrnk.leverxfinalproject.model.dto.game.GameObjectDto;
 import org.ebndrnk.leverxfinalproject.service.game.GameObjectService;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -79,7 +78,7 @@ public class GameController {
             @ApiResponse(responseCode = "404", description = "Game object not found")
     })
     @PutMapping("/{id}")
-    public ResponseEntity<GameObjectDto> updateGameObject(@PathVariable Long id,
+    public ResponseEntity<GameObjectDto> updateGameObject(@PathVariable(name = "id") Long id,
                                                           @Valid @RequestBody GameObjectDto gameObjectDto) {
         GameObjectDto updatedDto = gameObjectService.updateGameObject(id, gameObjectDto);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
@@ -103,7 +102,7 @@ public class GameController {
             @ApiResponse(responseCode = "404", description = "Game object not found")
     })
     @GetMapping("/{id}")
-    public ResponseEntity<GameObjectDto> getGameObject(@PathVariable Long id) {
+    public ResponseEntity<GameObjectDto> getGameObject(@PathVariable(name = "id") Long id) {
         GameObjectDto dto = gameObjectService.getGameObjectById(id);
         return ResponseEntity.ok(dto);
     }
@@ -142,7 +141,7 @@ public class GameController {
             @ApiResponse(responseCode = "404", description = "Game object not found")
     })
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteGameObject(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteGameObject(@PathVariable(name = "id") Long id) {
         gameObjectService.deleteGameObjectById(id);
         return ResponseEntity.noContent().build();
     }
@@ -172,7 +171,7 @@ public class GameController {
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
     @SneakyThrows
-    public ResponseEntity<GameObjectDto> patchGameObject(@PathVariable Long id,
+    public ResponseEntity<GameObjectDto> patchGameObject(@PathVariable(name = "id") Long id,
                                                          @Valid @RequestBody GameObjectDto gameObjectDto) {
             GameObjectDto patchedDto = gameObjectService.patchGameObject(id, gameObjectDto);
             return ResponseEntity.ok(patchedDto);

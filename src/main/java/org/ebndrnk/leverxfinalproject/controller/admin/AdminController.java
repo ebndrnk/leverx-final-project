@@ -89,7 +89,7 @@ public class AdminController {
             @ApiResponse(responseCode = "404", description = "User not found")
     })
     @PatchMapping("/confirm-user/{userId}")
-    public ResponseEntity<UserResponse> confirmUser(@PathVariable Long userId) {
+    public ResponseEntity<UserResponse> confirmUser(@PathVariable(name = "userId") Long userId) {
         return ResponseEntity.ok(adminService.confirmUserByAdmin(userId));
     }
 
@@ -127,7 +127,7 @@ public class AdminController {
             @ApiResponse(responseCode = "404", description = "User not found")
     })
     @PatchMapping("/cancel-confirmation/{userId}")
-    public ResponseEntity<UserResponse> cancelConfirmation(@PathVariable Long userId) {
+    public ResponseEntity<UserResponse> cancelConfirmation(@PathVariable(name = "userId") Long userId) {
         return ResponseEntity.ok(adminService.cancelAdminConfirmation(userId));
     }
 }

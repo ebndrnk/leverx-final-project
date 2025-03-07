@@ -11,11 +11,6 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @RequestMapping("/users")
 public class UserController {
-    private final CommentService commentService;
 
-    @PostMapping("/{userId}/comments")
-    public ResponseEntity<CommentDto> addCommentToUser(@PathVariable Long userId,
-                                                       @RequestBody CommentRequest commentRequest) {
-        return ResponseEntity.ok(commentService.addComment(commentRequest, userId));
-    }
+
 }

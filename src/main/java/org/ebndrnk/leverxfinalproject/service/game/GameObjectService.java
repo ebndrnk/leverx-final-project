@@ -113,13 +113,17 @@ public class GameObjectService {
      * @return the updated {@link GameObjectDto}.
      * @throws IllegalAccessException      if the patching process fails due to inaccessible fields.
      */
-    public GameObjectDto patchGameObject(Long gameObjectId, GameObjectDto gameObjectDto) throws IllegalAccessException {
+    public GameObjectDto patchGameObject(Long gameObjectId, GameObjectDto gameObjectDto) {
         GameObject existingGameObject = gameObjectRepository.findById(gameObjectId)
                 .orElseThrow(() -> new NoSuchElementException("Game object with id " + gameObjectId + " not found"));
 
         GameObject incompleteGameObject = modelMapper.map(gameObjectDto, GameObject.class);
 
-        Patcher.patchEntity(existingGameObject, incompleteGameObject);
+        try {
+            Patcher.patchEntity(existingGameObject, incompleteGameObject);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
 
         GameObject updatedGameObject = gameObjectRepository.save(existingGameObject);
         return modelMapper.map(updatedGameObject, GameObjectDto.class);
