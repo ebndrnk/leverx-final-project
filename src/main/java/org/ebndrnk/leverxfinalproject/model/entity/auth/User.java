@@ -8,11 +8,9 @@ import jakarta.validation.constraints.Size;
 import lombok.Data;
 import lombok.ToString;
 import org.ebndrnk.leverxfinalproject.model.entity.BasicEntity;
-import org.ebndrnk.leverxfinalproject.model.entity.comment.Comment;
-import org.ebndrnk.leverxfinalproject.model.entity.game.GameObject;
+import org.ebndrnk.leverxfinalproject.model.entity.profile.Profile;
 import org.hibernate.proxy.HibernateProxy;
 
-import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -21,26 +19,21 @@ import java.util.Objects;
 @Data
 public class User extends BasicEntity {
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "profile_id", referencedColumnName = "id")
+    private Profile profile;
+
     @Column(name = "USERNAME", length = 50, unique = true)
     @NotNull
     @Size(min = 4, max = 50)
     private String username;
+
 
     @Column(name = "PASSWORD", length = 100)
     @NotNull
     @Size(min = 4, max = 100)
     @JsonIgnore
     private String password;
-
-    @Column(name = "FIRSTNAME", length = 50)
-    @NotNull
-    @Size(min = 4, max = 50)
-    private String firstname;
-
-    @Column(name = "LASTNAME", length = 50)
-    @NotNull
-    @Size(min = 4, max = 50)
-    private String lastname;
 
     @Column(name = "EMAIL", length = 50)
     @NotNull
@@ -53,19 +46,11 @@ public class User extends BasicEntity {
     @JsonIgnore
     private Role role;
 
-    @Column(name = "comment", columnDefinition = "TEXT")
-    @OneToMany(mappedBy = "seller", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Comment> comment;
-
     @Column(name = "is_email_confirmed", nullable = false)
     @JsonIgnore
     private boolean isEmailConfirmed = false;
 
-    @Column(name = "is_confirmed_by_admin", nullable = false)
-    private boolean isConfirmedByAdmin = false;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<GameObject> gameObjects;
 
 
     @Override

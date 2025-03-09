@@ -1,7 +1,7 @@
 package org.ebndrnk.leverxfinalproject.model.dto.auth;
 
 import lombok.Data;
-import org.ebndrnk.leverxfinalproject.model.dto.game.GameObjectDto;
+import org.ebndrnk.leverxfinalproject.model.dto.game.GameDto;
 
 import java.util.List;
 
@@ -13,5 +13,5 @@ public class UserResponse {
     private String lastname;
     private String email;
     private boolean isConfirmedByAdmin;
-    private List<GameObjectDto> gameObjects;
+    private List<GameDto> gameObjects;
 }

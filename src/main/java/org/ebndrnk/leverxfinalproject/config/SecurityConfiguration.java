@@ -3,7 +3,7 @@ package org.ebndrnk.leverxfinalproject.config;
 import jakarta.servlet.DispatcherType;
 import lombok.RequiredArgsConstructor;
 import org.ebndrnk.leverxfinalproject.filter.JwtAuthenticationFilter;
-import org.ebndrnk.leverxfinalproject.service.auth.UserServiceImpl;
+import org.ebndrnk.leverxfinalproject.service.auth.user.UserServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;

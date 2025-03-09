@@ -1,8 +1,12 @@
 package org.ebndrnk.leverxfinalproject.controller.comment;
 
 import lombok.RequiredArgsConstructor;
+import org.ebndrnk.leverxfinalproject.model.dto.auth.UserDto;
 import org.ebndrnk.leverxfinalproject.model.dto.comment.CommentRequest;
 import org.ebndrnk.leverxfinalproject.model.dto.comment.CommentResponse;
+import org.ebndrnk.leverxfinalproject.model.dto.comment.seller.SellerFromCommentDto;
+import org.ebndrnk.leverxfinalproject.model.dto.comment.seller.SellerFromCommentRequest;
+import org.ebndrnk.leverxfinalproject.model.dto.profile.ProfileRequest;
 import org.ebndrnk.leverxfinalproject.service.comment.CommentService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,10 +23,17 @@ public class CommentController {
 
 
     @PostMapping
-    public ResponseEntity<CommentResponse> addCommentToUser(@RequestParam(name = "userId") Long userId,
+    public ResponseEntity<CommentResponse> addCommentToSeller(@RequestParam(name = "userId") Long userId,
                                                               @RequestBody CommentRequest commentRequest) {
         return ResponseEntity.ok(commentService.addComment(commentRequest, userId));
     }
+
+    @PostMapping("/register-seller")
+    public ResponseEntity<CommentResponse> addCommentToSeller(@RequestBody SellerFromCommentRequest sellerFromCommentRequest) {
+        return ResponseEntity.ok(commentService.addComment(sellerFromCommentRequest));
+    }
+
+
 
     @DeleteMapping("/{commentId}")
     public ResponseEntity<Void> deleteCommentById(@PathVariable(name = "commentId") Long commentId){
