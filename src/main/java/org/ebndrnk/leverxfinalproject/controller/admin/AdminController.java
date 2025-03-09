@@ -6,6 +6,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.ebndrnk.leverxfinalproject.model.dto.auth.UserDto;
 import org.ebndrnk.leverxfinalproject.model.dto.auth.UserResponse;
+import org.ebndrnk.leverxfinalproject.model.dto.profile.ProfileDto;
+import org.ebndrnk.leverxfinalproject.model.dto.profile.ProfileResponse;
 import org.ebndrnk.leverxfinalproject.service.admin.AdminService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -51,7 +53,7 @@ public class AdminController {
             @ApiResponse(responseCode = "200", description = "Users retrieved successfully")
     })
     @GetMapping("/get-all")
-    public ResponseEntity<List<UserResponse>> getAllUsers() {
+    public ResponseEntity<List<ProfileResponse>> getAllUsers() {
         return ResponseEntity.ok(adminService.getAll());
     }
 
@@ -69,7 +71,7 @@ public class AdminController {
             @ApiResponse(responseCode = "200", description = "Users retrieved successfully")
     })
     @GetMapping("/get-all/not-confirmed")
-    public ResponseEntity<List<UserResponse>> getAllNotConfirmedByAdminUsers() {
+    public ResponseEntity<List<ProfileResponse>> getAllNotConfirmedByAdminUsers() {
         return ResponseEntity.ok(adminService.getAllNotConfirmedByAdminUsers());
     }
 
@@ -89,7 +91,7 @@ public class AdminController {
             @ApiResponse(responseCode = "404", description = "User not found")
     })
     @PatchMapping("/confirm-user/{userId}")
-    public ResponseEntity<UserResponse> confirmUser(@PathVariable(name = "userId") Long userId) {
+    public ResponseEntity<ProfileResponse> confirmUser(@PathVariable(name = "userId") Long userId) {
         return ResponseEntity.ok(adminService.confirmUserByAdmin(userId));
     }
 
@@ -107,7 +109,7 @@ public class AdminController {
             @ApiResponse(responseCode = "200", description = "All users confirmed successfully")
     })
     @PatchMapping("/confirm-all-users")
-    public ResponseEntity<List<UserResponse>> confirmAllUsers() {
+    public ResponseEntity<List<ProfileResponse>> confirmAllUsers() {
         return ResponseEntity.ok(adminService.confirmAllUsers());
     }
 
@@ -127,7 +129,7 @@ public class AdminController {
             @ApiResponse(responseCode = "404", description = "User not found")
     })
     @PatchMapping("/cancel-confirmation/{userId}")
-    public ResponseEntity<UserResponse> cancelConfirmation(@PathVariable(name = "userId") Long userId) {
+    public ResponseEntity<ProfileResponse> cancelConfirmation(@PathVariable(name = "userId") Long userId) {
         return ResponseEntity.ok(adminService.cancelAdminConfirmation(userId));
     }
 }

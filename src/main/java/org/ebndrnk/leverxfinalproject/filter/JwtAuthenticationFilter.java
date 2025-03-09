@@ -8,10 +8,10 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.ebndrnk.leverxfinalproject.service.auth.user.JwtService;
+import org.ebndrnk.leverxfinalproject.service.auth.user.UserService;
 import org.ebndrnk.leverxfinalproject.util.exception.ErrorInfo;
 import org.ebndrnk.leverxfinalproject.util.exception.dto.UserNotFoundException;
-import org.ebndrnk.leverxfinalproject.service.auth.JwtService;
-import org.ebndrnk.leverxfinalproject.service.auth.UserServiceImpl;
 import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContext;
@@ -32,7 +32,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 	public static final String BEARER_PREFIX = "Bearer ";
 	public static final String HEADER_NAME = "Authorization";
 	private final JwtService jwtService;
-	private final UserServiceImpl userService;
+	private final UserService userService;
 	private final ObjectMapper objectMapper;
 
 	/**
@@ -80,6 +80,15 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 				authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 				context.setAuthentication(authToken);
 				SecurityContextHolder.setContext(context);
+
+				if(!userService.isEmailConfirmed(username)){
+					handleErrorResponse(response, new ErrorInfo(LocalDateTime.now(),
+							HttpServletResponse.SC_FORBIDDEN,
+							"FORBIDDEN",
+							"Email is not confirmed",
+							request.getRequestURI()));
+					return;
+				};
 			} else {
 				handleErrorResponse(response, new ErrorInfo(LocalDateTime.now(), HttpServletResponse.SC_FORBIDDEN,
 						"FORBIDDEN", "token is not valid", request.getRequestURI()));

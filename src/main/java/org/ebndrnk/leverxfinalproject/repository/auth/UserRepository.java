@@ -4,6 +4,7 @@ import org.ebndrnk.leverxfinalproject.model.entity.auth.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -20,7 +21,13 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     Optional<User> findByEmail (String email);
 
-    @Modifying
-    @Query("SELECT u from User u where u.isConfirmedByAdmin = false ")
-    List<User> findAllNotConfirmedByAdminUsers();
- }
+
+    @Query("SELECT" +
+            " CASE " +
+                "WHEN COUNT(u) > 0 THEN true ELSE false" +
+            " END" +
+            " FROM User u WHERE u.username = :username AND u.isEmailConfirmed = true")
+    boolean isEmailConfirmed(@Param("username") String username);
+
+
+}

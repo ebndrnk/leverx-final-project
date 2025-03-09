@@ -21,6 +21,62 @@ import java.util.stream.Collectors;
 public class GlobalExceptionHandler {
     private final static String DEFAULT_ERROR_MESSAGE = "SERVER_ERROR";
 
+    @ExceptionHandler(GameNotFoundException.class)
+    public ResponseEntity<ErrorInfo> handleGameNotFoundException(
+            GameNotFoundException ex, HttpServletRequest request) {
+        log.error("NoResourceFoundException: {}", ex.getMessage(), ex);
+        ErrorInfo errorInfo = new ErrorInfo(
+                LocalDateTime.now(),
+                HttpStatus.NOT_FOUND.value(),
+                HttpStatus.NOT_FOUND.getReasonPhrase(),
+                ex.getMessage(),
+                request.getRequestURI()
+        );
+        return new ResponseEntity<>(errorInfo, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(SellerFromCommentNotFoundException.class)
+    public ResponseEntity<ErrorInfo> handleSellerFromCommentNotFoundException(
+            SellerFromCommentNotFoundException ex, HttpServletRequest request) {
+        log.error("NoResourceFoundException: {}", ex.getMessage(), ex);
+        ErrorInfo errorInfo = new ErrorInfo(
+                LocalDateTime.now(),
+                HttpStatus.NOT_FOUND.value(),
+                HttpStatus.NOT_FOUND.getReasonPhrase(),
+                ex.getMessage(),
+                request.getRequestURI()
+        );
+        return new ResponseEntity<>(errorInfo, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(UserWithThisEmailNotDoesntChangePasswordException.class)
+    public ResponseEntity<ErrorInfo> handleUserWithThisEmailNotDoesntChangedPasswordException(
+            UserWithThisEmailNotDoesntChangePasswordException ex, HttpServletRequest request) {
+        log.error("NoResourceFoundException: {}", ex.getMessage(), ex);
+        ErrorInfo errorInfo = new ErrorInfo(
+                LocalDateTime.now(),
+                HttpStatus.NOT_FOUND.value(),
+                HttpStatus.NOT_FOUND.getReasonPhrase(),
+                ex.getMessage(),
+                request.getRequestURI()
+        );
+        return new ResponseEntity<>(errorInfo, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(ProfileNotFoundException.class)
+    public ResponseEntity<ErrorInfo> handleProfileNotFoundException(
+            ProfileNotFoundException ex, HttpServletRequest request) {
+        log.error("NoResourceFoundException: {}", ex.getMessage(), ex);
+        ErrorInfo errorInfo = new ErrorInfo(
+                LocalDateTime.now(),
+                HttpStatus.NOT_FOUND.value(),
+                HttpStatus.NOT_FOUND.getReasonPhrase(),
+                ex.getMessage(),
+                request.getRequestURI()
+        );
+        return new ResponseEntity<>(errorInfo, HttpStatus.NOT_FOUND);
+    }
+
 
     @ExceptionHandler(NoResourceFoundException.class)
     public ResponseEntity<ErrorInfo> handleNoResourceFoundException(

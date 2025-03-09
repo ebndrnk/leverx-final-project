@@ -1,19 +1,19 @@
 package org.ebndrnk.leverxfinalproject.service.admin;
 
-import org.ebndrnk.leverxfinalproject.model.dto.auth.UserResponse;
+import org.ebndrnk.leverxfinalproject.model.dto.profile.ProfileResponse;
 
 import java.util.List;
 
 public interface AdminService {
-    List<UserResponse> getAll();
+    List<ProfileResponse> getAll();
 
-    List<UserResponse> getAllNotConfirmedByAdminUsers();
+    List<ProfileResponse> getAllNotConfirmedByAdminUsers();
 
-    UserResponse confirmUserByAdmin(Long userId);
+    ProfileResponse confirmUserByAdmin(Long userId);
 
-    List<UserResponse> confirmAllUsers();
+    List<ProfileResponse> confirmAllUsers();
 
-    UserResponse cancelAdminConfirmation(Long userId);
+    ProfileResponse cancelAdminConfirmation(Long userId);
 
     void confirmEmail(String email);
 }

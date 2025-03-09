@@ -6,8 +6,10 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
-import org.ebndrnk.leverxfinalproject.model.dto.game.GameObjectDto;
-import org.ebndrnk.leverxfinalproject.service.game.GameObjectService;
+import org.ebndrnk.leverxfinalproject.model.dto.game.GameDto;
+import org.ebndrnk.leverxfinalproject.model.dto.game.GameResponse;
+import org.ebndrnk.leverxfinalproject.model.dto.game.GameRequest;
+import org.ebndrnk.leverxfinalproject.service.game.GameService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -33,7 +35,7 @@ import java.util.List;
 @RequestMapping("/game")
 public class GameController {
 
-    private final GameObjectService gameObjectService;
+    private final GameService gameObjectService;
 
     /**
      * Creates a new game object.
@@ -42,7 +44,7 @@ public class GameController {
      * Returns a 201 Created status along with the URI of the newly created resource.
      * </p>
      *
-     * @param gameObjectDto the game object data transfer object to be created.
+     * @param gameRequest the game object data transfer object to be created.
      * @return a ResponseEntity containing the created GameObjectDto and a Location header.
      */
     @Operation(summary = "Create Game Object", description = "Creates a new game object and returns the created resource with a location header.")
@@ -51,8 +53,8 @@ public class GameController {
             @ApiResponse(responseCode = "400", description = "Invalid input data")
     })
     @PostMapping
-    public ResponseEntity<GameObjectDto> createGameObject(@Valid @RequestBody GameObjectDto gameObjectDto) {
-        GameObjectDto createdDto = gameObjectService.createGameObject(gameObjectDto);
+    public ResponseEntity<GameResponse> createGameObject(@Valid @RequestBody GameRequest gameRequest) {
+        GameResponse createdDto = gameObjectService.createGameObject(gameRequest);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
                 .buildAndExpand(createdDto.getId())
@@ -68,7 +70,7 @@ public class GameController {
      * </p>
      *
      * @param id            the ID of the game object to update.
-     * @param gameObjectDto the game object data transfer object containing updated information.
+     * @param gameRequest the game object data transfer object containing updated information.
      * @return a ResponseEntity containing the updated GameObjectDto.
      */
     @Operation(summary = "Update Game Object", description = "Updates an existing game object identified by its ID.")
@@ -78,9 +80,9 @@ public class GameController {
             @ApiResponse(responseCode = "404", description = "Game object not found")
     })
     @PutMapping("/{id}")
-    public ResponseEntity<GameObjectDto> updateGameObject(@PathVariable(name = "id") Long id,
-                                                          @Valid @RequestBody GameObjectDto gameObjectDto) {
-        GameObjectDto updatedDto = gameObjectService.updateGameObject(id, gameObjectDto);
+    public ResponseEntity<GameResponse> updateGameObject(@PathVariable(name = "id") Long id,
+                                                         @Valid @RequestBody GameRequest gameRequest) {
+        GameResponse updatedDto = gameObjectService.updateGameObject(id, gameRequest);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .buildAndExpand(updatedDto.getId())
                 .toUri();
@@ -102,8 +104,8 @@ public class GameController {
             @ApiResponse(responseCode = "404", description = "Game object not found")
     })
     @GetMapping("/{id}")
-    public ResponseEntity<GameObjectDto> getGameObject(@PathVariable(name = "id") Long id) {
-        GameObjectDto dto = gameObjectService.getGameObjectById(id);
+    public ResponseEntity<GameResponse> getGameObject(@PathVariable(name = "id") Long id) {
+        GameResponse dto = gameObjectService.getGameObjectById(id);
         return ResponseEntity.ok(dto);
     }
 
@@ -120,8 +122,8 @@ public class GameController {
             @ApiResponse(responseCode = "200", description = "Game objects retrieved successfully")
     })
     @GetMapping
-    public ResponseEntity<List<GameObjectDto>> getAllGameObjects() {
-        List<GameObjectDto> gameObjects = gameObjectService.getAllGameObjects();
+    public ResponseEntity<List<GameResponse>> getAllGameObjects() {
+        List<GameResponse> gameObjects = gameObjectService.getAllGameObjects();
         return ResponseEntity.ok(gameObjects);
     }
 
@@ -155,7 +157,7 @@ public class GameController {
      * </p>
      *
      * @param id            the ID of the game object to patch.
-     * @param gameObjectDto the DTO with fields to update.
+     * @param gameRequest the DTO with fields to update.
      * @return a ResponseEntity containing the updated GameObjectDto.
      * @throws IllegalAccessException if an error occurs during patching.
      */
@@ -171,9 +173,9 @@ public class GameController {
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
     @SneakyThrows
-    public ResponseEntity<GameObjectDto> patchGameObject(@PathVariable(name = "id") Long id,
-                                                         @Valid @RequestBody GameObjectDto gameObjectDto) {
-            GameObjectDto patchedDto = gameObjectService.patchGameObject(id, gameObjectDto);
+    public ResponseEntity<GameResponse> patchGameObject(@PathVariable(name = "id") Long id,
+                                                        @Valid @RequestBody GameRequest gameRequest) {
+        GameResponse patchedDto = gameObjectService.patchGameObject(id, gameRequest);
             return ResponseEntity.ok(patchedDto);
     }
 }

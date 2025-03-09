@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <style>
@@ -19,10 +19,10 @@
 <body>
 <h2>Email Confirmation</h2>
 <p>To confirm your email, click the button below:</p>
-<form action="{verificationUrl}" method="POST">
+<form th:action="@{${verificationUrl}}" method="POST">
     <button type="submit" class="btn">Verify</button>
 </form>
 <p>If the button does not work, please copy the following link into your browser:</p>
-<p>{verificationUrl}</p>
+<p th:text="${verificationUrl}"></p>
 </body>
 </html>

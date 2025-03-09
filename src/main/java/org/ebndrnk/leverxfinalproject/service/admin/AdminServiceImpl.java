@@ -3,8 +3,12 @@ package org.ebndrnk.leverxfinalproject.service.admin;
 import lombok.RequiredArgsConstructor;
 import org.ebndrnk.leverxfinalproject.model.dto.auth.UserDto;
 import org.ebndrnk.leverxfinalproject.model.dto.auth.UserResponse;
+import org.ebndrnk.leverxfinalproject.model.dto.profile.ProfileDto;
+import org.ebndrnk.leverxfinalproject.model.dto.profile.ProfileResponse;
 import org.ebndrnk.leverxfinalproject.model.entity.auth.User;
+import org.ebndrnk.leverxfinalproject.model.entity.profile.Profile;
 import org.ebndrnk.leverxfinalproject.repository.auth.UserRepository;
+import org.ebndrnk.leverxfinalproject.repository.pofile.ProfileRepository;
 import org.ebndrnk.leverxfinalproject.util.exception.dto.UserNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -26,6 +30,7 @@ public class AdminServiceImpl implements AdminService {
 
     private final UserRepository userRepository;
     private final ModelMapper modelMapper;
+    private final ProfileRepository profileRepository;
 
     /**
      * Retrieves all users from the repository.
@@ -37,10 +42,10 @@ public class AdminServiceImpl implements AdminService {
      * @return a list of all users as UserDto objects.
      */
     @Override
-    public List<UserResponse> getAll() {
-        return userRepository.findAll()
+    public List<ProfileResponse> getAll() {
+        return profileRepository.findAll()
                 .stream()
-                .map(user -> modelMapper.map(user, UserResponse.class))
+                .map(profile -> modelMapper.map(profile, ProfileResponse.class))
                 .toList();
     }
 
@@ -54,10 +59,10 @@ public class AdminServiceImpl implements AdminService {
      * @return a list of unconfirmed users as UserDto objects.
      */
     @Override
-    public List<UserResponse> getAllNotConfirmedByAdminUsers() {
-        return userRepository.findAllNotConfirmedByAdminUsers()
+    public List<ProfileResponse> getAllNotConfirmedByAdminUsers() {
+        return profileRepository.findAllNotConfirmedProfiles()
                 .stream()
-                .map(user -> modelMapper.map(user, UserResponse.class))
+                .map(profile -> modelMapper.map(profile, ProfileResponse.class))
                 .toList();
     }
 
@@ -74,12 +79,13 @@ public class AdminServiceImpl implements AdminService {
      * @throws UserNotFoundException if no user with the specified ID is found.
      */
     @Override
-    public UserResponse confirmUserByAdmin(Long userId) {
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new UserNotFoundException("User with this id not found"));
-        user.setConfirmedByAdmin(true);
+    public ProfileResponse confirmUserByAdmin(Long userId) {
+        Profile profile = profileRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException("Profile with this id not found"));
+        profile.setConfirmedByAdmin(true);
+        profileRepository.save(profile);
 
-        return modelMapper.map(userRepository.save(user), UserResponse.class);
+        return modelMapper.map(profile, ProfileResponse.class);
     }
 
     /**
@@ -93,12 +99,12 @@ public class AdminServiceImpl implements AdminService {
      * @return a list of confirmed users as UserDto objects.
      */
     @Override
-    public List<UserResponse> confirmAllUsers() {
-        List<User> userList = userRepository.findAllNotConfirmedByAdminUsers();
-        userList.forEach(user -> user.setConfirmedByAdmin(true));
-        userRepository.saveAll(userList);
-        return userList.stream()
-                .map(user -> modelMapper.map(user, UserResponse.class))
+    public List<ProfileResponse> confirmAllUsers() {
+        List<Profile> profileList = profileRepository.findAllNotConfirmedProfiles();
+        profileList.forEach(profile -> profile.setConfirmedByAdmin(true));
+        profileRepository.saveAll(profileList);
+        return profileList.stream()
+                .map(profile -> modelMapper.map(profile, ProfileResponse.class))
                 .toList();
     }
 
@@ -115,12 +121,13 @@ public class AdminServiceImpl implements AdminService {
      * @throws UserNotFoundException if no user with the specified ID is found.
      */
     @Override
-    public UserResponse cancelAdminConfirmation(Long userId) {
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new UserNotFoundException("User with this id not found"));
-        user.setConfirmedByAdmin(false);
+    public ProfileResponse cancelAdminConfirmation(Long userId) {
+        Profile profile = profileRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException("Profile with this id not found"));
+        profile.setConfirmedByAdmin(false);
+        profileRepository.save(profile);
 
-        return modelMapper.map(userRepository.save(user), UserResponse.class);
+        return modelMapper.map(profile, ProfileResponse.class);
     }
 
     /**

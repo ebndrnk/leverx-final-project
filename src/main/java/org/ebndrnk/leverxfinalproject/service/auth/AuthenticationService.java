@@ -4,8 +4,11 @@ import lombok.RequiredArgsConstructor;
 import org.ebndrnk.leverxfinalproject.model.dto.auth.*;
 import org.ebndrnk.leverxfinalproject.model.entity.auth.Role;
 import org.ebndrnk.leverxfinalproject.model.entity.auth.User;
+import org.ebndrnk.leverxfinalproject.model.entity.profile.Profile;
 import org.ebndrnk.leverxfinalproject.repository.auth.UserRepository;
-import org.ebndrnk.leverxfinalproject.service.mail.MailService;
+import org.ebndrnk.leverxfinalproject.service.auth.user.JwtService;
+import org.ebndrnk.leverxfinalproject.service.auth.user.UserServiceImpl;
+import org.ebndrnk.leverxfinalproject.service.mail.EmailService;
 import org.ebndrnk.leverxfinalproject.util.exception.dto.NotConfirmedException;
 import org.ebndrnk.leverxfinalproject.util.exception.dto.UserNotFoundException;
 import org.modelmapper.ModelMapper;
@@ -39,7 +42,7 @@ public class AuthenticationService {
     private final AuthenticationManager authenticationManager;
     private final UserRepository userRepository;
     private final ModelMapper modelMapper;
-    private final MailService mailService;
+    private final EmailService emailService;
 
     /**
      * Registers a new user and returns a JWT authentication response.
@@ -52,13 +55,15 @@ public class AuthenticationService {
         log.info("Attempting to register user with email: {}", request.getEmail());
 
         var user = modelMapper.map(request, User.class);
+        var profile = modelMapper.map(request, Profile.class);
         user.setPassword(passwordEncoder.encode(request.getPassword()));
         user.setRole(Role.ROLE_SELLER);
+        user.setProfile(profile);
 
         userService.create(modelMapper.map(user, UserDto.class));
         log.info("User registered successfully with email: {}", user.getEmail());
         try {
-            mailService.send(user.getEmail());
+            emailService.sendConfirmationEmail(user.getEmail());
             log.info("Mail sent to email: {}", user.getEmail());
         }catch (MailException e){
             log.error("Mail exception: {}", e.getMessage());

@@ -1,5 +1,6 @@
 package org.ebndrnk.leverxfinalproject.config;
 
+import org.ebndrnk.leverxfinalproject.model.entity.auth.password.ResetPasswordCodeEntity;
 import org.ebndrnk.leverxfinalproject.model.entity.auth.verify.VerifyEntity;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,12 +28,25 @@ public class RedisConfig {
      * @return a configured {@link RedisTemplate} for managing {@link VerifyEntity} objects.
      */
     @Bean
-    public RedisTemplate<String, VerifyEntity> redisTemplate(RedisConnectionFactory connectionFactory) {
+    public RedisTemplate<String, VerifyEntity> redisVerifyEmailTemplate(RedisConnectionFactory connectionFactory) {
         RedisTemplate<String, VerifyEntity> template = new RedisTemplate<>();
         template.setConnectionFactory(connectionFactory);
 
         Jackson2JsonRedisSerializer<VerifyEntity> serializer =
                 new Jackson2JsonRedisSerializer<>(VerifyEntity.class);
+
+        template.setDefaultSerializer(serializer);
+        template.afterPropertiesSet();
+        return template;
+    }
+
+    @Bean
+    public RedisTemplate<String, ResetPasswordCodeEntity> redisResetPasswordTemplate(RedisConnectionFactory connectionFactory) {
+        RedisTemplate<String, ResetPasswordCodeEntity> template = new RedisTemplate<>();
+        template.setConnectionFactory(connectionFactory);
+
+        Jackson2JsonRedisSerializer<ResetPasswordCodeEntity> serializer =
+                new Jackson2JsonRedisSerializer<>(ResetPasswordCodeEntity.class);
 
         template.setDefaultSerializer(serializer);
         template.afterPropertiesSet();

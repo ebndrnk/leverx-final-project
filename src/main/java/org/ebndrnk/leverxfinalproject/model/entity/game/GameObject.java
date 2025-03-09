@@ -3,9 +3,7 @@ package org.ebndrnk.leverxfinalproject.model.entity.game;
 import jakarta.persistence.*;
 import lombok.*;
 import org.ebndrnk.leverxfinalproject.model.entity.BasicEntity;
-import org.ebndrnk.leverxfinalproject.model.entity.auth.User;
-
-import java.time.LocalDateTime;
+import org.ebndrnk.leverxfinalproject.model.entity.profile.Profile;
 
 @Entity
 @Getter
@@ -23,7 +21,7 @@ public class GameObject extends BasicEntity {
     private String text;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+    @JoinColumn(name = "seller_id")
+    private Profile seller;
 
 }
