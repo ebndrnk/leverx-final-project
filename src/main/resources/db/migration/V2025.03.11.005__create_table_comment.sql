@@ -15,9 +15,9 @@ create table if not exists public.comment
     constraint fk5qwvc51t0ecgi251261ku4l8b
     references comment_author,
     seller_id    bigint
-    constraint fkcvt2dnksk97chrytub5y4ga60
-    references app_user
-);
+    constraint fk8r5o2nxa75xyrbnu5jx1nvhy
+    references profile
+    );
 
 comment on column comment.id is 'Первичный ключ';
 

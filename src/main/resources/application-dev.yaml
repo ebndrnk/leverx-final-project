@@ -8,6 +8,9 @@ spring:
       ddl-auto: update
   flyway:
     enabled: false
+  sql:
+    init:
+      mode: never
 
 site:
   domain:

@@ -1,5 +1,6 @@
 package org.ebndrnk.leverxfinalproject.service.comment;
 
+import jakarta.servlet.http.HttpServletRequest;
 import org.ebndrnk.leverxfinalproject.model.dto.comment.CommentRequest;
 import org.ebndrnk.leverxfinalproject.model.dto.comment.CommentResponse;
 import org.ebndrnk.leverxfinalproject.model.dto.comment.seller.SellerFromCommentDto;
@@ -9,17 +10,19 @@ import org.ebndrnk.leverxfinalproject.model.dto.profile.ProfileRequest;
 import java.util.List;
 
 public interface CommentService {
-    CommentResponse addComment(CommentRequest commentRequest, Long sellerId);
 
-    CommentResponse addComment(SellerFromCommentRequest sellerFromCommentRequest);
 
-    void deleteById(Long commentId);
+    CommentResponse addComment(CommentRequest commentRequest, Long sellerId, HttpServletRequest request);
+
+    CommentResponse addComment(SellerFromCommentRequest sellerFromCommentRequest, HttpServletRequest request);
+
+    void deleteById(Long commentId, HttpServletRequest request);
 
     List<CommentResponse> getSellersComments(Long userId);
 
     CommentResponse getCommentById(Long commentId);
 
-    CommentResponse editComment(Long commentId, CommentRequest commentRequest);
+    CommentResponse editComment(Long commentId, CommentRequest commentRequest, HttpServletRequest request);
 
     List<CommentResponse> getAllUnconfirmed();
 

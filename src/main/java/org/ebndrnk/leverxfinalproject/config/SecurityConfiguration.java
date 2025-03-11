@@ -6,6 +6,7 @@ import org.ebndrnk.leverxfinalproject.filter.JwtAuthenticationFilter;
 import org.ebndrnk.leverxfinalproject.service.auth.user.UserServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -65,13 +66,10 @@ public class SecurityConfiguration {
 				.authorizeHttpRequests(request -> request
 						.requestMatchers("/auth/**").permitAll()
 						.requestMatchers("/admin/**").hasRole("ADMIN")
-						.requestMatchers("/comment/{commentId}/confirm").hasRole("ADMIN")
-						.requestMatchers("/comment/{commentId}/decline").hasRole("ADMIN")
-						.requestMatchers("/comment/**").permitAll()
-						.requestMatchers("/verify", "/verify/**").permitAll()
-						.requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
+						.requestMatchers(HttpMethod.GET, "/game", "/game/**").permitAll()
+						.requestMatchers("/game/**").authenticated()
 						.dispatcherTypeMatchers(DispatcherType.ERROR).permitAll()
-						.anyRequest().authenticated()
+						.anyRequest().permitAll()
 				)
 				.exceptionHandling(Customizer.withDefaults())
 				.sessionManagement(manager -> manager.sessionCreationPolicy(STATELESS))

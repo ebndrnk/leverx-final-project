@@ -33,6 +33,7 @@ public class EmailService {
         this.passwordResetTemplateGenerator = passwordResetTemplateGenerator;
     }
 
+
     public void sendConfirmationEmail(String email) {
         String code = generateVerificationCode();
         verificationService.save(email, code);

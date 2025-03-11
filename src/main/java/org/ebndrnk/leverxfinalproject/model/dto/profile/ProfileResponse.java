@@ -16,4 +16,5 @@ public class ProfileResponse {
     private List<CommentResponse> comment;
     private boolean isConfirmedByAdmin;
     private List<GameResponse> gameObjects;
+    private byte rating;
 }

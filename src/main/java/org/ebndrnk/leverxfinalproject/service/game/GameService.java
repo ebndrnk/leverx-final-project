@@ -1,17 +1,20 @@
 package org.ebndrnk.leverxfinalproject.service.game;
 
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import org.ebndrnk.leverxfinalproject.model.dto.game.GameDto;
 import org.ebndrnk.leverxfinalproject.model.dto.game.GameResponse;
 import org.ebndrnk.leverxfinalproject.model.dto.game.GameRequest;
 import org.ebndrnk.leverxfinalproject.model.entity.auth.User;
 import org.ebndrnk.leverxfinalproject.model.entity.game.GameObject;
 import org.ebndrnk.leverxfinalproject.repository.game.GameRepository;
+import org.ebndrnk.leverxfinalproject.repository.specification.GameObjectSpecification;
 import org.ebndrnk.leverxfinalproject.service.auth.user.UserServiceImpl;
 import org.ebndrnk.leverxfinalproject.util.component.Patcher;
 import org.ebndrnk.leverxfinalproject.util.exception.dto.GameNotFoundException;
 import org.ebndrnk.leverxfinalproject.util.exception.dto.NoAuthorityForActionException;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -34,6 +37,15 @@ public class GameService {
     private final ModelMapper modelMapper;
     private final UserServiceImpl userService;
     private final GameRepository gameRepository;
+
+    public List<GameResponse> findGameObjects(String title, String text) {
+        Specification<GameObject> spec = Specification.where(GameObjectSpecification.hasTitleLike(title))
+                .and(GameObjectSpecification.hasTextLike(text));
+
+        return gameObjectRepository.findAll(spec).stream()
+                .map(gameObject -> modelMapper.map(gameObject, GameResponse.class))
+                .toList();
+    }
 
     /**
      * Creates a new game object.

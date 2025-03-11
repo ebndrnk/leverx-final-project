@@ -44,4 +44,7 @@ public class Profile extends BasicEntity {
 
     @OneToMany(mappedBy = "seller", cascade = CascadeType.ALL)
     private List<GameObject> gameObjects;
+
+    @Column(name = "rating")
+    private byte rating = 0;
 }

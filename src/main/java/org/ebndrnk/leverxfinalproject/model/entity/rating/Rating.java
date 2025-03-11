@@ -1,22 +1,22 @@
-package org.ebndrnk.leverxfinalproject.model.entity.comment;
+package org.ebndrnk.leverxfinalproject.model.entity.rating;
+
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import org.ebndrnk.leverxfinalproject.model.entity.BasicEntity;
 import org.ebndrnk.leverxfinalproject.model.entity.anonymous.AnonymousUser;
 import org.ebndrnk.leverxfinalproject.model.entity.profile.Profile;
 
-@Entity
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@ToString
-@Table(name = "comment")
-public class Comment extends BasicEntity {
 
-    @Column(name = "message")
-    private String message;
+@EqualsAndHashCode(callSuper = true)
+@Entity
+@Table(name = "rating")
+@ToString
+@Data
+public class Rating extends BasicEntity {
+    private byte mark;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "author_id")
@@ -25,7 +25,4 @@ public class Comment extends BasicEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "seller_id")
     private Profile seller;
-
-    @Column(name = "approved")
-    private boolean approved = false;
 }

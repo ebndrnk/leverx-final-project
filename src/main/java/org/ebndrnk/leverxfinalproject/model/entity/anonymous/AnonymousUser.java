@@ -1,9 +1,9 @@
-package org.ebndrnk.leverxfinalproject.model.entity.comment;
+package org.ebndrnk.leverxfinalproject.model.entity.anonymous;
 
 import jakarta.persistence.*;
 import lombok.*;
 import org.ebndrnk.leverxfinalproject.model.entity.BasicEntity;
-
+import org.ebndrnk.leverxfinalproject.model.entity.comment.Comment;
 import java.util.List;
 
 @Entity
@@ -12,12 +12,12 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString(exclude = "commentList")
-@Table(name = "comment_author")
-public class CommentAuthor extends BasicEntity {
+@Table(name = "anonymous_user")
+public class AnonymousUser extends BasicEntity {
 
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comment> commentList;
 
-    @Column(name = "identifier")
-    private String identifier;
+    @Column(name = "anonymous_id", unique = true, nullable = false)
+    private String anonymousId;
 }

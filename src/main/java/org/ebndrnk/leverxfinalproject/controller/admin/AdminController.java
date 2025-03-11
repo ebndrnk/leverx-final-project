@@ -4,11 +4,10 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
-import org.ebndrnk.leverxfinalproject.model.dto.auth.UserDto;
-import org.ebndrnk.leverxfinalproject.model.dto.auth.UserResponse;
-import org.ebndrnk.leverxfinalproject.model.dto.profile.ProfileDto;
+import org.ebndrnk.leverxfinalproject.model.dto.comment.CommentResponse;
 import org.ebndrnk.leverxfinalproject.model.dto.profile.ProfileResponse;
 import org.ebndrnk.leverxfinalproject.service.admin.AdminService;
+import org.ebndrnk.leverxfinalproject.service.comment.CommentService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,24 +37,9 @@ import java.util.List;
 public class AdminController {
 
     private final AdminService adminService;
+    private final CommentService commentService;
 
-    /**
-     * Retrieves a list of all users in the system.
-     *
-     * <p>
-     * Returns a list of UserDto objects representing all users.
-     * </p>
-     *
-     * @return ResponseEntity containing the list of all users.
-     */
-    @Operation(summary = "Get all users", description = "Returns a list of all users in the system.")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Users retrieved successfully")
-    })
-    @GetMapping("/get-all")
-    public ResponseEntity<List<ProfileResponse>> getAllUsers() {
-        return ResponseEntity.ok(adminService.getAll());
-    }
+
 
     /**
      * Retrieves a list of users not confirmed by an administrator.
@@ -70,7 +54,7 @@ public class AdminController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Users retrieved successfully")
     })
-    @GetMapping("/get-all/not-confirmed")
+    @GetMapping("/users/not-confirmed")
     public ResponseEntity<List<ProfileResponse>> getAllNotConfirmedByAdminUsers() {
         return ResponseEntity.ok(adminService.getAllNotConfirmedByAdminUsers());
     }
@@ -90,28 +74,12 @@ public class AdminController {
             @ApiResponse(responseCode = "200", description = "User confirmed successfully"),
             @ApiResponse(responseCode = "404", description = "User not found")
     })
-    @PatchMapping("/confirm-user/{userId}")
+    @PatchMapping("/users/{userId}/confirmation")
     public ResponseEntity<ProfileResponse> confirmUser(@PathVariable(name = "userId") Long userId) {
         return ResponseEntity.ok(adminService.confirmUserByAdmin(userId));
     }
 
-    /**
-     * Confirms all users not confirmed by an administrator.
-     *
-     * <p>
-     * This endpoint updates the confirmation flag for all users with a false flag to true.
-     * </p>
-     *
-     * @return ResponseEntity containing the list of updated UserDto objects.
-     */
-    @Operation(summary = "Confirm all users", description = "Confirms all users by setting the confirmation flag to true.")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "All users confirmed successfully")
-    })
-    @PatchMapping("/confirm-all-users")
-    public ResponseEntity<List<ProfileResponse>> confirmAllUsers() {
-        return ResponseEntity.ok(adminService.confirmAllUsers());
-    }
+
 
     /**
      * Cancels the admin confirmation for a user.
@@ -128,8 +96,23 @@ public class AdminController {
             @ApiResponse(responseCode = "200", description = "Confirmation canceled successfully"),
             @ApiResponse(responseCode = "404", description = "User not found")
     })
-    @PatchMapping("/cancel-confirmation/{userId}")
+    @PatchMapping("/users/{userId}/decline")
     public ResponseEntity<ProfileResponse> cancelConfirmation(@PathVariable(name = "userId") Long userId) {
         return ResponseEntity.ok(adminService.cancelAdminConfirmation(userId));
+    }
+
+    @GetMapping("/comments/not-confirmed")
+    public ResponseEntity<List<CommentResponse>> getAllUnconfirmed(){
+        return ResponseEntity.ok(commentService.getAllUnconfirmed());
+    }
+
+    @PatchMapping("/comments/{commentId}/confirm")
+    public ResponseEntity<CommentResponse> confirmComment(@PathVariable(name = "commentId") Long commentId){
+        return ResponseEntity.ok(commentService.confirm(commentId));
+    }
+
+    @PatchMapping("/comments/{commentId}/decline")
+    public ResponseEntity<CommentResponse> declineComment(@PathVariable(name = "commentId") Long commentId){
+        return ResponseEntity.ok(commentService.decline(commentId));
     }
 }

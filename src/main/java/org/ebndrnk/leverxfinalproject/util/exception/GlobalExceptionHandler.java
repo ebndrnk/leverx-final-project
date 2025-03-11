@@ -21,6 +21,7 @@ import java.util.stream.Collectors;
 public class GlobalExceptionHandler {
     private final static String DEFAULT_ERROR_MESSAGE = "SERVER_ERROR";
 
+
     @ExceptionHandler(GameNotFoundException.class)
     public ResponseEntity<ErrorInfo> handleGameNotFoundException(
             GameNotFoundException ex, HttpServletRequest request) {

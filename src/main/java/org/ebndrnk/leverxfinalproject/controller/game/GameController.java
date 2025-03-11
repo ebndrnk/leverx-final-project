@@ -5,10 +5,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
-import org.ebndrnk.leverxfinalproject.model.dto.game.GameDto;
-import org.ebndrnk.leverxfinalproject.model.dto.game.GameResponse;
 import org.ebndrnk.leverxfinalproject.model.dto.game.GameRequest;
+import org.ebndrnk.leverxfinalproject.model.dto.game.GameResponse;
 import org.ebndrnk.leverxfinalproject.service.game.GameService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,24 +15,10 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
 import java.util.List;
 
-/**
- * Controller for managing CRUD operations on game objects.
- * <p>
- * This REST controller provides endpoints to create, retrieve, update, and delete game objects.
- * It demonstrates best practices such as:
- * <ul>
- *   <li>Proper use of HTTP status codes and headers (e.g., 201 Created with Location header for new resources).</li>
- *   <li>Validation of incoming request payloads using Jakarta Bean Validation.</li>
- *   <li>Clear separation of concerns with service layer delegation.</li>
- *   <li>Comprehensive API documentation via Swagger/OpenAPI annotations.</li>
- * </ul>
- * </p>
- */
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/game")
 public class GameController {
-
     private final GameService gameObjectService;
 
     /**
@@ -52,7 +36,7 @@ public class GameController {
             @ApiResponse(responseCode = "201", description = "Game object created successfully"),
             @ApiResponse(responseCode = "400", description = "Invalid input data")
     })
-    @PostMapping
+    @PostMapping("")
     public ResponseEntity<GameResponse> createGameObject(@Valid @RequestBody GameRequest gameRequest) {
         GameResponse createdDto = gameObjectService.createGameObject(gameRequest);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
@@ -159,7 +143,6 @@ public class GameController {
      * @param id            the ID of the game object to patch.
      * @param gameRequest the DTO with fields to update.
      * @return a ResponseEntity containing the updated GameObjectDto.
-     * @throws IllegalAccessException if an error occurs during patching.
      */
     @PatchMapping("/{id}")
     @Operation(
@@ -172,10 +155,18 @@ public class GameController {
             @ApiResponse(responseCode = "404", description = "Game object not found"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    @SneakyThrows
     public ResponseEntity<GameResponse> patchGameObject(@PathVariable(name = "id") Long id,
                                                         @Valid @RequestBody GameRequest gameRequest) {
         GameResponse patchedDto = gameObjectService.patchGameObject(id, gameRequest);
-            return ResponseEntity.ok(patchedDto);
+        return ResponseEntity.ok(patchedDto);
+    }
+
+
+    @GetMapping("/search")
+    public ResponseEntity<List<GameResponse>> searchGameObjects(
+            @RequestParam(required = false) String title,
+            @RequestParam(required = false) String text) {
+
+        return ResponseEntity.ok(gameObjectService.findGameObjects(title, text));
     }
 }

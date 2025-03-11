@@ -10,7 +10,7 @@ create table if not exists public.comment_author
     constraint comment_author_version_check1
     check (version >= 1),
     identifier   varchar(255)
-);
+    );
 
 comment on column comment_author.id is 'Первичный ключ';
 

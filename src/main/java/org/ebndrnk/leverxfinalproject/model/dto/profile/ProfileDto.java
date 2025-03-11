@@ -12,6 +12,7 @@ public class ProfileDto {
     private String username;
     private String firstname;
     private String lastname;
+    private byte mark;
     private String email;
     private List<CommentDto> comment;
     private boolean isConfirmedByAdmin = false;
