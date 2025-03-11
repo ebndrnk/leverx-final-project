@@ -12,8 +12,8 @@ create table if not exists public.comment
     approved     boolean,
     message      varchar(255),
     author_id    bigint
-    constraint fk5qwvc51t0ecgi251261ku4l8b
-    references comment_author,
+    constraint fko83ffw2442neg76w929a2arc3
+    references anonymous_user,
     seller_id    bigint
     constraint fk8r5o2nxa75xyrbnu5jx1nvhy
     references profile

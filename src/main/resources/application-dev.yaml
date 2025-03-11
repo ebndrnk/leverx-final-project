@@ -5,9 +5,9 @@ spring:
         debug: true
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: none
   flyway:
-    enabled: false
+    enabled: true
   sql:
     init:
       mode: never
