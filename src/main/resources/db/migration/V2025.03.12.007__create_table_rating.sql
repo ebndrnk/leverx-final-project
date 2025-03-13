@@ -20,10 +20,16 @@ create table if not exists public.rating
             references profile
 );
 
-comment on column rating.id is 'Первичный ключ';
+comment on column rating.id is 'Identifier';
 
-comment on column rating.created_dttm is 'В формате ISO 8601: YYYY-MM-DD hh:mm:ss.000000';
+comment on column rating.created_dttm is 'Format ISO 8601: YYYY-MM-DD hh:mm:ss.000000';
 
-comment on column rating.updated_at is 'В формате ISO 8601: YYYY-MM-DD hh:mm:ss.000000';
+comment on column rating.updated_at is 'Format ISO 8601: YYYY-MM-DD hh:mm:ss.000000';
 
-comment on column rating.version is 'Целое число с большим диапазоном от -9223372036854775808 до +9223372036854775807';
+comment on column rating.version is 'large range number from -9223372036854775808 to +9223372036854775807';
+
+comment on column rating.mark is 'number from 0 to 10';
+
+comment on column rating.author_id is 'anonyomus user made it';
+
+comment on column rating.seller_id is 'seller wich was rated by anonymous user';

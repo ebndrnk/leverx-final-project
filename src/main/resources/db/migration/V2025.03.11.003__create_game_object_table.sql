@@ -9,17 +9,28 @@ create table IF NOT EXISTS public.game_object
     check (version > 0)
     constraint game_object_version_check1
     check (version >= 1),
-    text         text,
-    title        varchar(255),
-    seller_id    bigint
+    price        real                                   not null,
+    text         text                                   not null,
+    title        varchar(255)                           not null,
+    seller_id    bigint                                 not null
     constraint fkdkt9le3fsqvwymg4v1dgaau54
     references profile
     );
 
-comment on column game_object.id is 'Первичный ключ';
+comment on table game_object is 'List of game objects associated with the user.';
 
-comment on column game_object.created_dttm is 'В формате ISO 8601: YYYY-MM-DD hh:mm:ss.000000';
+comment on column game_object.id is 'Identifier';
 
-comment on column game_object.updated_at is 'В формате ISO 8601: YYYY-MM-DD hh:mm:ss.000000';
+comment on column game_object.created_dttm is 'Format ISO 8601: YYYY-MM-DD hh:mm:ss.000000';
 
-comment on column game_object.version is 'Целое число с большим диапазоном от -9223372036854775808 до +9223372036854775807';
+comment on column game_object.updated_at is 'Format ISO 8601: YYYY-MM-DD hh:mm:ss.000000';
+
+comment on column game_object.version is 'large range number from -9223372036854775808 to +9223372036854775807';
+
+comment on column game_object.price is 'The price of the game. This field is required and cannot be null.';
+
+comment on column game_object.text is 'A detailed description of the game. This field is required and cannot be null.';
+
+comment on column game_object.title is 'The title of the game. This field is required and cannot be null.';
+
+comment on column game_object.seller_id is 'The seller (profile) who is offering the game. This field is required and cannot be null.';

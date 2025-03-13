@@ -20,7 +20,7 @@ public interface ProfileService {
 
     ProfileResponse getProfileResponseById(Long profileId);
 
-    Page<ProfileResponse> getTopSellers(int count, Pageable pageable);
+    Page<ProfileResponse> getTopSellers(int count);
 
     Page<ProfileResponse> findProfilesByRating(Byte minRating, Byte maxRating, Pageable pageable);
 

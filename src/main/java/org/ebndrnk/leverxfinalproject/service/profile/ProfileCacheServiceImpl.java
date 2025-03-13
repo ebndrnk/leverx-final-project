@@ -46,7 +46,7 @@ public class ProfileCacheServiceImpl implements ProfileCacheService{
         profileCacheRepository.delete(TOP_SELLERS_KEY);
     }
 
-    @Scheduled(initialDelay = 1000, fixedRate = 24 * 60 * 60 * 1000)
+    @Scheduled(initialDelay = 1000, fixedRate = 30 * 60 * 1000)
     @Transactional
     @Override
     public void updateTopSellersCache() {

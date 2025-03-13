@@ -91,13 +91,11 @@ public class ProfileController {
      * </p>
      *
      * @param count the maximum number of top sellers to return.
-     * @param pageable pagination for the response data.
      * @return ResponseEntity containing the list of top sellers.
      */
     @GetMapping("/top")
-    public ResponseEntity<Page<ProfileResponse>> getTopBestSellers(@RequestParam(name = "count", defaultValue = "10") int count,
-                                                                   Pageable pageable){
-        return ResponseEntity.ok(profileService.getTopSellers(count, pageable));
+    public ResponseEntity<Page<ProfileResponse>> getTopBestSellers(@RequestParam(name = "count", defaultValue = "10") int count){
+        return ResponseEntity.ok(profileService.getTopSellers(count));
     }
 
     /**

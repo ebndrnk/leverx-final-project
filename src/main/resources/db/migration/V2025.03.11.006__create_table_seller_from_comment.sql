@@ -20,10 +20,20 @@ create table if not exists public.seller_from_comment
     references profile
     );
 
-comment on column seller_from_comment.id is 'Первичный ключ';
+comment on column seller_from_comment.id is 'Identifier';
 
-comment on column seller_from_comment.created_dttm is 'В формате ISO 8601: YYYY-MM-DD hh:mm:ss.000000';
+comment on column seller_from_comment.created_dttm is 'Format ISO 8601: YYYY-MM-DD hh:mm:ss.000000';
 
-comment on column seller_from_comment.updated_at is 'В формате ISO 8601: YYYY-MM-DD hh:mm:ss.000000';
+comment on column seller_from_comment.updated_at is 'Format ISO 8601: YYYY-MM-DD hh:mm:ss.000000';
 
-comment on column seller_from_comment.version is 'Целое число с большим диапазоном от -9223372036854775808 до +9223372036854775807';
+comment on column seller_from_comment.version is 'large range number from -9223372036854775808 to +9223372036854775807';
+
+comment on column seller_from_comment.email is 'The email address of the seller. Must be between 4 and 50 characters.';
+
+comment on column seller_from_comment.firstname is 'The first name of the seller. Must be between 4 and 50 characters.';
+
+comment on column seller_from_comment.lastname is 'The last name of the seller. Must be between 4 and 50 characters.';
+
+comment on column seller_from_comment.username is 'The username of the seller. Must be between 4 and 50 characters.';
+
+comment on column seller_from_comment.profile_id is 'The profile associated with the seller. This field is linked to the Profile entity.';

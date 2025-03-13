@@ -22,19 +22,7 @@ services:
     environment:
       - REDIS_REPLICATION_MODE=master
     restart: always
-# TODO
-#  leverx-app:
-#    build:
-#      context: ../
-#      dockerfile: Dockerfile
-#    ports:
-#      - "80:80"
-#    environment:
-#      - SPRING_PROFILES_ACTIVE=docker
-#    depends_on:
-#      - postgres-leverX
-#      - redis-leverX
-#
+
 volumes:
   postgres_data:
     driver: local

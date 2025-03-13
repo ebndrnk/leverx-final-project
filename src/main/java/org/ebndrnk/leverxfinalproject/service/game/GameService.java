@@ -1,5 +1,6 @@
 package org.ebndrnk.leverxfinalproject.service.game;
 
+import org.ebndrnk.leverxfinalproject.model.dto.game.GamePatchRequest;
 import org.ebndrnk.leverxfinalproject.model.dto.game.GameRequest;
 import org.ebndrnk.leverxfinalproject.model.dto.game.GameResponse;
 import org.springframework.data.domain.Page;
@@ -18,5 +19,5 @@ public interface GameService {
 
     void deleteGameObjectById(Long gameObjectId);
 
-    GameResponse patchGameObject(Long gameObjectId, GameRequest gameRequest);
+    GameResponse patchGameObject(Long gameObjectId, GamePatchRequest gameRequest);
 }

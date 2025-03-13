@@ -12,4 +12,7 @@ public class GameDto {
 
     @Schema(description = "Game description")
     private String text;
+
+    @Schema(description = "price of game")
+    private float price;
 }

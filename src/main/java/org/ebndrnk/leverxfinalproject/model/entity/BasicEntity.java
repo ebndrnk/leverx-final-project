@@ -15,27 +15,27 @@ public class BasicEntity {
     @Access(AccessType.PROPERTY)
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Comment("Первичный ключ")
+    @Comment("Identifier")
     @Column(nullable = false, name = "id", unique = true, columnDefinition = "BIGINT")
     private Long id;
 
     @Version
     @NotNull
-    @Min(value = 1, message = "version должно быть больше либо равно 1")
-    @Comment("Целое число с большим диапазоном от -9223372036854775808 до +9223372036854775807")
+    @Min(value = 1, message = "version must be grater or equals 1")
+    @Comment("large range number from -9223372036854775808 to +9223372036854775807")
     @Column(nullable = false, name = "version", columnDefinition = "BIGINT DEFAULT 1 CHECK(version > 0)")
     private Long version = 1L;
 
 
     @NotNull
-    @Comment("В формате ISO 8601: YYYY-MM-DD hh:mm:ss.000000")
+    @Comment("Format ISO 8601: YYYY-MM-DD hh:mm:ss.000000")
     @Column(nullable = false, name = "created_dttm", columnDefinition = "TIMESTAMP(6) DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime createdAt = LocalDateTime.now();
 
 
     @LastModifiedDate
     @NotNull
-    @Comment("В формате ISO 8601: YYYY-MM-DD hh:mm:ss.000000")
+    @Comment("Format ISO 8601: YYYY-MM-DD hh:mm:ss.000000")
     @Column(nullable = false, name = "updated_at", columnDefinition = "TIMESTAMP(6) DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime updatedAt = LocalDateTime.now();
 

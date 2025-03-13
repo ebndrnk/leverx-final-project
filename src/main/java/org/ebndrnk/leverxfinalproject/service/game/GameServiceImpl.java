@@ -3,6 +3,7 @@ package org.ebndrnk.leverxfinalproject.service.game;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.ebndrnk.leverxfinalproject.model.dto.game.GameDto;
+import org.ebndrnk.leverxfinalproject.model.dto.game.GamePatchRequest;
 import org.ebndrnk.leverxfinalproject.model.dto.game.GameRequest;
 import org.ebndrnk.leverxfinalproject.model.dto.game.GameResponse;
 import org.ebndrnk.leverxfinalproject.model.entity.auth.User;
@@ -37,7 +38,6 @@ import java.util.Objects;
 public class GameServiceImpl implements GameService {
 
 
-    private final GameRepository gameObjectRepository;
     private final ModelMapper modelMapper;
     private final UserService userService;
     private final GameRepository gameRepository;
@@ -55,7 +55,7 @@ public class GameServiceImpl implements GameService {
         Specification<GameObject> spec = Specification.where(GameObjectSpecification.hasTitleLike(title))
                 .and(GameObjectSpecification.hasTextLike(text));
 
-        return gameObjectRepository.findAll(spec, pageable)
+        return gameRepository.findAll(spec, pageable)
                 .map(gameObject -> modelMapper.map(gameObject, GameResponse.class));
     }
 
@@ -71,7 +71,7 @@ public class GameServiceImpl implements GameService {
 
         GameObject gameObject = modelMapper.map(gameRequest, GameObject.class);
         gameObject.setSeller(modelMapper.map(userService.getCurrentUser(), User.class).getProfile());
-        GameObject savedGameObject = gameObjectRepository.save(gameObject);
+        GameObject savedGameObject = gameRepository.save(gameObject);
 
         log.info("Created new game object with ID: {}", savedGameObject.getId());
         return modelMapper.map(savedGameObject, GameResponse.class);
@@ -91,7 +91,7 @@ public class GameServiceImpl implements GameService {
     public GameResponse updateGameObject(Long gameObjectId, GameRequest gameRequest) {
         log.info("Updating game object with ID: {}", gameObjectId);
 
-        GameObject existingGameObject = gameObjectRepository.findById(gameObjectId)
+        GameObject existingGameObject = gameRepository.findById(gameObjectId)
                 .orElseThrow(() -> {
                     log.error("Game object with id {} not found", gameObjectId);
                     return new GameNotFoundException("Game object with id " + gameObjectId + " not found");
@@ -104,7 +104,7 @@ public class GameServiceImpl implements GameService {
 
         modelMapper.map(gameRequest, existingGameObject);
 
-        GameObject savedGameObject = gameObjectRepository.save(existingGameObject);
+        GameObject savedGameObject = gameRepository.save(existingGameObject);
 
         log.info("Updated game object with ID: {}", savedGameObject.getId());
         return modelMapper.map(savedGameObject, GameResponse.class);
@@ -120,7 +120,7 @@ public class GameServiceImpl implements GameService {
     public GameResponse getGameObjectById(Long gameObjectId) {
         log.info("Retrieving game object with ID: {}", gameObjectId);
 
-        GameObject gameObject = gameObjectRepository.findById(gameObjectId)
+        GameObject gameObject = gameRepository.findById(gameObjectId)
                 .orElseThrow(() -> {
                     log.error("Game object with id {} not found", gameObjectId);
                     return new GameNotFoundException("Game object with id " + gameObjectId + " not found");
@@ -138,7 +138,7 @@ public class GameServiceImpl implements GameService {
     public Page<GameResponse> getAllGameObjects(Pageable pageable) {
         log.info("Fetching all game objects");
 
-        return gameObjectRepository.findAll(pageable)
+        return gameRepository.findAll(pageable)
                 .map(gameObject -> modelMapper.map(gameObject, GameResponse.class));
     }
 
@@ -151,7 +151,7 @@ public class GameServiceImpl implements GameService {
     public void deleteGameObjectById(Long gameObjectId) {
         log.info("Deleting game object with ID: {}", gameObjectId);
 
-        if (!gameObjectRepository.existsById(gameObjectId)) {
+        if (!gameRepository.existsById(gameObjectId)) {
             log.error("Game object with id {} not found", gameObjectId);
             throw new GameNotFoundException("Game object with id " + gameObjectId + " not found");
         }
@@ -161,7 +161,7 @@ public class GameServiceImpl implements GameService {
             throw new NoAuthorityForActionException("Only author can delete game");
         }
 
-        gameObjectRepository.deleteById(gameObjectId);
+        gameRepository.deleteById(gameObjectId);
 
         log.info("Deleted game object with ID: {}", gameObjectId);
     }
@@ -180,10 +180,10 @@ public class GameServiceImpl implements GameService {
      * @throws IllegalAccessException      if the patching process fails due to inaccessible fields.
      */
     @Override
-    public GameResponse patchGameObject(Long gameObjectId, GameRequest gameRequest) {
+    public GameResponse patchGameObject(Long gameObjectId, GamePatchRequest gameRequest) {
         log.info("Partially updating game object with ID: {}", gameObjectId);
 
-        GameObject existingGameObject = gameObjectRepository.findById(gameObjectId)
+        GameObject existingGameObject = gameRepository.findById(gameObjectId)
                 .orElseThrow(() -> {
                     log.error("Game object with id {} not found", gameObjectId);
                     return new GameNotFoundException("Game object with id " + gameObjectId + " not found");
@@ -203,7 +203,7 @@ public class GameServiceImpl implements GameService {
             throw new RuntimeException(e);
         }
 
-        GameObject updatedGameObject = gameObjectRepository.save(existingGameObject);
+        GameObject updatedGameObject = gameRepository.save(existingGameObject);
 
         log.info("Patched game object with ID: {}", updatedGameObject.getId());
         return modelMapper.map(updatedGameObject, GameResponse.class);

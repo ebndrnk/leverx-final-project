@@ -18,6 +18,8 @@ public interface CommentService {
 
     void deleteById(Long commentId, HttpServletRequest request);
 
+    void deleteById(Long commentId);
+
     List<CommentResponse> getSellersComments(Long userId);
 
     CommentResponse getCommentById(Long commentId);

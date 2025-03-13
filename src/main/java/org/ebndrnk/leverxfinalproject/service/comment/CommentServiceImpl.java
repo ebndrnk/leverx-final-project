@@ -173,6 +173,18 @@ public class CommentServiceImpl implements CommentService {
     }
 
     /**
+     * method for admin only
+     * @param commentId
+     */
+    @Override
+    public void deleteById(Long commentId) {
+        Comment comment = commentRepository.findById(commentId)
+                .orElseThrow(() -> new CommentNotFoundException("Comment with this id not found"));
+
+        commentRepository.deleteById(commentId);
+    }
+
+    /**
      * Retrieves all comments for a specific seller.
      *
      * @param userId the ID of the seller

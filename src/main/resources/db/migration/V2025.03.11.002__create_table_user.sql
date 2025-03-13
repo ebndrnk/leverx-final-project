@@ -26,10 +26,20 @@ create table if not exists public.app_user
     references profile
     );
 
-comment on column app_user.id is 'Первичный ключ';
+comment on column app_user.id is 'Identifier';
 
-comment on column app_user.created_dttm is 'В формате ISO 8601: YYYY-MM-DD hh:mm:ss.000000';
+comment on column app_user.created_dttm is 'Format ISO 8601: YYYY-MM-DD hh:mm:ss.000000';
 
-comment on column app_user.updated_at is 'В формате ISO 8601: YYYY-MM-DD hh:mm:ss.000000';
+comment on column app_user.updated_at is 'Format ISO 8601: YYYY-MM-DD hh:mm:ss.000000';
 
-comment on column app_user.version is 'Целое число с большим диапазоном от -9223372036854775808 до +9223372036854775807';
+comment on column app_user.version is 'large range number from -9223372036854775808 to +9223372036854775807';
+
+comment on column app_user.email is 'The email address of the user. Must be a valid email and between 4 and 50 characters.';
+
+comment on column app_user.password is 'The password of the user. Must be between 4 and 100 characters. This field is ignored in JSON serialization.';
+
+comment on column app_user.role is 'The role of the user. This field is ignored in JSON serialization.';
+
+comment on column app_user.username is 'The username of the user. Must be unique and between 4 and 50 characters.';
+
+comment on column app_user.profile_id is 'The profile associated with the user. This field is linked to the Profile entity.';

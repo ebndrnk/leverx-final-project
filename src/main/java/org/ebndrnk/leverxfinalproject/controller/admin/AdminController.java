@@ -131,4 +131,10 @@ public class AdminController {
     public ResponseEntity<CommentResponse> declineComment(@PathVariable(name = "commentId") Long commentId) {
         return ResponseEntity.ok(commentService.decline(commentId));
     }
+
+    @DeleteMapping("/comments/{commentId}")
+    public ResponseEntity<Void> deleteComment(@PathVariable Long commentId){
+        commentService.deleteById(commentId);
+        return ResponseEntity.ok().build();
+    }
 }

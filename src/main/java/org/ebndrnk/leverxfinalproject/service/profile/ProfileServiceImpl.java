@@ -8,13 +8,16 @@ import org.ebndrnk.leverxfinalproject.model.entity.profile.Profile;
 import org.ebndrnk.leverxfinalproject.repository.pofile.ProfileRepository;
 import org.ebndrnk.leverxfinalproject.repository.specification.ProfileSpecification;
 import org.ebndrnk.leverxfinalproject.util.exception.dto.ProfileNotFoundException;
+import org.hibernate.Hibernate;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -103,6 +106,7 @@ public class ProfileServiceImpl implements ProfileService {
      * @return a Page of ProfileResponse or projected profiles.
      */
     @Override
+    @Transactional(readOnly = true)
     public Page<?> getAll(boolean isProjection, Pageable pageable) {
         if (isProjection) {
             log.info("Retrieving profiles with projection");
@@ -131,11 +135,11 @@ public class ProfileServiceImpl implements ProfileService {
      * Otherwise, it fetches data from the database.
      *
      * @param count the number of top sellers to retrieve.
-     * @param pageable pagination information.
      * @return a Page of ProfileResponse containing top sellers.
      */
     @Override
-    public Page<ProfileResponse> getTopSellers(int count, Pageable pageable) {
+    @Transactional(readOnly = true)
+    public Page<ProfileResponse> getTopSellers(int count) {
         List<ProfileResponse> profileResponsesFromCache = getTopSellersFromCache();
         if (count == 10 && profileResponsesFromCache != null) {
             log.info("Values received from cache");
@@ -143,18 +147,18 @@ public class ProfileServiceImpl implements ProfileService {
         }
 
         log.info("Values received from DB");
-        return new PageImpl<>(getTopSellersFromDB(pageable));
+        return new PageImpl<>(getTopSellersFromDB(count));
     }
 
     /**
      * Retrieves the top sellers from the database based on the provided pageable.
      *
-     * @param pageable pagination information.
+     * @param count is count of returning sellers.
      * @return a list of ProfileResponse representing the top sellers.
      */
-    private List<ProfileResponse> getTopSellersFromDB(Pageable pageable) {
-        log.debug("Retrieving top sellers from DB with pagination: {}", pageable);
-        return profileRepository.findTopSellersWithLimit(pageable)
+    private List<ProfileResponse> getTopSellersFromDB(int count) {
+        log.debug("Retrieving top sellers from DB with pagination: {}", count);
+        return profileRepository.findTopSellersWithLimit(PageRequest.of(0, count))
                 .stream()
                 .map(profile -> modelMapper.map(profile, ProfileResponse.class))
                 .toList();
@@ -179,6 +183,7 @@ public class ProfileServiceImpl implements ProfileService {
      * @return a Page of ProfileResponse containing profiles matching the rating criteria.
      */
     @Override
+    @Transactional(readOnly = true)
     public Page<ProfileResponse> findProfilesByRating(Byte minRating, Byte maxRating, Pageable pageable) {
         log.info("Finding profiles with rating between {} and {}", minRating, maxRating);
         Specification<Profile> spec = ProfileSpecification.hasRatingBetween(minRating, maxRating);

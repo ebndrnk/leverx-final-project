@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.ebndrnk.leverxfinalproject.model.dto.game.GamePatchRequest;
 import org.ebndrnk.leverxfinalproject.model.dto.game.GameRequest;
 import org.ebndrnk.leverxfinalproject.model.dto.game.GameResponse;
 import org.ebndrnk.leverxfinalproject.service.game.GameService;
@@ -162,7 +163,7 @@ public class GameController {
             @ApiResponse(responseCode = "404", description = "Game object not found"),
     })
     public ResponseEntity<GameResponse> patchGameObject(@PathVariable(name = "id") Long id,
-                                                        @Valid @RequestBody GameRequest gameRequest) {
+                                                        @Valid @RequestBody GamePatchRequest gameRequest) {
         GameResponse patchedDto = gameObjectService.patchGameObject(id, gameRequest);
         return ResponseEntity.ok(patchedDto);
     }

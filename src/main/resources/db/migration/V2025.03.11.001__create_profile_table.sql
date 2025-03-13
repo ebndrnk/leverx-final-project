@@ -21,10 +21,14 @@ create table if not exists public.profile
     unique
     );
 
-comment on column profile.id is 'Первичный ключ';
+comment on column profile.id is 'Identifier';
 
-comment on column profile.created_dttm is 'В формате ISO 8601: YYYY-MM-DD hh:mm:ss.000000';
+comment on column profile.created_dttm is 'Format ISO 8601: YYYY-MM-DD hh:mm:ss.000000';
 
-comment on column profile.updated_at is 'В формате ISO 8601: YYYY-MM-DD hh:mm:ss.000000';
+comment on column profile.updated_at is 'Format ISO 8601: YYYY-MM-DD hh:mm:ss.000000';
 
-comment on column profile.version is 'Целое число с большим диапазоном от -9223372036854775808 до +9223372036854775807';
+comment on column profile.version is 'large range number from -9223372036854775808 to +9223372036854775807';
+
+comment on column profile.is_confirmed_by_admin is 'Flag indicating whether the profile is confirmed by an admin.';
+
+comment on column profile.username is 'Unique username. Must be between 4 and 50 characters.';

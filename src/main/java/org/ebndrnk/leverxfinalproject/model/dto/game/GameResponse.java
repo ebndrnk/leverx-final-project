@@ -14,4 +14,7 @@ public class GameResponse {
 
     @Schema(description = "Text description of the game", example = "An exciting adventure game with multiple levels.")
     private String text;
+
+    @Schema(description = "price of game")
+    private float price;
 }
