@@ -42,7 +42,7 @@ public class Profile extends BasicEntity {
     @Column(name = "is_confirmed_by_admin", nullable = false)
     private boolean isConfirmedByAdmin = false;
 
-    @OneToMany(mappedBy = "seller", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "seller")
     private List<GameObject> gameObjects;
 
     @Column(name = "rating")

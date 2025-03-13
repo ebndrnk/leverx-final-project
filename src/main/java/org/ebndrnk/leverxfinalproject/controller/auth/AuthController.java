@@ -1,6 +1,8 @@
 package org.ebndrnk.leverxfinalproject.controller.auth;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -9,49 +11,71 @@ import org.ebndrnk.leverxfinalproject.model.dto.auth.RegistrationResponse;
 import org.ebndrnk.leverxfinalproject.model.dto.auth.SignInRequest;
 import org.ebndrnk.leverxfinalproject.model.dto.auth.SignUpRequest;
 import org.ebndrnk.leverxfinalproject.service.auth.AuthenticationService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * AuthController
+ * Authentication Controller
  *
- * This controller handles authentication operations such as user registration (sign-up)
- * and user login (sign-in). It delegates the business logic to the AuthenticationService.
+ * <p>
+ * This controller handles authentication-related operations, such as user registration (sign-up) and login (sign-in).
+ * It provides endpoints to create new user accounts and generate JWT tokens for authentication.
+ * </p>
  *
+ * <p>
+ * All authentication logic is delegated to {@link AuthenticationService}.
+ * </p>
  */
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor
-@Tag(name = "Authentication",
-        description = "Endpoints for user registration and authentication")
+@Tag(name = "Authentication", description = "Endpoints for user registration and authentication")
 public class AuthController {
 
     private final AuthenticationService authenticationService;
 
     /**
-     * Endpoint for user registration.
+     * Register a new user.
      *
-     * @param request the sign-up request containing user details
-     * @return a Registration response containing the welcome text and advice that user should go to email
+     * <p>
+     * This endpoint creates a new user account and sends a confirmation email.
+     * </p>
+     *
+     * @param request the sign-up request containing user details.
+     * @return a response containing a welcome message and a note to check the email for verification.
      */
     @PostMapping("/sign-up")
     @Operation(summary = "Register a new user",
-            description = "Creates a new user account and returns a JWT token upon successful registration")
-    public RegistrationResponse signUp(@RequestBody @Valid SignUpRequest request) {
-        return authenticationService.signUp(request);
+            description = "Creates a new user account and returns a registration response with confirmation details.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "User registered successfully"),
+            @ApiResponse(responseCode = "400", description = "Invalid request data"),
+    })
+    public ResponseEntity<RegistrationResponse> signUp(@RequestBody @Valid SignUpRequest request) {
+        return ResponseEntity.ok(authenticationService.signUp(request));
     }
 
     /**
-     * Endpoint for user login.
+     * Authenticate an existing user.
      *
-     * @param request the sign-in request containing user credentials
-     * @return a JWT authentication response containing the JWT token and additional info
+     * <p>
+     * This endpoint verifies user credentials and returns a JWT token upon successful authentication.
+     * </p>
+     *
+     * @param request the sign-in request containing user credentials (email and password).
+     * @return a JWT authentication response containing the access token and additional user information.
      */
     @PostMapping("/sign-in")
     @Operation(summary = "Authenticate an existing user",
-            description = "Authenticates the user and returns a JWT token upon successful authentication")
+            description = "Authenticates the user and returns a JWT token upon successful login.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "User authenticated successfully"),
+            @ApiResponse(responseCode = "401", description = "Invalid credentials or unconfirmed email"),
+            @ApiResponse(responseCode = "404", description = "User not found"),
+    })
     public JwtAuthenticationResponse signIn(@RequestBody @Valid SignInRequest request) {
         return authenticationService.signIn(request);
     }

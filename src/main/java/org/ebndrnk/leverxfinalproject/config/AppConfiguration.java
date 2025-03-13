@@ -10,6 +10,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.scheduling.annotation.EnableAsync;
 
 /**
  * AppConfiguration
@@ -19,6 +20,7 @@ import org.springframework.context.annotation.Configuration;
  * the security scheme for JWT-based authentication.
  */
 @Configuration
+@EnableAsync(proxyTargetClass=true)
 public class AppConfiguration {
 
 

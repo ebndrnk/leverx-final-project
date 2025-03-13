@@ -6,11 +6,12 @@ spring:
   jpa:
     hibernate:
       ddl-auto: none
+    show-sql: true
   flyway:
     enabled: true
   sql:
     init:
-      mode: never
+      mode: always
 
 site:
   domain:
@@ -22,3 +23,7 @@ database:
   name: leverx
   user: EGOR_BONDARENKO
   pass: pass
+
+
+cookie:
+  secure: false

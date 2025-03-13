@@ -9,6 +9,7 @@ import org.ebndrnk.leverxfinalproject.util.exception.dto.EmailAlreadyExistsExcep
 import org.ebndrnk.leverxfinalproject.util.exception.dto.UserNotFoundException;
 import org.ebndrnk.leverxfinalproject.util.exception.dto.UsernameAlreadyExistsException;
 import org.modelmapper.ModelMapper;
+import org.springframework.context.annotation.Primary;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
@@ -21,6 +22,7 @@ import org.springframework.stereotype.Service;
  * and fetching the currently authenticated user.
  */
 @Service
+@Primary
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService{
 

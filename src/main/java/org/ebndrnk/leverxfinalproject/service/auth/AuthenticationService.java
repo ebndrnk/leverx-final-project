@@ -1,6 +1,7 @@
 package org.ebndrnk.leverxfinalproject.service.auth;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.ebndrnk.leverxfinalproject.model.dto.auth.*;
 import org.ebndrnk.leverxfinalproject.model.entity.auth.Role;
 import org.ebndrnk.leverxfinalproject.model.entity.auth.User;
@@ -8,7 +9,7 @@ import org.ebndrnk.leverxfinalproject.model.entity.profile.Profile;
 import org.ebndrnk.leverxfinalproject.repository.auth.UserRepository;
 import org.ebndrnk.leverxfinalproject.service.auth.user.JwtService;
 import org.ebndrnk.leverxfinalproject.service.auth.user.UserServiceImpl;
-import org.ebndrnk.leverxfinalproject.service.mail.EmailService;
+import org.ebndrnk.leverxfinalproject.service.mail.EmailServiceImpl;
 import org.ebndrnk.leverxfinalproject.util.exception.dto.NotConfirmedException;
 import org.ebndrnk.leverxfinalproject.util.exception.dto.UserNotFoundException;
 import org.modelmapper.ModelMapper;
@@ -30,11 +31,10 @@ import org.springframework.transaction.annotation.Transactional;
  * to create new users and authenticate existing ones, returning a JWT token upon success.
  */
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class AuthenticationService {
-    private final static String WELCOME_MESSAGE = "Please confirm that it is you by the message that came to your email.";
 
-    private static final Logger log = LoggerFactory.getLogger(AuthenticationService.class);
 
     private final UserServiceImpl userService;
     private final JwtService jwtService;
@@ -42,7 +42,7 @@ public class AuthenticationService {
     private final AuthenticationManager authenticationManager;
     private final UserRepository userRepository;
     private final ModelMapper modelMapper;
-    private final EmailService emailService;
+    private final EmailServiceImpl emailService;
 
     /**
      * Registers a new user and returns a JWT authentication response.
@@ -70,9 +70,7 @@ public class AuthenticationService {
             throw new RuntimeException(e);
         }
 
-        return RegistrationResponse.builder()
-                .welcomeMessage(WELCOME_MESSAGE)
-                .build();
+        return new RegistrationResponse();
     }
 
     /**

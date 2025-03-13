@@ -2,7 +2,8 @@ package org.ebndrnk.leverxfinalproject.service.profile;
 
 import org.ebndrnk.leverxfinalproject.model.dto.profile.ProfileDto;
 import org.ebndrnk.leverxfinalproject.model.dto.profile.ProfileResponse;
-import org.ebndrnk.leverxfinalproject.model.dto.rating.RatingRequest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -15,11 +16,12 @@ public interface ProfileService {
 
     ProfileDto getProfileByEmail(String email);
 
-    List<ProfileResponse> getAll();
+    Page<?> getAll(boolean isProjection, Pageable pageable);
 
     ProfileResponse getProfileResponseById(Long profileId);
 
-    List<ProfileResponse> getTopSellers(int count);
+    Page<ProfileResponse> getTopSellers(int count, Pageable pageable);
 
-    List<ProfileResponse> findProfilesByRating(Byte minRating, Byte maxRating);
+    Page<ProfileResponse> findProfilesByRating(Byte minRating, Byte maxRating, Pageable pageable);
+
 }

@@ -11,6 +11,7 @@ import org.ebndrnk.leverxfinalproject.repository.auth.UserRepository;
 import org.ebndrnk.leverxfinalproject.repository.pofile.ProfileRepository;
 import org.ebndrnk.leverxfinalproject.util.exception.dto.UserNotFoundException;
 import org.modelmapper.ModelMapper;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,6 +26,7 @@ import java.util.List;
  * </p>
  */
 @Service
+@Primary
 @RequiredArgsConstructor
 public class AdminServiceImpl implements AdminService {
 

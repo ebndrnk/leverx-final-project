@@ -1,16 +1,10 @@
 package org.ebndrnk.leverxfinalproject.model.dto.auth;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
 public class RegistrationResponse {
-    @Schema(description = "welcome message")
-    private String welcomeMessage;
+    @Schema(description = "result of the sending confirmation email")
+    private String result = "mail sent successfully!";
 }

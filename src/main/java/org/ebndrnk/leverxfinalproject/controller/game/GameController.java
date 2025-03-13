@@ -8,13 +8,21 @@ import lombok.RequiredArgsConstructor;
 import org.ebndrnk.leverxfinalproject.model.dto.game.GameRequest;
 import org.ebndrnk.leverxfinalproject.model.dto.game.GameResponse;
 import org.ebndrnk.leverxfinalproject.service.game.GameService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
-import java.util.List;
 
+/**
+ * The controller for handling game object-related requests.
+ * <p>
+ * This class provides the RESTful API for creating, updating, retrieving, and deleting game objects.
+ * It also includes a search functionality and supports pagination for listing game objects.
+ * </p>
+ */
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/game")
@@ -106,9 +114,8 @@ public class GameController {
             @ApiResponse(responseCode = "200", description = "Game objects retrieved successfully")
     })
     @GetMapping
-    public ResponseEntity<List<GameResponse>> getAllGameObjects() {
-        List<GameResponse> gameObjects = gameObjectService.getAllGameObjects();
-        return ResponseEntity.ok(gameObjects);
+    public ResponseEntity<Page<GameResponse>> getAllGameObjects(Pageable pageable) {
+        return ResponseEntity.ok(gameObjectService.getAllGameObjects(pageable));
     }
 
     /**
@@ -153,7 +160,6 @@ public class GameController {
             @ApiResponse(responseCode = "200", description = "Game object patched successfully"),
             @ApiResponse(responseCode = "400", description = "Invalid input data"),
             @ApiResponse(responseCode = "404", description = "Game object not found"),
-            @ApiResponse(responseCode = "500", description = "Internal server error")
     })
     public ResponseEntity<GameResponse> patchGameObject(@PathVariable(name = "id") Long id,
                                                         @Valid @RequestBody GameRequest gameRequest) {
@@ -162,11 +168,30 @@ public class GameController {
     }
 
 
-    @GetMapping("/search")
-    public ResponseEntity<List<GameResponse>> searchGameObjects(
-            @RequestParam(required = false) String title,
-            @RequestParam(required = false) String text) {
 
-        return ResponseEntity.ok(gameObjectService.findGameObjects(title, text));
+    /**
+     * Searches game objects based on title or text.
+     * <p>
+     * Allows searching for game objects by providing one or both of the search criteria:
+     * title and text. It returns a paginated list of game objects that match the search parameters.
+     * </p>
+     *
+     * @param title   the title of the game object to search for (optional).
+     * @param text    the text content of the game object to search for (optional).
+     * @param pageable the pagination information.
+     * @return a ResponseEntity containing a paginated list of GameResponse objects matching the search criteria.
+     */
+    @GetMapping("/search")
+    @Operation(summary = "Search Game Objects", description = "Searches game objects by title or text.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Game objects retrieved successfully")
+    })
+    public ResponseEntity<Page<GameResponse>> searchGameObjects(
+            @RequestParam(required = false) String title,
+            @RequestParam(required = false) String text,
+            Pageable pageable) {
+
+        return ResponseEntity.ok(gameObjectService.findGameObjects(title, text, pageable));
     }
+
 }

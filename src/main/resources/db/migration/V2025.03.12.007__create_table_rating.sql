@@ -9,7 +9,9 @@ create table if not exists public.rating
             check (version > 0)
         constraint rating_version_check1
             check (version >= 1),
-    mark         smallint                               not null,
+    mark         smallint                               not null
+    constraint rating_mark_check
+    check (mark between 0 and 10),
     author_id    bigint
         constraint fk32o6146e5toouucyy9hhfdyrm
             references anonymous_user,

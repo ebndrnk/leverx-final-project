@@ -3,6 +3,7 @@ package org.ebndrnk.leverxfinalproject.controller.admin;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.ebndrnk.leverxfinalproject.model.dto.comment.CommentResponse;
 import org.ebndrnk.leverxfinalproject.model.dto.profile.ProfileResponse;
@@ -14,41 +15,35 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
- * Controller for managing administrative operations on users.
+ * Controller for managing administrative operations on users and comments.
  *
  * <p>
- * This REST controller provides endpoints for performing administrative tasks related to users, such as:
+ * This REST controller provides endpoints for performing administrative tasks, such as:
  * <ul>
- *   <li>Retrieving a list of all users and users not confirmed by an administrator</li>
- *   <li>Confirming an individual user or all users</li>
- *   <li>Cancelling confirmation for an individual user</li>
+ *   <li>Retrieving and confirming/unconfirming users</li>
+ *   <li>Managing comment confirmations</li>
  * </ul>
- * The controller demonstrates best practices, including:
+ * It follows best practices, including:
  * <ul>
- *   <li>Correct usage of HTTP status codes</li>
- *   <li>Clear separation of concerns through the service layer</li>
- *   <li>Detailed API documentation using Swagger/OpenAPI annotations</li>
+ *   <li>Proper HTTP status code usage</li>
+ *   <li>Service layer separation for business logic</li>
+ *   <li>Swagger/OpenAPI documentation</li>
  * </ul>
  * </p>
  */
 @RestController
 @RequiredArgsConstructor
+@Tag(name = "Admin Management", description = "Operations for managing users and comments by admin.")
 @RequestMapping("/admin")
 public class AdminController {
 
     private final AdminService adminService;
     private final CommentService commentService;
 
-
-
     /**
-     * Retrieves a list of users not confirmed by an administrator.
+     * Retrieves a list of users who have not been confirmed by an administrator.
      *
-     * <p>
-     * This endpoint returns users whose admin confirmation flag is set to false.
-     * </p>
-     *
-     * @return ResponseEntity containing the list of users not confirmed by an administrator.
+     * @return {@link ResponseEntity} containing a list of {@link ProfileResponse} objects for unconfirmed users.
      */
     @Operation(summary = "Get unconfirmed users", description = "Returns a list of users not confirmed by an administrator.")
     @ApiResponses(value = {
@@ -60,14 +55,10 @@ public class AdminController {
     }
 
     /**
-     * Confirms an individual user.
+     * Confirms a user by setting their confirmation flag to true.
      *
-     * <p>
-     * This endpoint updates the user's confirmation flag to true, indicating that the user has been confirmed by an administrator.
-     * </p>
-     *
-     * @param userId the identifier of the user to be confirmed.
-     * @return ResponseEntity containing the updated UserDto.
+     * @param userId the ID of the user to confirm.
+     * @return {@link ResponseEntity} containing the updated {@link ProfileResponse}.
      */
     @Operation(summary = "Confirm user", description = "Confirms a user by setting the confirmation flag to true.")
     @ApiResponses(value = {
@@ -79,17 +70,11 @@ public class AdminController {
         return ResponseEntity.ok(adminService.confirmUserByAdmin(userId));
     }
 
-
-
     /**
-     * Cancels the admin confirmation for a user.
+     * Cancels the confirmation of a user by setting their confirmation flag to false.
      *
-     * <p>
-     * This endpoint updates the user's confirmation flag to false, thereby canceling the previously set confirmation.
-     * </p>
-     *
-     * @param userId the identifier of the user for which the confirmation needs to be canceled.
-     * @return ResponseEntity containing the updated UserDto.
+     * @param userId the ID of the user whose confirmation should be canceled.
+     * @return {@link ResponseEntity} containing the updated {@link ProfileResponse}.
      */
     @Operation(summary = "Cancel user confirmation", description = "Cancels the admin confirmation by setting the confirmation flag to false.")
     @ApiResponses(value = {
@@ -101,18 +86,49 @@ public class AdminController {
         return ResponseEntity.ok(adminService.cancelAdminConfirmation(userId));
     }
 
+    /**
+     * Retrieves a list of comments that have not been confirmed by an administrator.
+     *
+     * @return {@link ResponseEntity} containing a list of unconfirmed {@link CommentResponse} objects.
+     */
+    @Operation(summary = "Get unconfirmed comments", description = "Returns a list of comments not confirmed by an administrator.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Comments retrieved successfully")
+    })
     @GetMapping("/comments/not-confirmed")
-    public ResponseEntity<List<CommentResponse>> getAllUnconfirmed(){
+    public ResponseEntity<List<CommentResponse>> getAllUnconfirmed() {
         return ResponseEntity.ok(commentService.getAllUnconfirmed());
     }
 
+    /**
+     * Confirms a comment by setting its confirmation flag to true.
+     *
+     * @param commentId the ID of the comment to confirm.
+     * @return {@link ResponseEntity} containing the updated {@link CommentResponse}.
+     */
+    @Operation(summary = "Confirm comment", description = "Confirms a comment by setting the confirmation flag to true.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Comment confirmed successfully"),
+            @ApiResponse(responseCode = "404", description = "Comment not found")
+    })
     @PatchMapping("/comments/{commentId}/confirm")
-    public ResponseEntity<CommentResponse> confirmComment(@PathVariable(name = "commentId") Long commentId){
+    public ResponseEntity<CommentResponse> confirmComment(@PathVariable(name = "commentId") Long commentId) {
         return ResponseEntity.ok(commentService.confirm(commentId));
     }
 
+    /**
+     * Declines a comment by setting its confirmation flag to false.
+     *
+     * @param commentId the ID of the comment to decline.
+     * @return {@link ResponseEntity} containing the updated {@link CommentResponse}.
+     */
+    @Operation(summary = "Decline comment", description = "Declines a comment by setting the confirmation flag to false.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Comment declined successfully"),
+            @ApiResponse(responseCode = "404", description = "Comment not found")
+    })
     @PatchMapping("/comments/{commentId}/decline")
-    public ResponseEntity<CommentResponse> declineComment(@PathVariable(name = "commentId") Long commentId){
+    public ResponseEntity<CommentResponse> declineComment(@PathVariable(name = "commentId") Long commentId) {
         return ResponseEntity.ok(commentService.decline(commentId));
     }
 }

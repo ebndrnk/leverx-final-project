@@ -66,3 +66,7 @@ cache:
   host: localhost
   port: 6379
   password: DxnPvBthsWCKTFGR
+
+
+cookie:
+  secure: true

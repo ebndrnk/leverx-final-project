@@ -14,6 +14,8 @@ create table if not exists public.profile
     is_confirmed_by_admin boolean                                not null,
     lastname              varchar(50),
     rating                smallint,
+    constraint profile_rating_check
+    check (rating between 0 and 10),
     username              varchar(50)
     constraint uk5em4hwqp4woqsf49dru7fjo80
     unique

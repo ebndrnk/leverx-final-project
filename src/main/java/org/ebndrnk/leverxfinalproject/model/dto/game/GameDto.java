@@ -8,7 +8,6 @@ import lombok.Data;
 public class GameDto {
     private Long id;
     @Schema(description = "title of the game")
-    @Size(max = 255, message = "Title must be at most 255 characters")
     private String title;
 
     @Schema(description = "Game description")
