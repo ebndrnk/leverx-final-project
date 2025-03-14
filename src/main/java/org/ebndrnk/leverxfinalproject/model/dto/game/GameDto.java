@@ -1,7 +1,6 @@
 package org.ebndrnk.leverxfinalproject.model.dto.game;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 @Data

@@ -8,7 +8,6 @@ import org.ebndrnk.leverxfinalproject.model.entity.profile.Profile;
 import org.ebndrnk.leverxfinalproject.repository.pofile.ProfileRepository;
 import org.ebndrnk.leverxfinalproject.repository.specification.ProfileSpecification;
 import org.ebndrnk.leverxfinalproject.util.exception.dto.ProfileNotFoundException;
-import org.hibernate.Hibernate;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.domain.Page;

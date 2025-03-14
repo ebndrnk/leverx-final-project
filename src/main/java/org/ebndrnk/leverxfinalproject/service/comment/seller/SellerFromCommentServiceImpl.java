@@ -8,8 +8,6 @@ import org.ebndrnk.leverxfinalproject.model.entity.comment.seller.SellerFromComm
 import org.ebndrnk.leverxfinalproject.repository.comment.seller.SellerFromCommentRepository;
 import org.ebndrnk.leverxfinalproject.util.exception.dto.SellerFromCommentNotFoundException;
 import org.modelmapper.ModelMapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 

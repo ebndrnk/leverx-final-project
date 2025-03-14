@@ -7,12 +7,9 @@ import org.ebndrnk.leverxfinalproject.model.dto.comment.CommentRequest;
 import org.ebndrnk.leverxfinalproject.model.dto.game.GameRequest;
 import org.ebndrnk.leverxfinalproject.model.entity.auth.Role;
 import org.ebndrnk.leverxfinalproject.model.entity.auth.User;
-import org.ebndrnk.leverxfinalproject.model.entity.comment.Comment;
 import org.ebndrnk.leverxfinalproject.model.entity.profile.Profile;
 import org.ebndrnk.leverxfinalproject.repository.auth.UserRepository;
-import org.ebndrnk.leverxfinalproject.repository.comment.CommentRepository;
 import org.ebndrnk.leverxfinalproject.repository.pofile.ProfileRepository;
-import org.ebndrnk.leverxfinalproject.service.comment.CommentServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,8 +21,6 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;

@@ -1,9 +1,6 @@
 package org.ebndrnk.leverxfinalproject.service.admin;
 
 import lombok.RequiredArgsConstructor;
-import org.ebndrnk.leverxfinalproject.model.dto.auth.UserDto;
-import org.ebndrnk.leverxfinalproject.model.dto.auth.UserResponse;
-import org.ebndrnk.leverxfinalproject.model.dto.profile.ProfileDto;
 import org.ebndrnk.leverxfinalproject.model.dto.profile.ProfileResponse;
 import org.ebndrnk.leverxfinalproject.model.entity.auth.User;
 import org.ebndrnk.leverxfinalproject.model.entity.profile.Profile;

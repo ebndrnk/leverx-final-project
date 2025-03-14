@@ -5,8 +5,6 @@ import org.ebndrnk.leverxfinalproject.service.auth.password.ResetPasswordCodeSer
 import org.ebndrnk.leverxfinalproject.service.auth.verify.VerifyEmailService;
 import org.ebndrnk.leverxfinalproject.service.mail.send.EmailSender;
 import org.ebndrnk.leverxfinalproject.service.mail.template.EmailTemplateGenerator;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Primary;
 import org.springframework.scheduling.annotation.Async;

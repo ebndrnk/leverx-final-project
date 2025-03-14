@@ -2,7 +2,6 @@ package org.ebndrnk.leverxfinalproject.repository.pofile;
 
 import lombok.RequiredArgsConstructor;
 import org.ebndrnk.leverxfinalproject.model.dto.profile.ProfileResponse;
-import org.ebndrnk.leverxfinalproject.model.entity.auth.password.ResetPasswordCodeEntity;
 import org.ebndrnk.leverxfinalproject.repository.SimpleRedisRepository;
 import org.ebndrnk.leverxfinalproject.util.exception.dto.RedisOperationException;
 import org.springframework.dao.DataAccessException;

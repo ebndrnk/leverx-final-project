@@ -3,9 +3,7 @@ package org.ebndrnk.leverxfinalproject.service.comment;
 import jakarta.servlet.http.HttpServletRequest;
 import org.ebndrnk.leverxfinalproject.model.dto.comment.CommentRequest;
 import org.ebndrnk.leverxfinalproject.model.dto.comment.CommentResponse;
-import org.ebndrnk.leverxfinalproject.model.dto.comment.seller.SellerFromCommentDto;
 import org.ebndrnk.leverxfinalproject.model.dto.comment.seller.SellerFromCommentRequest;
-import org.ebndrnk.leverxfinalproject.model.dto.profile.ProfileRequest;
 
 import java.util.List;
 

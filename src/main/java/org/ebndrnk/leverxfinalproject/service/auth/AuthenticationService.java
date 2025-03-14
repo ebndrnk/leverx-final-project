@@ -13,8 +13,6 @@ import org.ebndrnk.leverxfinalproject.service.mail.EmailServiceImpl;
 import org.ebndrnk.leverxfinalproject.util.exception.dto.NotConfirmedException;
 import org.ebndrnk.leverxfinalproject.util.exception.dto.UserNotFoundException;
 import org.modelmapper.ModelMapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.mail.MailException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
