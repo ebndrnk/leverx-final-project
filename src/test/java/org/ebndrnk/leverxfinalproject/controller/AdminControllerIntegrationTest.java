@@ -86,7 +86,7 @@ public class AdminControllerIntegrationTest {
 
     @Test
     public void testAuthorizeAndPostGame() throws Exception {
-        // 1. Авторизация
+        // 1. Authorization
         SignInRequest signInRequest = new SignInRequest();
         signInRequest.setEmail("email@email.com");
         signInRequest.setPassword("password");
@@ -99,17 +99,17 @@ public class AdminControllerIntegrationTest {
                 .getResponse()
                 .getContentAsString();
 
-        // 2. Парсинг JSON-ответа
+        // 2. Parsing JSON-response
         JsonNode jsonNode = objectMapper.readTree(responseContent);
         String authToken = jsonNode.get("token").asText();
 
-        // 2. Создание запроса для игры
+        // 2. Creating request for  game
         GameRequest gameRequest = new GameRequest();
         gameRequest.setTitle("Cyberpunk 2077");
         gameRequest.setText("Open-world RPG");
         gameRequest.setPrice(59.99F);
 
-        // 3. Отправка запроса на создание игры
+        // 3. Sending request to create game
         mockMvc.perform(post("/game")
                         .header("Authorization", "Bearer " + authToken)
                         .contentType(MediaType.APPLICATION_JSON)
