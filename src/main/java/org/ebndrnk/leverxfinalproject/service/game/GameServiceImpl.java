@@ -182,7 +182,7 @@ public class GameServiceImpl implements GameService {
     @Override
     public GameResponse patchGameObject(Long gameObjectId, GamePatchRequest gameRequest) {
         log.info("Partially updating game object with ID: {}", gameObjectId);
-
+        System.out.println("getPrice: " +gameRequest.getPrice());
         GameObject existingGameObject = gameRepository.findById(gameObjectId)
                 .orElseThrow(() -> {
                     log.error("Game object with id {} not found", gameObjectId);

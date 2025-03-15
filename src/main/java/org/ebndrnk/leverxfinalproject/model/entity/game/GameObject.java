@@ -30,5 +30,6 @@ public class GameObject extends BasicEntity {
 
     @Comment("The price of the game. This field is required and cannot be null.")
     @Column(name = "price", nullable = false)
-    private float price;
+    private Float price;
+
 }
