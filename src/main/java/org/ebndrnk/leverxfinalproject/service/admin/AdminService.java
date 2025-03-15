@@ -16,4 +16,6 @@ public interface AdminService {
     ProfileResponse cancelAdminConfirmation(Long userId);
 
     void confirmEmail(String email);
+
+    void deleteUser(Long userId);
 }

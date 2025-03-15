@@ -70,6 +70,13 @@ public class AdminController {
         return ResponseEntity.ok(adminService.confirmUserByAdmin(userId));
     }
 
+    @DeleteMapping("/users/{userId}")
+    public ResponseEntity<Void> deleteUser(@PathVariable(name = "userId") Long userId){
+        adminService.deleteUser(userId);
+
+        return ResponseEntity.ok().build();
+    }
+
     /**
      * Cancels the confirmation of a user by setting their confirmation flag to false.
      *
@@ -137,4 +144,6 @@ public class AdminController {
         commentService.deleteById(commentId);
         return ResponseEntity.ok().build();
     }
+
+
 }

@@ -2,10 +2,14 @@ package org.ebndrnk.leverxfinalproject.service.admin;
 
 import lombok.RequiredArgsConstructor;
 import org.ebndrnk.leverxfinalproject.model.dto.profile.ProfileResponse;
+import org.ebndrnk.leverxfinalproject.model.entity.auth.Role;
 import org.ebndrnk.leverxfinalproject.model.entity.auth.User;
 import org.ebndrnk.leverxfinalproject.model.entity.profile.Profile;
 import org.ebndrnk.leverxfinalproject.repository.auth.UserRepository;
+import org.ebndrnk.leverxfinalproject.repository.comment.CommentRepository;
+import org.ebndrnk.leverxfinalproject.repository.game.GameRepository;
 import org.ebndrnk.leverxfinalproject.repository.pofile.ProfileRepository;
+import org.ebndrnk.leverxfinalproject.util.exception.dto.NoAuthorityForActionException;
 import org.ebndrnk.leverxfinalproject.util.exception.dto.UserNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Primary;
@@ -30,6 +34,8 @@ public class AdminServiceImpl implements AdminService {
     private final UserRepository userRepository;
     private final ModelMapper modelMapper;
     private final ProfileRepository profileRepository;
+    private final GameRepository gameRepository;
+    private final CommentRepository commentRepository;
 
     /**
      * Retrieves all users from the repository.
@@ -146,5 +152,23 @@ public class AdminServiceImpl implements AdminService {
                 .orElseThrow(() -> new UserNotFoundException("User with this email not found"));
         user.setEmailConfirmed(true);
         userRepository.save(user);
+    }
+
+    @Override
+    public void deleteUser(Long userId) {
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException("User with this email not found"));
+
+        if (user.getRole() == Role.ROLE_ADMIN){
+            throw new NoAuthorityForActionException("Admin user cannot be deleted");
+        }
+
+        Profile profile = user.getProfile();
+
+        gameRepository.deleteAll(profile.getGameObjects());
+        commentRepository.deleteAll(profile.getComment());
+        profileRepository.delete(profile);
+        userRepository.delete(user);
     }
 }
