@@ -1,54 +1,4 @@
-spring:
-  sql:
-    init:
-      mode: always
 
-  data:
-    redis:
-      ssl:
-        enabled: true
-      host: master.rg-35963d75-fac3-4481-911b-10534995bde3.9u04ff.use1.cache.amazonaws.com
-      port: 1544
-      password: YSZXOIhfKtZihnafJtARQjcsGdAmkwCd
-      url: rediss://:YSZXOIhfKtZihnafJtARQjcsGdAmkwCd@master.rg-35963d75-fac3-4481-911b-10534995bde3.9u04ff.use1.cache.amazonaws.com:1544
-
-  mail:
-    host: smtp.gmail.com
-    port: 465
-    username: ebndrnk@gmail.com
-    password: "wrhc vbok yvwh xess"
-    properties:
-      mail:
-        debug: false
-        smtp:
-          timeout: 10000
-          connectiontimeout: 10000
-          writetimeout: 10000
-          auth: true
-          ssl:
-            enable: true
-
-  application:
-    name: leverx-final-project
-
-  datasource:
-    url: jdbc:postgresql://postgres-87554e97-f1e5-4f08-aec0-954abd5f50da.cqryblsdrbcs.us-east-1.rds.amazonaws.com:6272/AqRRRxPflrIN
-    username: cc741b6af4f1
-    password: 5e98153469eb79dc1e4ce24da4b6b1ef
-    driver-class-name: org.postgresql.Driver
-
-  jpa:
-    hibernate:
-      ddl-auto: none
-    open-in-view: true
-
-  flyway:
-    baseline-on-migrate: true
-    enabled: true
-    url: jdbc:postgresql://postgres-87554e97-f1e5-4f08-aec0-954abd5f50da.cqryblsdrbcs.us-east-1.rds.amazonaws.com:6272/AqRRRxPflrIN
-    user: cc741b6af4f1
-    password: 5e98153469eb79dc1e4ce24da4b6b1ef
-    locations: classpath:db/migration
 
 server:
   port: ${PORT:8080}
@@ -57,6 +7,22 @@ site:
   domain:
     url: https://shop-service-fluent-eland-nk.cfapps.us10-001.hana.ondemand.com
 
-token:
-  signing:
-    key: 53A73E5F1C4E0A2D3B5F2D784E6A1B423D6F247D1F6E5C3A596D635A75327855
+
+database:
+  host: postgres-87554e97-f1e5-4f08-aec0-954abd5f50da.cqryblsdrbcs.us-east-1.rds.amazonaws.com
+  port: 6272
+  name: AqRRRxPflrIN
+  user: cc741b6af4f1
+  pass: 5e98153469eb79dc1e4ce24da4b6b1ef
+
+cache:
+  url: rediss://:YSZXOIhfKtZihnafJtARQjcsGdAmkwCd@master.rg-35963d75-fac3-4481-911b-10534995bde3.9u04ff.use1.cache.amazonaws.com:1544
+  host: master.rg-35963d75-fac3-4481-911b-10534995bde3.9u04ff.use1.cache.amazonaws.com
+  port: 1544
+  password: YSZXOIhfKtZihnafJtARQjcsGdAmkwCd
+spring:
+  data:
+    redis:
+      url: ${cache.url}
+      ssl:
+        enabled: true

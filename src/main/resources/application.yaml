@@ -1,12 +1,13 @@
 spring:
   sql:
     init:
-      mode: never
+      mode: always
   data:
     redis:
       port: ${cache.port}
       host: ${cache.host}
       password: ${cache.password}
+
   mail:
     host: smtp.gmail.com
     port: 465
@@ -39,9 +40,7 @@ spring:
     url: ${spring.datasource.url}
     user: ${spring.datasource.username}
     password: ${spring.datasource.password}
-
-
-
+    baseline-on-migrate: true
 
 
 server:
@@ -56,17 +55,7 @@ token:
     key: 53A73E5F1C4E0A2D3B5F2D784E6A1B423D6F247D1F6E5C3A596D635A75327855
 
 
-database:
-  host: localhost
-  port: 5430
-  name: leverx
-  user: EGOR_BONDARENKO
-  pass: pass
 
-cache:
-  host: localhost
-  port: 6379
-  password: DxnPvBthsWCKTFGR
 
 
 cookie:

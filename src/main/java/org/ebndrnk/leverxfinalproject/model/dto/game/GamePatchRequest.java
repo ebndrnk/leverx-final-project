@@ -2,7 +2,6 @@ package org.ebndrnk.leverxfinalproject.model.dto.game;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
@@ -19,6 +18,5 @@ public class GamePatchRequest {
 
     @Schema(description = "Price of the game", example = "49.99")
     @Min(value = 0, message = "Price should be greater than or equal to 0.")
-    @NotNull(message = "price cannot be null")
-    private float price;
+    private Float price;
 }
