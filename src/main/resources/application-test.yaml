@@ -4,6 +4,8 @@ spring:
     driverClassName: org.h2.Driver
     username: sa
     password: password
+
+
   jpa:
     hibernate:
       ddl-auto: update
@@ -15,3 +17,7 @@ spring:
     init:
       mode: never
 
+cache:
+  host: localhost
+  port: 6379
+  password: DxnPvBthsWCKTFGR
