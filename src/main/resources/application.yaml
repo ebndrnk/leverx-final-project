@@ -11,8 +11,8 @@ spring:
   mail:
     host: smtp.gmail.com
     port: 465
-    username: ebndrnk@gmail.com
-    password: "wrhc vbok yvwh xess"
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_PASSWORD}
     properties:
       mail:
         debug: false
@@ -52,14 +52,14 @@ site:
 
 token:
   signing:
-    key: 53A73E5F1C4E0A2D3B5F2D784E6A1B423D6F247D1F6E5C3A596D635A75327855
+    key: ${TOKEN_SIGN_IN_KEY}
 
 sap:
   feature:
     flags:
       url: "https://feature-flags.cfapps.us10.hana.ondemand.com"
-      username: sbss_xqaacjcumcrh5z3ru5lczklfl/ytwcxaywayugngxhz+in8hg0wdzp5vumzaurd0+wa=
-      password: aa_TV4Tmv2FrEe/GAdKkhhWBHygfow=
+      username: ${SAP_FEATURE_FLAGS_USERNAME}
+      password: ${SAP_FEATURE_FLAGS_PASSWORD}
 
 
 
