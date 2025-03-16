@@ -5,6 +5,8 @@ import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
+import org.ebndrnk.leverxfinalproject.util.feature.FeatureFlagService;
+import org.ebndrnk.leverxfinalproject.util.feature.FeatureFlags;
 import org.springframework.stereotype.Component;
 
 /**
@@ -18,7 +20,12 @@ import org.springframework.stereotype.Component;
 @Component
 public class PerformanceAspect {
 
+    private final FeatureFlagService featureFlagService;
     private long startTime;
+
+    public PerformanceAspect(FeatureFlagService featureFlagService) {
+        this.featureFlagService = featureFlagService;
+    }
 
     /**
      * Advice that runs before any method in the repository package.
@@ -34,13 +41,15 @@ public class PerformanceAspect {
     /**
      * Advice that runs after any method in the repository package.
      * It calculates the duration of the method execution and logs it.
-     *
+     * (if feature-flag equal false, the method doesn't display a message)
      * @param joinPoint the join point representing the method call
      */
     @After("execution(* org.ebndrnk.leverxfinalproject.repository..*(..))")
     public void afterMethod(JoinPoint joinPoint) {
         long endTime = System.currentTimeMillis();
         long duration = endTime - startTime;
-        log.info("Method {}: execution time: {} ms", joinPoint.getSignature().getName(), duration);
+        if(featureFlagService.isFeatureEnabled(FeatureFlags.CALL_PERFORMANCE_ASPECT_FEATURE_FLAG.getValue())){
+            log.info("Method {}: execution time: {} ms", joinPoint.getSignature().getName(), duration);
+        }
     }
 }
