@@ -13,5 +13,6 @@
 - **admin functionality**: 8h
 - **Other feature**: 8h
 - **Bug fix**: 8h
+- **Deploy to SAP BTP environment**: 8h
 
-**General**: 73.50h
+**General**: 81.50h
