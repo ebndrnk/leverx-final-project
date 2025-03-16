@@ -16,18 +16,12 @@ import java.util.List;
 
 /**
  * Controller for managing administrative operations on users and comments.
- *
  * <p>
  * This REST controller provides endpoints for performing administrative tasks, such as:
  * <ul>
  *   <li>Retrieving and confirming/unconfirming users</li>
  *   <li>Managing comment confirmations</li>
- * </ul>
- * It follows best practices, including:
- * <ul>
- *   <li>Proper HTTP status code usage</li>
- *   <li>Service layer separation for business logic</li>
- *   <li>Swagger/OpenAPI documentation</li>
+ *   <li>Deleting users and comments</li>
  * </ul>
  * </p>
  */
@@ -70,10 +64,20 @@ public class AdminController {
         return ResponseEntity.ok(adminService.confirmUserByAdmin(userId));
     }
 
+    /**
+     * Deletes a user from the system.
+     *
+     * @param userId the ID of the user to delete.
+     * @return {@link ResponseEntity} with status 200 if the user was deleted.
+     */
+    @Operation(summary = "Delete user", description = "Deletes a user from the system.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "User deleted successfully"),
+            @ApiResponse(responseCode = "404", description = "User not found")
+    })
     @DeleteMapping("/users/{userId}")
-    public ResponseEntity<Void> deleteUser(@PathVariable(name = "userId") Long userId){
+    public ResponseEntity<Void> deleteUser(@PathVariable(name = "userId") Long userId) {
         adminService.deleteUser(userId);
-
         return ResponseEntity.ok().build();
     }
 
@@ -139,11 +143,20 @@ public class AdminController {
         return ResponseEntity.ok(commentService.decline(commentId));
     }
 
+    /**
+     * Deletes a comment from the system.
+     *
+     * @param commentId the ID of the comment to delete.
+     * @return {@link ResponseEntity} with status 200 if the comment was deleted.
+     */
+    @Operation(summary = "Delete comment", description = "Deletes a comment from the system.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Comment deleted successfully"),
+            @ApiResponse(responseCode = "404", description = "Comment not found")
+    })
     @DeleteMapping("/comments/{commentId}")
-    public ResponseEntity<Void> deleteComment(@PathVariable Long commentId){
+    public ResponseEntity<Void> deleteComment(@PathVariable Long commentId) {
         commentService.deleteById(commentId);
         return ResponseEntity.ok().build();
     }
-
-
 }

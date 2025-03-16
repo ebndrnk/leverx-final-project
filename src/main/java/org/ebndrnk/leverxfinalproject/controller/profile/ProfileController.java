@@ -1,6 +1,7 @@
 package org.ebndrnk.leverxfinalproject.controller.profile;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.servlet.http.HttpServletRequest;
@@ -14,6 +15,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 /**
  * Controller for handling user profile operations.
  * <p>
@@ -46,8 +48,10 @@ public class ProfileController {
             @ApiResponse(responseCode = "200", description = "Users retrieved successfully")
     })
     @GetMapping()
-    public ResponseEntity<Page<?>> getAllProfiles(@RequestParam(required = false) boolean projection,
-                                                  Pageable pageable) {
+    public ResponseEntity<Page<?>> getAllProfiles(
+            @Parameter(description = "If true, returns a projection of user data instead of full profiles")
+            @RequestParam(required = false) boolean projection,
+            Pageable pageable) {
         return ResponseEntity.ok(profileService.getAll(projection, pageable));
     }
 
@@ -60,8 +64,15 @@ public class ProfileController {
      * @param profileId the unique ID of the user profile.
      * @return ResponseEntity containing the user profile data.
      */
+    @Operation(summary = "Get user profile by ID", description = "Retrieves a full user profile by its unique ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "User profile retrieved successfully"),
+            @ApiResponse(responseCode = "404", description = "User profile not found")
+    })
     @GetMapping("/{profileId}")
-    public ResponseEntity<ProfileResponse> getProfileById(@PathVariable(name = "profileId") Long profileId) {
+    public ResponseEntity<ProfileResponse> getProfileById(
+            @Parameter(description = "Unique ID of the user profile")
+            @PathVariable(name = "profileId") Long profileId) {
         return ResponseEntity.ok(profileService.getProfileResponseById(profileId));
     }
 
@@ -76,25 +87,40 @@ public class ProfileController {
      * @param httpServletRequest the request object to get data about the current user.
      * @return ResponseEntity containing the updated profile data after rating.
      */
+    @Operation(summary = "Rate a user profile", description = "Allows users to rate a profile by sending a rating request")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Profile rated successfully"),
+            @ApiResponse(responseCode = "400", description = "Invalid rating request")
+    })
     @PostMapping("/{profileId}/rating")
-    public ResponseEntity<ProfileResponse> evaluate(@Valid @RequestBody RatingRequest request,
-                                                    @PathVariable(name = "profileId") Long profileId,
-                                                    HttpServletRequest httpServletRequest) {
+    public ResponseEntity<ProfileResponse> evaluate(
+            @Valid @RequestBody RatingRequest request,
+            @Parameter(description = "Unique ID of the profile to be rated")
+            @PathVariable(name = "profileId") Long profileId,
+            HttpServletRequest httpServletRequest) {
         return ResponseEntity.ok(ratingService.evaluate(request, profileId, httpServletRequest));
     }
 
     /**
-     * Retrieves a list of top sellers.
+     * Retrieves a list of top sellers from the cache.
      * <p>
      * This method returns a list of users with the highest ratings (by sales),
-     * limited by the specified count. The result is paginated.
+     * limited by the specified count. The default count is 10, and these results
+     * are fetched from Redis cache for performance optimization.
      * </p>
      *
-     * @param count the maximum number of top sellers to return.
+     * @param count the maximum number of top sellers to return (default is 10).
      * @return ResponseEntity containing the list of top sellers.
      */
+    @Operation(summary = "Get top-rated sellers", description = "Returns a list of the highest-rated sellers, fetched from Redis cache")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Top sellers retrieved successfully"),
+            @ApiResponse(responseCode = "500", description = "Error retrieving top sellers")
+    })
     @GetMapping("/top")
-    public ResponseEntity<Page<ProfileResponse>> getTopBestSellers(@RequestParam(name = "count", defaultValue = "10") int count){
+    public ResponseEntity<Page<ProfileResponse>> getTopBestSellers(
+            @Parameter(description = "Maximum number of top sellers to retrieve (default is 10)")
+            @RequestParam(name = "count", defaultValue = "10") int count){
         return ResponseEntity.ok(profileService.getTopSellers(count));
     }
 
@@ -109,9 +135,16 @@ public class ProfileController {
      * @param pageable pagination for the response data.
      * @return ResponseEntity containing the list of user profiles matching the criteria.
      */
+    @Operation(summary = "Search profiles by rating", description = "Filters profiles based on minimum and maximum rating values")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Profiles matching the criteria retrieved successfully"),
+            @ApiResponse(responseCode = "400", description = "Invalid rating filter range")
+    })
     @GetMapping("/search")
     public ResponseEntity<Page<ProfileResponse>> searchProfilesByRating(
+            @Parameter(description = "Minimum rating for filtering")
             @RequestParam(required = false) Byte minRating,
+            @Parameter(description = "Maximum rating for filtering")
             @RequestParam(required = false) Byte maxRating,
             Pageable pageable) {
 
