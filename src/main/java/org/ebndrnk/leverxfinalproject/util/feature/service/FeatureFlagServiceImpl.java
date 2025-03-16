@@ -1,4 +1,4 @@
-package org.ebndrnk.leverxfinalproject.util.feature;
+package org.ebndrnk.leverxfinalproject.util.feature.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -6,6 +6,7 @@ import org.apache.tomcat.util.codec.binary.Base64;
 import org.ebndrnk.leverxfinalproject.model.dto.feature.FeatureFlagResponse;
 import org.ebndrnk.leverxfinalproject.util.feature.client.FeatureFlagClient;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 /**
@@ -14,8 +15,9 @@ import org.springframework.stereotype.Service;
  */
 @Slf4j
 @Service
+@Primary
 @RequiredArgsConstructor
-public class FeatureFlagService {
+public class FeatureFlagServiceImpl implements FeatureFlagService{
 
     private final FeatureFlagClient featureFlagClient;
 
@@ -42,6 +44,7 @@ public class FeatureFlagService {
      * @param featureName The name of the feature flag to check.
      * @return {@code true} if the feature flag is enabled, otherwise {@code false}.
      */
+    @Override
     public boolean isFeatureEnabled(String featureName) {
         try {
             FeatureFlagResponse response = featureFlagClient.getFeatureFlag(featureName, getBasicAuthHeader());

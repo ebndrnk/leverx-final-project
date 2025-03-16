@@ -10,6 +10,7 @@ import org.ebndrnk.leverxfinalproject.repository.comment.CommentRepository;
 import org.ebndrnk.leverxfinalproject.repository.game.GameRepository;
 import org.ebndrnk.leverxfinalproject.repository.pofile.ProfileRepository;
 import org.ebndrnk.leverxfinalproject.util.exception.dto.NoAuthorityForActionException;
+import org.ebndrnk.leverxfinalproject.util.exception.dto.ProfileNotFoundException;
 import org.ebndrnk.leverxfinalproject.util.exception.dto.UserNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Primary;
@@ -157,14 +158,16 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public void deleteUser(Long userId) {
 
-        User user = userRepository.findById(userId)
+        Profile profile = profileRepository.findById(userId)
+                .orElseThrow(() -> new ProfileNotFoundException("Profile with this email not found"));
+
+        User user = userRepository.findByEmail(profile.getEmail())
                 .orElseThrow(() -> new UserNotFoundException("User with this email not found"));
 
         if (user.getRole() == Role.ROLE_ADMIN){
             throw new NoAuthorityForActionException("Admin user cannot be deleted");
         }
 
-        Profile profile = user.getProfile();
 
         gameRepository.deleteAll(profile.getGameObjects());
         commentRepository.deleteAll(profile.getComment());

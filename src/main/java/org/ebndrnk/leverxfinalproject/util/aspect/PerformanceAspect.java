@@ -1,11 +1,12 @@
 package org.ebndrnk.leverxfinalproject.util.aspect;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
-import org.ebndrnk.leverxfinalproject.util.feature.FeatureFlagService;
+import org.ebndrnk.leverxfinalproject.util.feature.service.FeatureFlagService;
 import org.ebndrnk.leverxfinalproject.util.feature.FeatureFlags;
 import org.springframework.stereotype.Component;
 
@@ -18,14 +19,11 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Aspect
 @Component
+@RequiredArgsConstructor
 public class PerformanceAspect {
 
     private final FeatureFlagService featureFlagService;
     private long startTime;
-
-    public PerformanceAspect(FeatureFlagService featureFlagService) {
-        this.featureFlagService = featureFlagService;
-    }
 
     /**
      * Advice that runs before any method in the repository package.
