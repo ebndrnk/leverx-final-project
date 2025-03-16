@@ -6,8 +6,7 @@ import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
-import org.ebndrnk.leverxfinalproject.util.feature.FeatureFlagService;
-import org.ebndrnk.leverxfinalproject.util.feature.FeatureFlagServiceImpl;
+import org.ebndrnk.leverxfinalproject.util.feature.service.FeatureFlagService;
 import org.ebndrnk.leverxfinalproject.util.feature.FeatureFlags;
 import org.springframework.stereotype.Component;
 
