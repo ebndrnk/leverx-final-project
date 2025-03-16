@@ -9,17 +9,17 @@ site:
 
 
 database:
-  host: postgres-87554e97-f1e5-4f08-aec0-954abd5f50da.cqryblsdrbcs.us-east-1.rds.amazonaws.com
-  port: 6272
-  name: AqRRRxPflrIN
-  user: cc741b6af4f1
-  pass: 5e98153469eb79dc1e4ce24da4b6b1ef
+  host: ${DATABASE_HOST}
+  port: ${DATABASE_PORT}
+  name: ${DATABASE_NAME}
+  user: ${DATABASE_USER}
+  pass: ${DATABASE_PASS}
 
 cache:
-  url: rediss://:YSZXOIhfKtZihnafJtARQjcsGdAmkwCd@master.rg-35963d75-fac3-4481-911b-10534995bde3.9u04ff.use1.cache.amazonaws.com:1544
-  host: master.rg-35963d75-fac3-4481-911b-10534995bde3.9u04ff.use1.cache.amazonaws.com
-  port: 1544
-  password: YSZXOIhfKtZihnafJtARQjcsGdAmkwCd
+  url: ${CACHE_URL}
+  host: ${CACHE_HOST}
+  port: ${CACHE_PORT}
+  password: ${CACHE_PASSWORD}
 spring:
   data:
     redis:

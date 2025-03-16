@@ -18,16 +18,17 @@ site:
     url: http://127.0.0.1:${server.port}
 
 database:
-  host: localhost
-  port: 5430
-  name: leverx
-  user: EGOR_BONDARENKO
-  pass: pass
+  host: ${DATABASE_HOST}
+  port: ${DATABASE_PORT}
+  name: ${DATABASE_NAME}
+  user: ${DATABASE_USER}
+  pass: ${DATABASE_PASS}
 
 cache:
-  host: localhost
-  port: 6379
-  password: DxnPvBthsWCKTFGR
+  host: ${CACHE_HOST}
+  port: ${CACHE_PORT}
+  password: ${CACHE_PASSWORD}
+
 
 
 cookie:
