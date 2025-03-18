@@ -4,25 +4,41 @@ services:
   postgres-leverX:
     image: postgres:16
     environment:
-      - POSTGRES_USER=EGOR_BONDARENKO
-      - POSTGRES_PASSWORD=pass
-      - POSTGRES_DB=leverx
+      - POSTGRES_USER=${DATABASE_USER}
+      - POSTGRES_PASSWORD=${DATABASE_PASS}
+      - POSTGRES_DB=${DATABASE_NAME}
     ports:
       - "5430:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    restart: always
 
   redis-leverX:
     image: "redis:alpine"
-    command: redis-server --requirepass DxnPvBthsWCKTFGR
+    command: redis-server --requirepass ${CACHE_PASSWORD}
     ports:
       - "6379:6379"
     volumes:
-      - /data/redis:/var/lib/redis
+      - redis_data:/var/lib/redis
     environment:
       - REDIS_REPLICATION_MODE=master
     restart: always
 
+  backend:
+    build:
+      context: ../
+      dockerfile: Dockerfile
+    depends_on:
+      - postgres-leverX
+      - redis-leverX
+    ports:
+      - "8071:8071"
+    env_file:
+      - .env
+    restart: always
+
 volumes:
   postgres_data:
+    driver: local
+  redis_data:
     driver: local
