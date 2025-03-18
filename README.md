@@ -1,7 +1,6 @@
 # Game Seller Rating Platform
 
 [![Swagger Documentation](https://img.shields.io/badge/Swagger-OpenAPI-blue)](http://a9ddbc42e84524508a5aa4057e075c07-1129108650.us-east-1.elb.amazonaws.com:8071/swagger-ui/index.html#/)
-[![Kubernetes Deployment](https://img.shields.io/badge/Deployed-Kubernetes-blue)](https://www.sap.com/products/kubernetes.html)
 
 An independent rating system for sellers of in-game items (CS:GO, FIFA, Dota, Team Fortress, etc.) based on verified user comments.
 
