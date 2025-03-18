@@ -29,39 +29,29 @@ jobs:
         run: |
           docker build -t ebndnrk/leverx-final-project:latest .
           docker push ebndnrk/leverx-final-project:latest
-          
-      - name: Install kubelogin
+
+      - name: Install Kubectl
+        uses: azure/setup-kubectl@v3
+        with:
+          version: 'latest'
+
+      - name: Install Kubelogin (OIDC plugin)
         run: |
-          curl -LO https://github.com/int128/kubelogin/releases/latest/download/kubelogin_linux_amd64.zip
+          curl -LO "https://github.com/int128/kubelogin/releases/latest/download/kubelogin_linux_amd64.zip"
           unzip kubelogin_linux_amd64.zip
           chmod +x kubelogin
           sudo mv kubelogin /usr/local/bin/
 
-      - name: Install Krew & kubelogin
+      - name: Verify Kubelogin
         run: |
-          set -x
-          curl -fsSLO "https://github.com/kubernetes-sigs/krew/releases/latest/download/krew-linux_amd64.tar.gz"
-          tar zxvf krew-linux_amd64.tar.gz
-          ./krew-linux_amd64 install krew
-          export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
-          kubectl krew install oidc-login
-          echo 'export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"' >> ~/.bashrc
-          echo 'export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"' >> ~/.profile
-          source ~/.bashrc
-          source ~/.profile
-      
-      
-
-      - name: Set up kubectl
-        uses: azure/setup-kubectl@v3
-        with:
-          version: 'latest'
+          kubelogin --version || echo "Kubelogin not found!"
 
       - name: Configure Kubeconfig
         run: |
           mkdir -p $HOME/.kube
           echo "${{ secrets.KUBE_CONFIG }}" | base64 --decode > $HOME/.kube/config
           export KUBECONFIG=$HOME/.kube/config
+          chmod 600 $HOME/.kube/config
 
       - name: Verify Kubernetes Access
         run: |
