@@ -11,7 +11,7 @@ import org.ebndrnk.leverxfinalproject.model.entity.rating.Rating;
 import org.ebndrnk.leverxfinalproject.repository.pofile.ProfileRepository;
 import org.ebndrnk.leverxfinalproject.repository.rating.RatingRepository;
 import org.ebndrnk.leverxfinalproject.service.anonymous.AnonymousUserService;
-import org.ebndrnk.leverxfinalproject.util.exception.dto.ProfileNotFoundException;
+import org.ebndrnk.leverxfinalproject.exception.dto.ProfileNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;

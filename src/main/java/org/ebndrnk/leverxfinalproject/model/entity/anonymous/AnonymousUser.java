@@ -12,7 +12,6 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString(exclude = "commentList")
 @Table(name = "anonymous_user")
 public class AnonymousUser extends BasicEntity {
 

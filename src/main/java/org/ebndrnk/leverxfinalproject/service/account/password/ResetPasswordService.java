@@ -10,8 +10,8 @@ import org.ebndrnk.leverxfinalproject.model.dto.password.ResetCodeVerificationRe
 import org.ebndrnk.leverxfinalproject.model.entity.auth.User;
 import org.ebndrnk.leverxfinalproject.repository.auth.UserRepository;
 import org.ebndrnk.leverxfinalproject.service.mail.EmailServiceImpl;
-import org.ebndrnk.leverxfinalproject.util.exception.dto.NoAuthorityForActionException;
-import org.ebndrnk.leverxfinalproject.util.exception.dto.UserNotFoundException;
+import org.ebndrnk.leverxfinalproject.exception.dto.NoAuthorityForActionException;
+import org.ebndrnk.leverxfinalproject.exception.dto.UserNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;

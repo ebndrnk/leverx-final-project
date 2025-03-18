@@ -1,10 +1,10 @@
-package org.ebndrnk.leverxfinalproject.util.feature.service;
+package org.ebndrnk.leverxfinalproject.feature.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.ebndrnk.leverxfinalproject.model.dto.feature.FeatureFlagResponse;
-import org.ebndrnk.leverxfinalproject.util.feature.client.FeatureFlagClient;
+import org.ebndrnk.leverxfinalproject.feature.client.FeatureFlagClient;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;

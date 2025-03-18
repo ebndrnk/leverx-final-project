@@ -5,7 +5,7 @@ import org.ebndrnk.leverxfinalproject.model.entity.auth.User;
 import org.ebndrnk.leverxfinalproject.model.entity.auth.verify.VerifyEntity;
 import org.ebndrnk.leverxfinalproject.repository.auth.UserRepository;
 import org.ebndrnk.leverxfinalproject.repository.auth.verify.VerifyCodeRepository;
-import org.ebndrnk.leverxfinalproject.util.exception.dto.UserNotFoundException;
+import org.ebndrnk.leverxfinalproject.exception.dto.UserNotFoundException;
 import org.springframework.context.annotation.Primary;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;

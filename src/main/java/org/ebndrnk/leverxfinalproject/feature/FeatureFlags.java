@@ -1,4 +1,4 @@
-package org.ebndrnk.leverxfinalproject.util.feature;
+package org.ebndrnk.leverxfinalproject.feature;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

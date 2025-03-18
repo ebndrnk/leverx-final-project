@@ -6,7 +6,7 @@ import org.ebndrnk.leverxfinalproject.model.dto.comment.seller.SellerFromComment
 import org.ebndrnk.leverxfinalproject.model.dto.comment.seller.SellerFromCommentRequest;
 import org.ebndrnk.leverxfinalproject.model.entity.comment.seller.SellerFromComment;
 import org.ebndrnk.leverxfinalproject.repository.comment.seller.SellerFromCommentRepository;
-import org.ebndrnk.leverxfinalproject.util.exception.dto.SellerFromCommentNotFoundException;
+import org.ebndrnk.leverxfinalproject.exception.dto.SellerFromCommentNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;

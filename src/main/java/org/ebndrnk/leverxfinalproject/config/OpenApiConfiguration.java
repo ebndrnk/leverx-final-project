@@ -6,7 +6,6 @@ import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import io.swagger.v3.oas.models.servers.Server;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,7 +20,7 @@ import org.springframework.scheduling.annotation.EnableAsync;
  */
 @Configuration
 @EnableAsync(proxyTargetClass=true)
-public class AppConfiguration {
+public class OpenApiConfiguration {
 
 
     /**
@@ -52,13 +51,5 @@ public class AppConfiguration {
                 .info(new Info().title("LeverX Project"));
     }
 
-    /**
-     * Creates another ModelMapper bean.
-     *
-     * @return a new ModelMapper instance
-     */
-    @Bean
-    ModelMapper modelMapper(){
-        return new ModelMapper();
-    }
+
 }

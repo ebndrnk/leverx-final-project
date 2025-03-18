@@ -1,16 +1,16 @@
 package org.ebndrnk.leverxfinalproject.repository.auth.verify;
 
 import lombok.RequiredArgsConstructor;
+import org.ebndrnk.leverxfinalproject.exception.dto.RedisOperationException;
 import org.ebndrnk.leverxfinalproject.model.entity.auth.verify.VerifyEntity;
 import org.ebndrnk.leverxfinalproject.repository.SimpleRedisRepository;
-import org.ebndrnk.leverxfinalproject.util.exception.dto.RedisOperationException;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Component;
 
 import java.time.Duration;
 
-@Repository
+@Component
 @RequiredArgsConstructor
 public class VerifyCodeRepository implements SimpleRedisRepository<VerifyEntity, String> {
     private final RedisTemplate<String, VerifyEntity> redisTemplate;

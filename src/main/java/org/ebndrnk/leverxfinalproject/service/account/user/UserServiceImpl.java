@@ -3,11 +3,11 @@ package org.ebndrnk.leverxfinalproject.service.account.user;
 import lombok.RequiredArgsConstructor;
 import org.ebndrnk.leverxfinalproject.model.dto.auth.UserDto;
 import org.ebndrnk.leverxfinalproject.model.entity.auth.User;
-import org.ebndrnk.leverxfinalproject.model.entity.auth.UserPrincipalImpl;
+import org.ebndrnk.leverxfinalproject.model.entity.auth.UserSecurityPrincipal;
 import org.ebndrnk.leverxfinalproject.repository.auth.UserRepository;
-import org.ebndrnk.leverxfinalproject.util.exception.dto.EmailAlreadyExistsException;
-import org.ebndrnk.leverxfinalproject.util.exception.dto.UserNotFoundException;
-import org.ebndrnk.leverxfinalproject.util.exception.dto.UsernameAlreadyExistsException;
+import org.ebndrnk.leverxfinalproject.exception.dto.EmailAlreadyExistsException;
+import org.ebndrnk.leverxfinalproject.exception.dto.UserNotFoundException;
+import org.ebndrnk.leverxfinalproject.exception.dto.UsernameAlreadyExistsException;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Primary;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -74,10 +74,10 @@ public class UserServiceImpl implements UserService{
      * @throws UserNotFoundException if the user is not found
      */
     @Override
-    public UserPrincipalImpl getByUsername(String username) {
+    public UserSecurityPrincipal getByUsername(String username) {
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new UserNotFoundException("User is not found"));
-        return new UserPrincipalImpl(user);
+        return new UserSecurityPrincipal(user);
     }
 
     /**
@@ -115,6 +115,8 @@ public class UserServiceImpl implements UserService{
         return userRepository.isEmailConfirmed(username);
     }
 
+
+    @Override
     public User findByEmail(String email){
         return userRepository.findByEmail(email).orElseThrow(() -> new UserNotFoundException("User with this email not found"));
     }

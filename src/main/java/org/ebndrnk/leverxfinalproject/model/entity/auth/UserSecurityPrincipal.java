@@ -7,13 +7,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.List;
 
-public class UserPrincipalImpl implements UserDetails {
+public class UserSecurityPrincipal implements UserDetails {
 
-    private static final long serialVersionUID = -630255510995905384L;
-    
     private User user;
 
-    public UserPrincipalImpl(User user) {
+    public UserSecurityPrincipal(User user) {
         this.user = user;
     }
 

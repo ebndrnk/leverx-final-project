@@ -11,7 +11,6 @@ import org.ebndrnk.leverxfinalproject.model.entity.profile.Profile;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 @Table(name = "comment")
 public class Comment extends BasicEntity {
 

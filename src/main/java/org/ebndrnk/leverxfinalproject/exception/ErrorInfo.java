@@ -1,4 +1,4 @@
-package org.ebndrnk.leverxfinalproject.util.exception;
+package org.ebndrnk.leverxfinalproject.exception;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

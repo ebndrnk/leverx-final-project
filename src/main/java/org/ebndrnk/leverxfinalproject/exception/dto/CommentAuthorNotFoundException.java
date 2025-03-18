@@ -1,4 +1,4 @@
-package org.ebndrnk.leverxfinalproject.util.exception.dto;
+package org.ebndrnk.leverxfinalproject.exception.dto;
 
 public class CommentAuthorNotFoundException extends RuntimeException{
     public CommentAuthorNotFoundException(String message) {

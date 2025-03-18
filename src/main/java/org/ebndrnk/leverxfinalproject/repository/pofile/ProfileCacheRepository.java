@@ -1,17 +1,17 @@
 package org.ebndrnk.leverxfinalproject.repository.pofile;
 
 import lombok.RequiredArgsConstructor;
+import org.ebndrnk.leverxfinalproject.exception.dto.RedisOperationException;
 import org.ebndrnk.leverxfinalproject.model.dto.profile.ProfileResponse;
 import org.ebndrnk.leverxfinalproject.repository.SimpleRedisRepository;
-import org.ebndrnk.leverxfinalproject.util.exception.dto.RedisOperationException;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Component;
 
 import java.time.Duration;
 import java.util.List;
 
-@Repository
+@Component
 @RequiredArgsConstructor
 public class ProfileCacheRepository implements SimpleRedisRepository<List<ProfileResponse>, String> {
     private final RedisTemplate<String, List<ProfileResponse>> redisTemplate;
