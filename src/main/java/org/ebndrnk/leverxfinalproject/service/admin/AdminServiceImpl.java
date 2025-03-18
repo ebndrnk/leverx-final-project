@@ -12,9 +12,11 @@ import org.ebndrnk.leverxfinalproject.repository.pofile.ProfileRepository;
 import org.ebndrnk.leverxfinalproject.exception.dto.NoAuthorityForActionException;
 import org.ebndrnk.leverxfinalproject.exception.dto.ProfileNotFoundException;
 import org.ebndrnk.leverxfinalproject.exception.dto.UserNotFoundException;
+import org.ebndrnk.leverxfinalproject.repository.rating.RatingRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -37,6 +39,7 @@ public class AdminServiceImpl implements AdminService {
     private final ProfileRepository profileRepository;
     private final GameRepository gameRepository;
     private final CommentRepository commentRepository;
+    private final RatingRepository ratingRepository;
 
     /**
      * Retrieves all users from the repository.
@@ -156,6 +159,7 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
+    @Transactional
     public void deleteUser(Long userId) {
 
         Profile profile = profileRepository.findById(userId)
@@ -168,7 +172,7 @@ public class AdminServiceImpl implements AdminService {
             throw new NoAuthorityForActionException("Admin user cannot be deleted");
         }
 
-
+        ratingRepository.deleteAll(ratingRepository.findAllBySeller_Id(userId));
         gameRepository.deleteAll(profile.getGameObjects());
         commentRepository.deleteAll(profile.getComment());
         profileRepository.delete(profile);
