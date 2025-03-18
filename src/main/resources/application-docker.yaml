@@ -1,0 +1,66 @@
+spring:
+  sql:
+    init:
+      mode: always
+  data:
+    redis:
+      host: ${DOCKER_CACHE_HOST}
+      port: ${CACHE_PORT}
+      password: ${CACHE_PASSWORD}
+
+  mail:
+    host: smtp.gmail.com
+    port: 465
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_PASSWORD}
+    properties:
+      mail:
+        debug: false
+        smtp:
+          timeout: 10000
+          connectiontimeout: 10000
+          writetimeout: 10000
+          auth: true
+          ssl:
+            enable: true
+
+  application:
+    name: leverx-final-project
+
+  datasource:
+    url: jdbc:postgresql://${DOCKER_DATABASE_HOST}:${DOCKER_DATABASE_PORT}/${DATABASE_NAME}
+    username: ${DATABASE_USER}
+    password: ${DATABASE_PASS}
+    driverClassName: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: none
+    open-in-view: true
+  flyway:
+    enabled: true
+    url: ${spring.datasource.url}
+    user: ${spring.datasource.username}
+    password: ${spring.datasource.password}
+    baseline-on-migrate: true
+
+server:
+  port: 8071
+
+site:
+  domain:
+    url: http://127.0.0.1:${server.port}
+
+token:
+  signing:
+    key: ${TOKEN_SIGN_IN_KEY}
+
+sap:
+  feature:
+    flags:
+      url: "https://feature-flags.cfapps.us10.hana.ondemand.com"
+      username: ${SAP_FEATURE_FLAGS_USERNAME}
+      password: ${SAP_FEATURE_FLAGS_PASSWORD}
+
+cookie:
+  secure: false

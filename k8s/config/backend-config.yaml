@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: backend-config
+  namespace: shop-service-namespace
+data:
+  DOCKER_DATABASE_HOST: "postgres-leverX"
+  DOCKER_DATABASE_PORT: "5432"
+  DATABASE_NAME: "leverx"
+  DOCKER_CACHE_HOST: "redis-leverX"
+  CACHE_PORT: "6379"

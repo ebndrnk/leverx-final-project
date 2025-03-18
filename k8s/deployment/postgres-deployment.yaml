@@ -1,0 +1,60 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: postgres-pvc
+  namespace: shop-service-namespace
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres-leverx
+  namespace: shop-service-namespace
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres-leverx
+  template:
+    metadata:
+      labels:
+        app: postgres-leverx
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:16
+          env:
+            - name: POSTGRES_USER
+              value: "EGOR_BONDARENKO"
+            - name: POSTGRES_PASSWORD
+              value: "pass"
+            - name: POSTGRES_DB
+              value: "leverx"
+          ports:
+            - containerPort: 5432
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data **# Изменили путь на /var/lib/postgresql/data/pgdata**
+              name: postgres-storage
+              subPath: pgdata
+      volumes:
+        - name: postgres-storage
+          persistentVolumeClaim:
+            claimName: postgres-pvc
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres-leverx
+  namespace: shop-service-namespace
+spec:
+  ports:
+    - port: 5432
+  selector:
+    app: postgres-leverx
