@@ -23,8 +23,8 @@ An independent rating system for sellers of in-game items (CS:GO, FIFA, Dota, Te
 
 The goal of the project is to provide an **independent rating system** for in-game item sellers. Users leave comments that are thoroughly verified by trusted individuals; these ratings form the basis of the overall top sellers in various game categories.
 
-![Project Architecture](docs/architecture.png)
-*Figure: Overview of the platform architecture.*
+![Database Architecture](docs/architecture.png)
+*Figure: Overview of the database architecture.*
 
 ---
 
