@@ -46,7 +46,11 @@ jobs:
           export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
           kubectl krew install oidc-login
           echo 'export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"' >> ~/.bashrc
-
+          echo 'export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"' >> ~/.profile
+          source ~/.bashrc
+          source ~/.profile
+      
+      
 
       - name: Set up kubectl
         uses: azure/setup-kubectl@v3
