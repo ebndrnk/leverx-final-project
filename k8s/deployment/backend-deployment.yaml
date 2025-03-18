@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: backend
-          image: ebndnrk/docker-leverx-backend:latest
+          image: ebndnrk/leverx-final-project:latest
           ports:
             - containerPort: 8071
           envFrom:

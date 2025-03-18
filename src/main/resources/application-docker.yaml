@@ -49,7 +49,7 @@ server:
 
 site:
   domain:
-    url: http://127.0.0.1:${server.port}
+    url: http://a9ddbc42e84524508a5aa4057e075c07-1129108650.us-east-1.elb.amazonaws.com:${server.port}
 
 token:
   signing:
