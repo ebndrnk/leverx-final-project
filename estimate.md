@@ -14,5 +14,6 @@
 - **Other feature**: 8h
 - **Bug fix**: 8h
 - **Deploy to SAP BTP environment**: 8h
+- **Deploy to K8S environment (Kyma)**: 8h
 
-**General**: 81.50h
+**General**: 89.50h
