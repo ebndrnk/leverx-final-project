@@ -1,9 +1,9 @@
-package org.ebndrnk.leverxfinalproject.controller.auth;
+package org.ebndrnk.leverxfinalproject.controller.account;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.ebndrnk.leverxfinalproject.service.auth.verify.VerifyEmailService;
+import org.ebndrnk.leverxfinalproject.service.account.verify.VerifyEmailService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

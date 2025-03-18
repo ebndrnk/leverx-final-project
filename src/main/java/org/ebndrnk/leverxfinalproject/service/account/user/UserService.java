@@ -1,4 +1,4 @@
-package org.ebndrnk.leverxfinalproject.service.auth.user;
+package org.ebndrnk.leverxfinalproject.service.account.user;
 
 import org.ebndrnk.leverxfinalproject.model.dto.auth.UserDto;
 import org.ebndrnk.leverxfinalproject.model.entity.auth.UserPrincipalImpl;

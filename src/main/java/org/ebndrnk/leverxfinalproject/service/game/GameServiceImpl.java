@@ -10,7 +10,7 @@ import org.ebndrnk.leverxfinalproject.model.entity.auth.User;
 import org.ebndrnk.leverxfinalproject.model.entity.game.GameObject;
 import org.ebndrnk.leverxfinalproject.repository.game.GameRepository;
 import org.ebndrnk.leverxfinalproject.repository.specification.GameObjectSpecification;
-import org.ebndrnk.leverxfinalproject.service.auth.user.UserService;
+import org.ebndrnk.leverxfinalproject.service.account.user.UserService;
 import org.ebndrnk.leverxfinalproject.util.component.Patcher;
 import org.ebndrnk.leverxfinalproject.util.exception.dto.GameNotFoundException;
 import org.ebndrnk.leverxfinalproject.util.exception.dto.NoAuthorityForActionException;

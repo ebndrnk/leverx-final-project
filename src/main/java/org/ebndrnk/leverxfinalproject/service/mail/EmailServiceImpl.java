@@ -1,8 +1,8 @@
 package org.ebndrnk.leverxfinalproject.service.mail;
 
 import lombok.extern.slf4j.Slf4j;
-import org.ebndrnk.leverxfinalproject.service.auth.password.ResetPasswordCodeService;
-import org.ebndrnk.leverxfinalproject.service.auth.verify.VerifyEmailService;
+import org.ebndrnk.leverxfinalproject.service.account.password.ResetPasswordCodeService;
+import org.ebndrnk.leverxfinalproject.service.account.verify.VerifyEmailService;
 import org.ebndrnk.leverxfinalproject.service.mail.send.EmailSender;
 import org.ebndrnk.leverxfinalproject.service.mail.template.EmailTemplateGenerator;
 import org.springframework.beans.factory.annotation.Qualifier;

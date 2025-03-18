@@ -14,7 +14,7 @@ import org.ebndrnk.leverxfinalproject.model.entity.profile.Profile;
 import org.ebndrnk.leverxfinalproject.repository.comment.CommentRepository;
 import org.ebndrnk.leverxfinalproject.repository.pofile.ProfileRepository;
 import org.ebndrnk.leverxfinalproject.service.anonymous.AnonymousUserService;
-import org.ebndrnk.leverxfinalproject.service.auth.user.UserService;
+import org.ebndrnk.leverxfinalproject.service.account.user.UserService;
 import org.ebndrnk.leverxfinalproject.service.comment.seller.SellerFromCommentService;
 import org.ebndrnk.leverxfinalproject.service.profile.ProfileService;
 import org.ebndrnk.leverxfinalproject.util.exception.dto.CommentNotFoundException;

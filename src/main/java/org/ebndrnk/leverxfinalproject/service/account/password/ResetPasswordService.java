@@ -1,4 +1,4 @@
-package org.ebndrnk.leverxfinalproject.service.auth.password;
+package org.ebndrnk.leverxfinalproject.service.account.password;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

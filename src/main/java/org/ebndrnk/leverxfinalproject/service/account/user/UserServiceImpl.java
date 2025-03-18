@@ -1,4 +1,4 @@
-package org.ebndrnk.leverxfinalproject.service.auth.user;
+package org.ebndrnk.leverxfinalproject.service.account.user;
 
 import lombok.RequiredArgsConstructor;
 import org.ebndrnk.leverxfinalproject.model.dto.auth.UserDto;
@@ -115,5 +115,8 @@ public class UserServiceImpl implements UserService{
         return userRepository.isEmailConfirmed(username);
     }
 
+    public User findByEmail(String email){
+        return userRepository.findByEmail(email).orElseThrow(() -> new UserNotFoundException("User with this email not found"));
+    }
 
 }

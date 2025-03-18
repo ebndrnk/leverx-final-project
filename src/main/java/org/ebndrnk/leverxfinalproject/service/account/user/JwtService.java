@@ -1,4 +1,4 @@
-package org.ebndrnk.leverxfinalproject.service.auth.user;
+package org.ebndrnk.leverxfinalproject.service.account.user;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

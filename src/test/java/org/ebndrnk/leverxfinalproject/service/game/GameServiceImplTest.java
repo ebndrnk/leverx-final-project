@@ -6,7 +6,7 @@ import org.ebndrnk.leverxfinalproject.model.dto.game.GameResponse;
 import org.ebndrnk.leverxfinalproject.model.entity.auth.User;
 import org.ebndrnk.leverxfinalproject.model.entity.game.GameObject;
 import org.ebndrnk.leverxfinalproject.repository.game.GameRepository;
-import org.ebndrnk.leverxfinalproject.service.auth.user.UserService;
+import org.ebndrnk.leverxfinalproject.service.account.user.UserService;
 import org.ebndrnk.leverxfinalproject.util.exception.dto.GameNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

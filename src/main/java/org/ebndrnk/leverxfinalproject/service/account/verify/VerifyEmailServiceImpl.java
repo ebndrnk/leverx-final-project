@@ -1,4 +1,4 @@
-package org.ebndrnk.leverxfinalproject.service.auth.verify;
+package org.ebndrnk.leverxfinalproject.service.account.verify;
 
 import lombok.RequiredArgsConstructor;
 import org.ebndrnk.leverxfinalproject.model.entity.auth.User;

@@ -1,4 +1,4 @@
-package org.ebndrnk.leverxfinalproject.controller.auth;
+package org.ebndrnk.leverxfinalproject.controller.account;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -10,7 +10,9 @@ import org.ebndrnk.leverxfinalproject.model.dto.auth.JwtAuthenticationResponse;
 import org.ebndrnk.leverxfinalproject.model.dto.auth.RegistrationResponse;
 import org.ebndrnk.leverxfinalproject.model.dto.auth.SignInRequest;
 import org.ebndrnk.leverxfinalproject.model.dto.auth.SignUpRequest;
-import org.ebndrnk.leverxfinalproject.service.auth.AuthenticationService;
+import org.ebndrnk.leverxfinalproject.service.account.AccountService;
+import org.ebndrnk.leverxfinalproject.service.account.AuthenticationService;
+import org.ebndrnk.leverxfinalproject.service.account.RegistrationService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -33,9 +35,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/auth")
 @RequiredArgsConstructor
 @Tag(name = "Authentication", description = "Endpoints for user registration and authentication")
-public class AuthController {
+public class AccountController {
 
-    private final AuthenticationService authenticationService;
+    private final AccountService accountService;
 
     /**
      * Register a new user.
@@ -55,7 +57,7 @@ public class AuthController {
             @ApiResponse(responseCode = "400", description = "Invalid request data"),
     })
     public ResponseEntity<RegistrationResponse> signUp(@RequestBody @Valid SignUpRequest request) {
-        return ResponseEntity.ok(authenticationService.signUp(request));
+        return ResponseEntity.ok(accountService.signUp(request));
     }
 
     /**
@@ -77,6 +79,6 @@ public class AuthController {
             @ApiResponse(responseCode = "404", description = "User not found"),
     })
     public JwtAuthenticationResponse signIn(@RequestBody @Valid SignInRequest request) {
-        return authenticationService.signIn(request);
+        return accountService.signIn(request);
     }
 }

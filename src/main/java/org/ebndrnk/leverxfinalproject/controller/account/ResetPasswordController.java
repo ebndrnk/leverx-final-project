@@ -1,4 +1,4 @@
-package org.ebndrnk.leverxfinalproject.controller.auth;
+package org.ebndrnk.leverxfinalproject.controller.account;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -11,7 +11,7 @@ import org.ebndrnk.leverxfinalproject.model.dto.password.ForgotPasswordRequest;
 import org.ebndrnk.leverxfinalproject.model.dto.password.PasswordResetRequest;
 import org.ebndrnk.leverxfinalproject.model.dto.password.ResetCodeVerificationRequest;
 import org.ebndrnk.leverxfinalproject.model.dto.password.ResetCodeVerificationResponse;
-import org.ebndrnk.leverxfinalproject.service.auth.password.ResetPasswordService;
+import org.ebndrnk.leverxfinalproject.service.account.password.ResetPasswordService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
