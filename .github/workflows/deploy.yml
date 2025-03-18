@@ -36,7 +36,17 @@ jobs:
           unzip kubelogin_linux_amd64.zip
           chmod +x kubelogin
           sudo mv kubelogin /usr/local/bin/
-      
+
+      - name: Install Krew & kubelogin
+        run: |
+          set -x
+          curl -fsSLO "https://github.com/kubernetes-sigs/krew/releases/latest/download/krew-linux_amd64.tar.gz"
+          tar zxvf krew-linux_amd64.tar.gz
+          ./krew-linux_amd64 install krew
+          export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
+          kubectl krew install oidc-login
+          echo 'export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"' >> ~/.bashrc
+
 
       - name: Set up kubectl
         uses: azure/setup-kubectl@v3
