@@ -68,7 +68,7 @@ The goal of the project is to provide an **independent rating system** for in-ga
 ## Testing
 
 The project includes:
-- **Unit Tests:** 2 tests  
+- **Unit Tests:** 5 tests  
 - **Integration Tests:** 2 tests
 
 ---
@@ -94,6 +94,8 @@ The project includes:
   A feature flag service controls console log output via SAP BTP.
 - **Kubernetes:**  
   The application is deployed in a remote Kubernetes cluster (Kyma) through SAP BTP.
+- **CI/CD Pipeline:**  
+  GitHub Actions is configured for CI/CD, automating testing, building(unfortunately without deployment).
 
 ---
 
