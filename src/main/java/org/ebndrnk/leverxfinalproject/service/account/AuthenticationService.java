@@ -6,8 +6,8 @@ import org.ebndrnk.leverxfinalproject.model.dto.auth.JwtAuthenticationResponse;
 import org.ebndrnk.leverxfinalproject.model.dto.auth.SignInRequest;
 import org.ebndrnk.leverxfinalproject.model.entity.auth.User;
 import org.ebndrnk.leverxfinalproject.service.account.user.JwtService;
-import org.ebndrnk.leverxfinalproject.service.account.user.UserServiceImpl;
-import org.ebndrnk.leverxfinalproject.util.exception.dto.NotConfirmedException;
+import org.ebndrnk.leverxfinalproject.service.account.user.UserService;
+import org.ebndrnk.leverxfinalproject.exception.dto.NotConfirmedException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -26,10 +26,9 @@ import org.springframework.stereotype.Service;
 public class AuthenticationService {
 
 
-    private final UserServiceImpl userService;
+    private final UserService userService;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
-    private final UserServiceImpl userServiceImpl;
 
 
     /**
@@ -42,12 +41,22 @@ public class AuthenticationService {
         log.info("Attempting to authenticate user with email: {}", request.getEmail());
 
 
-        User userdb = userServiceImpl.findByEmail(request.getEmail());
+        User userdb = userService.findByEmail(request.getEmail());
 
         if(!userdb.isEmailConfirmed()){
             log.info("User email not confirmed!");
             throw new NotConfirmedException("Please confirm you email");
         }
+        authenticate(request, userdb);
+
+        var user = userService.userDetailsService().loadUserByUsername(userdb.getUsername());
+        var jwt = jwtService.generateToken(user);
+        log.info("JWT token generated for user: {}", userdb.getUsername());
+
+        return new JwtAuthenticationResponse(jwt);
+    }
+
+    private void authenticate(SignInRequest request, User userdb) {
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                     userdb.getUsername(),
@@ -58,11 +67,5 @@ public class AuthenticationService {
             log.error("Authentication failed for user: {} due to bad credentials", userdb.getUsername());
             throw new BadCredentialsException("Bad credentials!");
         }
-
-        var user = userService.userDetailsService().loadUserByUsername(userdb.getUsername());
-        var jwt = jwtService.generateToken(user);
-        log.info("JWT token generated for user: {}", userdb.getUsername());
-
-        return new JwtAuthenticationResponse(jwt);
     }
 }

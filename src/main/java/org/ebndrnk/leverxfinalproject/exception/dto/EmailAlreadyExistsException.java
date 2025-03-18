@@ -1,4 +1,4 @@
-package org.ebndrnk.leverxfinalproject.util.exception.dto;
+package org.ebndrnk.leverxfinalproject.exception.dto;
 
 public class EmailAlreadyExistsException extends RuntimeException {
     public EmailAlreadyExistsException(String message) {

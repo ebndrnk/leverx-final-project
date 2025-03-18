@@ -12,7 +12,6 @@ import org.ebndrnk.leverxfinalproject.model.dto.auth.SignInRequest;
 import org.ebndrnk.leverxfinalproject.model.dto.auth.SignUpRequest;
 import org.ebndrnk.leverxfinalproject.service.account.AccountService;
 import org.ebndrnk.leverxfinalproject.service.account.AuthenticationService;
-import org.ebndrnk.leverxfinalproject.service.account.RegistrationService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

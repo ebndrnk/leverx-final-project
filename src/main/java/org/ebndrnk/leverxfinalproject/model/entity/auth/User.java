@@ -6,6 +6,8 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
 import org.ebndrnk.leverxfinalproject.model.entity.BasicEntity;
 import org.ebndrnk.leverxfinalproject.model.entity.profile.Profile;
@@ -17,7 +19,8 @@ import java.util.Objects;
 @Entity
 @Table(name = "app_user")
 @ToString
-@Data
+@Getter
+@Setter
 public class User extends BasicEntity {
 
     @Comment("The profile associated with the user. This field is linked to the Profile entity.")
@@ -56,19 +59,4 @@ public class User extends BasicEntity {
     @JsonIgnore
     private boolean isEmailConfirmed = false;
 
-    @Override
-    public final boolean equals(Object object) {
-        if (this == object) return true;
-        if (object == null) return false;
-        Class<?> oEffectiveClass = object instanceof HibernateProxy ? ((HibernateProxy) object).getHibernateLazyInitializer().getPersistentClass() : object.getClass();
-        Class<?> thisEffectiveClass = this instanceof HibernateProxy ? ((HibernateProxy) this).getHibernateLazyInitializer().getPersistentClass() : this.getClass();
-        if (thisEffectiveClass != oEffectiveClass) return false;
-        User user = (User) object;
-        return getId() != null && Objects.equals(getId(), user.getId());
-    }
-
-    @Override
-    public final int hashCode() {
-        return this instanceof HibernateProxy ? ((HibernateProxy) this).getHibernateLazyInitializer().getPersistentClass().hashCode() : getClass().hashCode();
-    }
 }

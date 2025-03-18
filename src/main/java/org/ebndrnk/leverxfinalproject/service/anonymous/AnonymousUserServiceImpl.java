@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.ebndrnk.leverxfinalproject.model.entity.anonymous.AnonymousUser;
 import org.ebndrnk.leverxfinalproject.repository.anonymous.AnonymousUserRepository;
-import org.ebndrnk.leverxfinalproject.util.exception.dto.CommentAuthorNotFoundException;
+import org.ebndrnk.leverxfinalproject.exception.dto.CommentAuthorNotFoundException;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 

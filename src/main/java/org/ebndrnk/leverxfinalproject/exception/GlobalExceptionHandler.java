@@ -1,8 +1,8 @@
-package org.ebndrnk.leverxfinalproject.util.exception;
+package org.ebndrnk.leverxfinalproject.exception;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
-import org.ebndrnk.leverxfinalproject.util.exception.dto.*;
+import org.ebndrnk.leverxfinalproject.exception.dto.*;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

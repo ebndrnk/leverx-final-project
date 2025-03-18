@@ -1,4 +1,4 @@
-package org.ebndrnk.leverxfinalproject.util.aspect;
+package org.ebndrnk.leverxfinalproject.aspect;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -6,8 +6,8 @@ import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
-import org.ebndrnk.leverxfinalproject.util.feature.service.FeatureFlagService;
-import org.ebndrnk.leverxfinalproject.util.feature.FeatureFlags;
+import org.ebndrnk.leverxfinalproject.feature.service.FeatureFlagService;
+import org.ebndrnk.leverxfinalproject.feature.FeatureFlags;
 import org.springframework.stereotype.Component;
 
 /**
@@ -30,10 +30,9 @@ public class PerformanceAspect {
      * Advice that runs before any method in the repository package.
      * It records the current system time before the method execution starts.
      *
-     * @param joinPoint the join point representing the method call
      */
     @Before("execution(* org.ebndrnk.leverxfinalproject.repository..*(..))")
-    public void beforeMethod(JoinPoint joinPoint) {
+    public void beforeMethod() {
         startTime = System.currentTimeMillis();
     }
 

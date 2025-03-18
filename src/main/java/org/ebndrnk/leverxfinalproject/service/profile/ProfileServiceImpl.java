@@ -7,7 +7,7 @@ import org.ebndrnk.leverxfinalproject.model.dto.profile.ProfileResponse;
 import org.ebndrnk.leverxfinalproject.model.entity.profile.Profile;
 import org.ebndrnk.leverxfinalproject.repository.pofile.ProfileRepository;
 import org.ebndrnk.leverxfinalproject.repository.specification.ProfileSpecification;
-import org.ebndrnk.leverxfinalproject.util.exception.dto.ProfileNotFoundException;
+import org.ebndrnk.leverxfinalproject.exception.dto.ProfileNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.domain.Page;

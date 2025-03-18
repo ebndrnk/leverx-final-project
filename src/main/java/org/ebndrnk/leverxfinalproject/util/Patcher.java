@@ -1,4 +1,4 @@
-package org.ebndrnk.leverxfinalproject.util.component;
+package org.ebndrnk.leverxfinalproject.util;
 
 import org.springframework.stereotype.Component;
 

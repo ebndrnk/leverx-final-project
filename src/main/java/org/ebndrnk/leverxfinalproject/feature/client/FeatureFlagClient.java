@@ -1,4 +1,4 @@
-package org.ebndrnk.leverxfinalproject.util.feature.client;
+package org.ebndrnk.leverxfinalproject.feature.client;
 
 import org.ebndrnk.leverxfinalproject.model.dto.feature.FeatureFlagResponse;
 import org.springframework.cloud.openfeign.FeignClient;
